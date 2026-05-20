@@ -1,13 +1,37 @@
-# Template Repo
+# Edwinspira
 
-This is a reusable project template for Cursor-based development.
+Portfolio site for [edwinspira.com](https://edwinspira.com) — software projects, art, video edits, and 3D sculpture.
 
-## How to use
+## Stack
 
-1. Create a new repo from this template:
-   - GitHub → “Use this template”
+- [Next.js](https://nextjs.org/) (App Router)
+- [Tailwind CSS](https://tailwindcss.com/)
+- TypeScript
 
-OR
+Content management (Sanity) and work pages are planned in later phases. See [docs/architecture.md](docs/architecture.md).
+
+## Development
 
 ```bash
-gh repo create my-project --template YOUR_USERNAME/template-nextjs-cursor --clone
+npm install
+cp .env.example .env.local
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Production build |
+| `npm run start` | Run production server |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | TypeScript check |
+
+## Project rules
+
+- [PROJECT_RULES.md](PROJECT_RULES.md)
+- [SECURITY_RULES.md](SECURITY_RULES.md)
+- [docs/setup.md](docs/setup.md)
