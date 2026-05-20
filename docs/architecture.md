@@ -11,15 +11,24 @@ This project is a Next.js App Router application using:
 
 /app
 - pages and routes
+- `(site)/` — public site pages (home, work)
+- `studio/[[...tool]]/` — embedded Sanity Studio at `/studio`
+
+/sanity
+- `schemaTypes/` — Sanity schema definitions
+
+/sanity.config.ts, /sanity.cli.ts
+- Studio and CLI configuration (project root)
 
 /components
 - reusable UI components
 
 /lib
 - utilities, helpers, CMS queries
+- `lib/sanity/` — client, queries, image helper, types
 
 /styles
-- global styles
+- global styles (site globals live in `app/globals.css`)
 
 ## Data Flow
 

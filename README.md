@@ -8,7 +8,9 @@ Portfolio site for [edwinspira.com](https://edwinspira.com) — software project
 - [Tailwind CSS](https://tailwindcss.com/)
 - TypeScript
 
-Content management (Sanity) and work pages are planned in later phases. See [docs/architecture.md](docs/architecture.md).
+- [Sanity](https://www.sanity.io/) CMS with embedded Studio at `/studio`
+
+Work listing UI is planned in a later phase. See [docs/architecture.md](docs/architecture.md) and [docs/setup.md](docs/setup.md).
 
 ## Development
 
@@ -18,7 +20,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000). Studio: [http://localhost:3000/studio](http://localhost:3000/studio) (requires Sanity env vars).
 
 ## Scripts
 

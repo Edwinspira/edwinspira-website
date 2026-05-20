@@ -29,6 +29,18 @@ Use Vercel for deployment.
 
 ---
 
+## [2026-05-20] Embedded Sanity Studio
+
+### Decision
+Mount Sanity Studio inside the Next.js app at `/studio` (not a separate Studio repo).
+
+### Reason
+- Single deployment on Vercel
+- Schema and frontend stay in sync
+- Simpler solo-developer workflow
+
+---
+
 ## [2026-04-16] Use Cursor workflow
 
 ### Decision
