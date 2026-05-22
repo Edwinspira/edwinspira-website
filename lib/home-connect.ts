@@ -5,7 +5,8 @@ export type HomeConnectPlatform = {
   iconSrc: string;
 };
 
-export const CONNECT_ROTATE_MS = 7314;
+export const CONNECT_ROTATE_MS = 10_000;
+export const CONNECT_MANUAL_FREEZE_MS = 20_000;
 
 export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
   {

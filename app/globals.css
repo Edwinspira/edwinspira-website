@@ -280,18 +280,239 @@ body {
 
 .home-connect__icon-slot {
   aspect-ratio: 1;
+  opacity: 0.72;
+  transition:
+    filter 0.35s ease,
+    opacity 0.35s ease;
+}
+
+.home-connect__icon-slot--active {
+  opacity: 1;
   filter: drop-shadow(0 0 4px rgb(255 31 31 / 0.55))
     drop-shadow(0 0 10px rgb(255 31 31 / 0.35));
 }
 
-.home-connect__featured-name,
-.home-connect__featured-description {
-  animation: home-connect-fade-in 0.45s ease-out both;
+.home-connect__featured {
+  display: grid;
+  width: 100%;
+  align-items: center;
+  gap: 1.25rem 1rem;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    "carousel"
+    "copy"
+    "cta";
 }
 
-.home-connect__featured-icon-image {
-  filter: drop-shadow(0 0 6px rgb(255 31 31 / 0.65))
-    drop-shadow(0 0 14px rgb(255 31 31 / 0.4));
+.home-connect__featured-carousel {
+  grid-area: carousel;
+  justify-self: start;
+  width: 100%;
+  max-width: 100%;
+}
+
+.home-connect__featured-copy {
+  grid-area: copy;
+  text-align: center;
+}
+
+.home-connect__establish-cta {
+  grid-area: cta;
+}
+
+@media (min-width: 1024px) {
+  .home-connect__featured {
+    gap: 1rem 1.25rem;
+    grid-template-columns: auto minmax(0, min(28rem, 48vw)) auto;
+    grid-template-areas: "carousel copy cta";
+  }
+
+  .home-connect__featured-copy {
+    max-width: min(28rem, 48vw);
+    text-align: left;
+    padding-inline: 0.25rem 0.75rem;
+  }
+}
+
+.home-connect__featured-name {
+  animation: home-connect-fade-in 0.35s ease-out both;
+}
+
+/* Icon stage — clip + soft edge fade inside SocialBorder */
+.home-connect__icon-viewport {
+  overflow: hidden;
+}
+
+.home-connect__icon-stage {
+  overflow: hidden;
+  isolation: isolate;
+  -webkit-mask-image: radial-gradient(
+    ellipse 70% 70% at 50% 50%,
+    #fff 38%,
+    rgb(255 255 255 / 0.92) 56%,
+    rgb(255 255 255 / 0.5) 74%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 70% 70% at 50% 50%,
+    #fff 38%,
+    rgb(255 255 255 / 0.92) 56%,
+    rgb(255 255 255 / 0.5) 74%,
+    transparent 100%
+  );
+  -webkit-mask-mode: alpha;
+  mask-mode: alpha;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+.home-connect__icon-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 72% 72% at 50% 50%,
+    transparent 42%,
+    rgb(0 0 0 / 0.18) 68%,
+    rgb(0 0 0 / 0.55) 100%
+  );
+  animation: home-connect-edge-vignette 0.62s ease-out both;
+}
+
+/* Digital HUD transition — featured icon */
+.home-connect__digital-icon-enter {
+  overflow: hidden;
+}
+
+.home-connect__digital-icon-enter .home-connect__featured-icon-image {
+  animation:
+    home-connect-icon-glitch 0.62s steps(8) both,
+    home-connect-icon-signal 0.62s steps(10) both;
+}
+
+.home-connect__digital-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    rgb(255 31 31 / 0) 0,
+    rgb(255 31 31 / 0) 2px,
+    rgb(255 31 31 / 0.14) 2px,
+    rgb(255 31 31 / 0.14) 3px
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 68% 68% at 50% 50%,
+    #fff 30%,
+    rgb(255 255 255 / 0.65) 62%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 68% 68% at 50% 50%,
+    #fff 30%,
+    rgb(255 255 255 / 0.65) 62%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: home-connect-scan-flicker 0.62s steps(6) both;
+}
+
+.home-connect__digital-noise {
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgb(255 31 31 / 0.22) 45%,
+      transparent 90%
+    ),
+    repeating-linear-gradient(
+      -12deg,
+      transparent,
+      transparent 2px,
+      rgb(255 31 31 / 0.06) 2px,
+      rgb(255 31 31 / 0.06) 3px
+    );
+  -webkit-mask-image: radial-gradient(
+    ellipse 66% 66% at 50% 50%,
+    #fff 28%,
+    rgb(255 255 255 / 0.55) 60%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 66% 66% at 50% 50%,
+    #fff 28%,
+    rgb(255 255 255 / 0.55) 60%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: home-connect-noise-burst 0.62s steps(5) both;
+}
+
+/* Digital HUD transition — description */
+.home-connect__digital-text-enter {
+  animation: home-connect-text-decode 0.68s steps(10) both;
+}
+
+.home-connect__nav-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 0;
+  padding: 0;
+  overflow: visible;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--home-stat-red);
+  transition: opacity 0.2s ease;
+}
+
+.home-connect__nav-arrow-glyph {
+  display: block;
+  font-size: clamp(2.5rem, 8vw, 3.75rem);
+  line-height: 1;
+  transform: scaleX(0.72);
+  transform-origin: center;
+  text-shadow:
+    0 0 6px rgb(255 31 31 / 0.9),
+    0 0 14px rgb(255 31 31 / 0.55);
+  transition: transform 0.2s ease;
+}
+
+@media (min-width: 1024px) {
+  .home-connect__nav-arrow-glyph {
+    font-size: clamp(3rem, 4.5vw, 4.5rem);
+    transform: scaleX(0.7);
+  }
+}
+
+.home-connect__nav-arrow:hover .home-connect__nav-arrow-glyph {
+  transform: scaleX(0.72) scaleY(1.06);
+}
+
+@media (min-width: 1024px) {
+  .home-connect__nav-arrow:hover .home-connect__nav-arrow-glyph {
+    transform: scaleX(0.7) scaleY(1.06);
+  }
+}
+
+.home-connect__nav-arrow:focus-visible {
+  outline: 1px solid var(--home-stat-red);
+  outline-offset: 3px;
+}
+
+.home-connect__establish-button {
+  filter: drop-shadow(0 0 6px rgb(255 31 31 / 0.35));
+}
+
+.home-connect__establish-button img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 @keyframes home-connect-fade-in {
@@ -305,10 +526,151 @@ body {
   }
 }
 
+@keyframes home-connect-edge-vignette {
+  0% {
+    opacity: 0.65;
+  }
+  40% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes home-connect-icon-signal {
+  0% {
+    opacity: 0;
+    filter: blur(4px) brightness(1.75) contrast(1.35);
+  }
+  22% {
+    opacity: 0.45;
+    filter: blur(1px) brightness(1.4) contrast(1.2);
+  }
+  48% {
+    opacity: 0.9;
+    filter: brightness(1.2);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@keyframes home-connect-icon-glitch {
+  0% {
+    opacity: 0;
+    transform: translateX(-5px) scale(0.92) skewX(-2deg);
+    filter: blur(3px) brightness(1.5);
+  }
+  22% {
+    opacity: 1;
+    transform: translateX(3px) scale(1.02) skewX(1deg);
+    filter: blur(0) brightness(1.25);
+  }
+  44% {
+    transform: translateX(-2px) scale(0.99);
+    filter: brightness(1.1);
+  }
+  66% {
+    transform: translateX(1px) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes home-connect-scan-flicker {
+  0% {
+    opacity: 0;
+    transform: translateY(-22%);
+  }
+  25% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.35;
+    transform: translateY(8%);
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(22%);
+  }
+}
+
+@keyframes home-connect-noise-burst {
+  0% {
+    opacity: 0;
+    transform: translateX(-6%);
+  }
+  30% {
+    opacity: 0.55;
+    transform: translateX(4%);
+  }
+  55% {
+    opacity: 0.25;
+    transform: translateX(-2%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+}
+
+@keyframes home-connect-text-decode {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    filter: blur(4px);
+  }
+  22% {
+    opacity: 0.3;
+    clip-path: inset(0 68% 0 0);
+    filter: blur(2px);
+  }
+  48% {
+    opacity: 0.65;
+    clip-path: inset(0 32% 0 0);
+    filter: blur(0.75px);
+  }
+  72% {
+    opacity: 0.9;
+    clip-path: inset(0 6% 0 0);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    filter: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-connect__featured-name,
-  .home-connect__featured-description {
+  .home-connect__featured-description,
+  .home-connect__digital-icon-enter,
+  .home-connect__digital-icon-enter .home-connect__featured-icon-image,
+  .home-connect__digital-scanlines,
+  .home-connect__digital-noise,
+  .home-connect__icon-stage::after {
     animation: none;
+  }
+
+  .home-connect__icon-stage::after {
+    opacity: 0.25;
+  }
+
+  .home-connect__digital-text-enter {
+    animation: home-connect-fade-in 0.25s ease-out both;
+  }
+
+  .home-connect__digital-icon-enter .home-connect__featured-icon-image {
+    animation: home-connect-fade-in 0.25s ease-out both;
   }
 }
 

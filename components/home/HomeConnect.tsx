@@ -1,7 +1,5 @@
-import Image from "next/image";
-
 import { CyberBorder } from "@/components/CyberBorder";
-import { HomeConnectFeatured } from "@/components/home/HomeConnectFeatured";
+import { HomeConnectBody } from "@/components/home/HomeConnectBody";
 import { HOME_CONNECT_PLATFORMS } from "@/lib/home-connect";
 
 export function HomeConnect() {
@@ -26,28 +24,7 @@ export function HomeConnect() {
 
           <div className="home-what-i-do__rule mt-6 sm:mt-8" aria-hidden />
 
-          <ul className="home-connect__icon-bar mt-10 list-none sm:mt-14 lg:mt-16">
-            {HOME_CONNECT_PLATFORMS.map((platform) => (
-              <li key={platform.id} className="min-w-0">
-                <span
-                  className="home-connect__icon-slot relative block w-full"
-                  aria-label={platform.name}
-                >
-                  <Image
-                    src={platform.iconSrc}
-                    alt=""
-                    fill
-                    sizes="(max-width: 640px) 11vw, 9vw"
-                    className="object-contain object-center"
-                  />
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="home-what-i-do__rule mt-10 sm:mt-14 lg:mt-16" aria-hidden />
-
-          <HomeConnectFeatured platforms={HOME_CONNECT_PLATFORMS} />
+          <HomeConnectBody platforms={HOME_CONNECT_PLATFORMS} />
         </CyberBorder>
       </div>
     </section>
