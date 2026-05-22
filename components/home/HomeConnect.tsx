@@ -1,6 +1,6 @@
 import { CyberBorder } from "@/components/CyberBorder";
+import { CyberLevelBadge, CyberRuleEndcap } from "@/components/CyberDeco";
 import { HomeConnectBody } from "@/components/home/HomeConnectBody";
-import { HomeSideBarDeco } from "@/components/home/HomeSideBarDeco";
 import { HOME_CONNECT_PLATFORMS } from "@/lib/home-connect";
 
 export function HomeConnect() {
@@ -20,15 +20,16 @@ export function HomeConnect() {
                 {"// CONNECT"}
               </h2>
             </div>
-            <div className="ml-auto flex shrink-0 items-center gap-3 max-sm:w-full max-sm:justify-end">
-              <HomeSideBarDeco size="compact" />
-              <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase sm:text-sm">
-                LEVEL : 03
-              </span>
-            </div>
+            <CyberLevelBadge
+              level="03"
+              className="ml-auto shrink-0 max-sm:flex max-sm:w-full max-sm:justify-end"
+            />
           </div>
 
-          <div className="home-what-i-do__rule mt-6 sm:mt-8" aria-hidden />
+          <div className="home-section-rule mt-6 sm:mt-8" aria-hidden>
+            <div className="home-section-rule__line" />
+            <CyberRuleEndcap />
+          </div>
 
           <HomeConnectBody platforms={HOME_CONNECT_PLATFORMS} />
         </CyberBorder>

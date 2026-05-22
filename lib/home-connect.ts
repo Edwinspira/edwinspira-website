@@ -3,6 +3,8 @@ export type HomeConnectPlatform = {
   name: string;
   description: string;
   iconSrc: string;
+  /** External profile URL; omit for platforms without a link yet (e.g. email). */
+  href?: string;
 };
 
 export const CONNECT_ROTATE_MS = 10_000;
@@ -22,6 +24,7 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "Watch video content, tutorials, process breakdowns, and creative showcases.",
     iconSrc: "/images/social/YouTubeIcon.png",
+    href: "https://www.youtube.com/@edwinspira",
   },
   {
     id: "instagram",
@@ -29,6 +32,7 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "Follow daily art, works in progress, reels, and visual snapshots from the studio.",
     iconSrc: "/images/social/InstagramIcon.png",
+    href: "https://www.instagram.com/edwinspira/",
   },
   {
     id: "linkedin",
@@ -36,6 +40,7 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "Connect for professional updates, career milestones, and industry networking.",
     iconSrc: "/images/social/LinkedInIcon.png",
+    href: "https://www.linkedin.com/in/edwin-j-calderon/",
   },
   {
     id: "x",
@@ -43,6 +48,7 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "Catch quick updates, announcements, and thoughts on art, tech, and creative work.",
     iconSrc: "/images/social/XIcon.png",
+    href: "https://x.com/edwinspirar",
   },
   {
     id: "deviantart",
@@ -50,6 +56,7 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "Explore illustrations, character art, fan pieces, and experimental visual work.",
     iconSrc: "/images/social/DeviantArtIcon.png",
+    href: "https://www.deviantart.com/edwinspira",
   },
   {
     id: "behance",
@@ -57,6 +64,7 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "Browse curated project case studies, process shots, and portfolio highlights.",
     iconSrc: "/images/social/BehanceIcon.png",
+    href: "https://www.behance.net/edwinspira",
   },
   {
     id: "facebook",
@@ -64,6 +72,7 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "See community posts, event updates, and shared creative work in one place.",
     iconSrc: "/images/social/FacebookIcon.png",
+    href: "https://www.facebook.com/edwinspirar/",
   },
   {
     id: "github",
@@ -71,5 +80,6 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "Dig into open-source code, experiments, and repositories from development work.",
     iconSrc: "/images/social/GithubIcon.png",
+    href: "https://github.com/ecalde",
   },
 ];

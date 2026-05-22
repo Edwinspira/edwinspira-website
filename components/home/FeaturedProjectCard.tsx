@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { CyberHudBracket } from "@/components/CyberDeco";
 import { urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
 
@@ -21,7 +22,8 @@ export function FeaturedProjectCard({ work, index }: FeaturedProjectCardProps) {
   const number = String(index + 1).padStart(2, "0");
 
   return (
-    <article className="featured-project-card flex h-full flex-col border border-[var(--home-stat-red)]/80 bg-black/40">
+    <article className="featured-project-card relative flex h-full flex-col border border-[var(--home-stat-red)]/80 bg-black/40">
+      <CyberHudBracket />
       <Link href={`/work/${work.slug}`} className="flex h-full flex-col">
         <div className="flex items-center gap-2 border-b border-[var(--home-stat-red)]/50 px-3 py-2 font-mono text-xs tracking-widest text-foreground uppercase">
           <span>{number}</span>

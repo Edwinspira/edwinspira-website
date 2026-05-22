@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 import { CyberBorder } from "@/components/CyberBorder";
+import { CyberLevelBadge, CyberRuleEndcap } from "@/components/CyberDeco";
 import { FeaturedProjectCard } from "@/components/home/FeaturedProjectCard";
-import { HomeSideBarDeco } from "@/components/home/HomeSideBarDeco";
 import { getFeaturedWorks } from "@/lib/sanity/get-featured-works";
 
 export async function HomeFeaturedProjects() {
@@ -27,15 +27,13 @@ export async function HomeFeaturedProjects() {
                 注目のプロジェクト
               </span>
             </div>
-            <div className="ml-auto flex shrink-0 items-center gap-3">
-              <HomeSideBarDeco size="compact" />
-              <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase sm:text-sm">
-                LEVEL : 02
-              </span>
-            </div>
+            <CyberLevelBadge level="02" className="ml-auto shrink-0" />
           </div>
 
-          <div className="home-what-i-do__rule mt-6 sm:mt-8" aria-hidden />
+          <div className="home-section-rule mt-6 sm:mt-8" aria-hidden>
+            <div className="home-section-rule__line" />
+            <CyberRuleEndcap />
+          </div>
 
           {works.length > 0 ? (
             <ul className="mt-10 grid list-none gap-6 sm:mt-16 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-6">

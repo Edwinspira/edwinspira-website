@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { CyberFooterRail } from "@/components/CyberDeco";
 import { SiteNav } from "@/components/site/SiteNav";
 import { siteConfig } from "@/lib/site";
 
@@ -42,12 +43,14 @@ export default function SiteLayout({
           </Link>
           <SiteNav />
         </div>
+        <div className="site-header-rail pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--home-stat-red)]/50 to-transparent" aria-hidden />
       </header>
       <main id="main-content" className="w-full max-w-full overflow-x-hidden">
         {children}
       </main>
       <footer className="relative z-20 border-t border-border bg-background">
         <div className="mx-auto max-w-5xl px-6 py-8">
+          <CyberFooterRail />
           <p className="font-mono text-xs text-muted">
             © {new Date().getFullYear()} {siteConfig.name}
           </p>

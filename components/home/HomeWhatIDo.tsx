@@ -1,5 +1,5 @@
 import { CyberBorder } from "@/components/CyberBorder";
-import { HomeSideBarDeco } from "@/components/home/HomeSideBarDeco";
+import { CyberLevelBadge, CyberRuleEndcap } from "@/components/CyberDeco";
 import { HomeWhatIDoCard } from "@/components/home/HomeWhatIDoCard";
 import { HOME_WHAT_I_DO_CARDS } from "@/lib/home-what-i-do";
 
@@ -20,14 +20,15 @@ export function HomeWhatIDo() {
               スキルセット
             </span>
           </div>
-          <div className="ml-auto flex shrink-0 items-center gap-3">
-            <HomeSideBarDeco size="compact" />
-            <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase sm:text-sm">
-              LEVEL : 01
-            </span>
-          </div>
+          <CyberLevelBadge
+            level="01"
+            className="ml-auto shrink-0 max-sm:flex max-sm:w-full max-sm:justify-end"
+          />
         </div>
-        <div className="home-what-i-do__rule mt-6 sm:mt-8" aria-hidden />
+        <div className="home-section-rule mt-6 sm:mt-8" aria-hidden>
+          <div className="home-section-rule__line" />
+          <CyberRuleEndcap />
+        </div>
 
         <ul className="mt-10 grid list-none grid-cols-2 gap-4 max-sm:mt-12 sm:mt-16 sm:gap-12 lg:gap-14 xl:grid-cols-4">
           {HOME_WHAT_I_DO_CARDS.map((card) => (
