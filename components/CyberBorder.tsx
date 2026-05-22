@@ -21,16 +21,16 @@ export function CyberBorder({ children, className = "" }: CyberBorderProps) {
   return (
     <div className={rootClass}>
       <span className="cyber-border__corner cyber-border__corner--tl relative block" aria-hidden>
-        <Image src={CORNER_UP_LEFT} alt="" fill sizes="73px" className="object-contain" />
+        <Image src={CORNER_UP_LEFT} alt="" fill sizes="44px" className="object-contain" />
       </span>
       <span className="cyber-border__corner cyber-border__corner--tr relative block" aria-hidden>
-        <Image src={CORNER_UP_RIGHT} alt="" fill sizes="73px" className="object-contain" />
+        <Image src={CORNER_UP_RIGHT} alt="" fill sizes="44px" className="object-contain" />
       </span>
       <span className="cyber-border__corner cyber-border__corner--bl relative block" aria-hidden>
-        <Image src={CORNER_DOWN_LEFT} alt="" fill sizes="73px" className="object-contain" />
+        <Image src={CORNER_DOWN_LEFT} alt="" fill sizes="44px" className="object-contain" />
       </span>
       <span className="cyber-border__corner cyber-border__corner--br relative block" aria-hidden>
-        <Image src={CORNER_DOWN_RIGHT} alt="" fill sizes="73px" className="object-contain" />
+        <Image src={CORNER_DOWN_RIGHT} alt="" fill sizes="44px" className="object-contain" />
       </span>
 
       <span className="cyber-border__edge cyber-border__edge--top" aria-hidden />

@@ -140,9 +140,30 @@ body {
   background-color: var(--home-stat-red);
 }
 
+/* Shared vertical rhythm for bordered home sections */
+.home-section-pad {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .home-section-pad {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-section-pad {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
 /* Reusable cyber section border (corners + inset edge lines) */
 .cyber-border {
   --cyber-corner: 4.5625rem;
+  --cyber-corner-art: 2.75rem;
   --cyber-edge-gap: 1.5rem;
   position: relative;
   box-shadow: inset 0 0 24px rgb(255 31 31 / 0.04);
@@ -151,8 +172,8 @@ body {
 .cyber-border__corner {
   position: absolute;
   z-index: 2;
-  width: var(--cyber-corner);
-  height: var(--cyber-corner);
+  width: var(--cyber-corner-art);
+  height: var(--cyber-corner-art);
   pointer-events: none;
 }
 
@@ -222,6 +243,7 @@ body {
 @media (min-width: 640px) {
   .cyber-border {
     --cyber-corner: 5rem;
+    --cyber-corner-art: 3rem;
     --cyber-edge-gap: 1.75rem;
   }
 
@@ -246,6 +268,48 @@ body {
     rgb(255 31 31 / 0.12) 70%,
     transparent 100%
   );
+}
+
+.home-connect__icon-bar {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: clamp(0.35rem, 1.25vw, 0.875rem);
+  width: 100%;
+  align-items: center;
+}
+
+.home-connect__icon-slot {
+  aspect-ratio: 1;
+  filter: drop-shadow(0 0 4px rgb(255 31 31 / 0.55))
+    drop-shadow(0 0 10px rgb(255 31 31 / 0.35));
+}
+
+.home-connect__featured-name,
+.home-connect__featured-description {
+  animation: home-connect-fade-in 0.45s ease-out both;
+}
+
+.home-connect__featured-icon-image {
+  filter: drop-shadow(0 0 6px rgb(255 31 31 / 0.65))
+    drop-shadow(0 0 14px rgb(255 31 31 / 0.4));
+}
+
+@keyframes home-connect-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-connect__featured-name,
+  .home-connect__featured-description {
+    animation: none;
+  }
 }
 
 .home-hero-name {

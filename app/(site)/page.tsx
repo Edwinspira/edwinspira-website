@@ -1,3 +1,4 @@
+import { HomeConnect } from "@/components/home/HomeConnect";
 import { HomeFeaturedProjects } from "@/components/home/HomeFeaturedProjects";
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeHeroOverlay } from "@/components/home/HomeHeroOverlay";
@@ -13,6 +14,8 @@ export default function HomePage() {
       <HomeWhatIDo />
 
       <HomeFeaturedProjects />
+
+      <HomeConnect />
     </div>
   );
 }
