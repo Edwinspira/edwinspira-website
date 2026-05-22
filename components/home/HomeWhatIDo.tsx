@@ -25,7 +25,7 @@ export function HomeWhatIDo() {
         </div>
         <div className="home-what-i-do__rule mt-6 sm:mt-8" aria-hidden />
 
-        <ul className="mt-14 grid list-none grid-cols-1 gap-10 sm:mt-16 sm:grid-cols-2 sm:gap-12 lg:gap-14 xl:grid-cols-4">
+        <ul className="mt-10 grid list-none grid-cols-2 gap-4 max-sm:mt-12 sm:mt-16 sm:gap-12 lg:gap-14 xl:grid-cols-4">
           {HOME_WHAT_I_DO_CARDS.map((card) => (
             <li key={card.title}>
               <HomeWhatIDoCard card={card} />

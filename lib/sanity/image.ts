@@ -2,8 +2,15 @@ import imageUrlBuilder, { type SanityImageSource } from "@sanity/image-url";
 
 import { getSanityClient } from "@/lib/sanity/client";
 
-const builder = imageUrlBuilder(getSanityClient());
+let builder: ReturnType<typeof imageUrlBuilder> | null = null;
+
+function getBuilder() {
+  if (!builder) {
+    builder = imageUrlBuilder(getSanityClient());
+  }
+  return builder;
+}
 
 export function urlFor(source: SanityImageSource) {
-  return builder.image(source);
+  return getBuilder().image(source);
 }
