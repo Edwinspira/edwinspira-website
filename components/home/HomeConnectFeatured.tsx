@@ -3,10 +3,10 @@
 import Image from "next/image";
 
 import { CyberSignalBridge } from "@/components/CyberDeco";
+import { HomeConnectEstablishButton } from "@/components/home/HomeConnectEstablishButton";
 import type { HomeConnectPlatform } from "@/lib/home-connect";
 
 const SOCIAL_BORDER_SRC = "/images/social/SocialBorder.png";
-const BUTTON_BORDER_SRC = "/images/social/ButtonIconTwo.png";
 
 type HomeConnectFeaturedProps = {
   platforms: HomeConnectPlatform[];
@@ -108,7 +108,10 @@ export function HomeConnectFeatured({
       <div className="home-connect__featured-carousel flex w-full items-center justify-start gap-2 sm:gap-3 lg:gap-4">
         <button
           type="button"
-          onClick={goToPrevious}
+          onClick={(event) => {
+            event.stopPropagation();
+            goToPrevious();
+          }}
           className="home-connect__nav-arrow shrink-0"
           aria-label="Previous social platform"
         >
@@ -117,13 +120,16 @@ export function HomeConnectFeatured({
           </span>
         </button>
 
-        <div className="home-connect__featured-visual w-[min(58vw,16.5rem)] shrink-0 sm:w-[min(50vw,19rem)] lg:w-[min(22rem,32vw)] xl:w-[min(24rem,28vw)]">
+        <div className="home-connect__featured-visual relative z-[1] w-[min(58vw,16.5rem)] shrink-0 overflow-hidden sm:w-[min(50vw,19rem)] lg:w-[min(22rem,32vw)] xl:w-[min(24rem,28vw)]">
           <FeaturedVisual active={active} />
         </div>
 
         <button
           type="button"
-          onClick={goToNext}
+          onClick={(event) => {
+            event.stopPropagation();
+            goToNext();
+          }}
           className="home-connect__nav-arrow shrink-0"
           aria-label="Next social platform"
         >
@@ -148,53 +154,20 @@ export function HomeConnectFeatured({
         </p>
       </div>
 
-      <CyberSignalBridge
-        key={`${active.id}-bridge`}
-        className="home-connect__signal-bridge"
-      />
-
       <div
-        key={`${active.id}-cta`}
-        className="home-connect__establish-cta flex min-w-0 justify-center lg:justify-end"
+        key={`${active.id}-establish`}
+        className="home-connect__establish-stack min-w-0"
       >
-        {active.href ? (
-          <a
+        <CyberSignalBridge
+          key={`${active.id}-bridge`}
+          className="home-connect__signal-bridge"
+        />
+        <div className="home-connect__establish-cta flex min-w-0 justify-center lg:justify-stretch">
+          <HomeConnectEstablishButton
             href={active.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="home-connect__establish-button relative block w-full min-w-[13.5rem] max-w-[22rem] sm:min-w-[15rem] sm:max-w-[24rem] lg:min-w-[16.5rem] lg:max-w-[22rem] xl:min-w-[18rem] xl:max-w-[26rem]"
-            aria-label={`Open ${active.name} profile (opens in new tab)`}
-          >
-            <Image
-              src={BUTTON_BORDER_SRC}
-              alt=""
-              width={732}
-              height={103}
-              className="h-auto w-full"
-              sizes="(max-width: 640px) 216px, (max-width: 1024px) 264px, 416px"
-            />
-            <span className="absolute inset-0 flex items-center justify-center px-4 font-mono text-[0.62rem] tracking-[0.14em] whitespace-nowrap text-foreground uppercase sm:text-[0.7rem] sm:tracking-[0.18em] lg:text-[0.68rem] xl:text-[0.75rem]">
-              ESTABLISH CONNECTION
-            </span>
-          </a>
-        ) : (
-          <span
-            className="home-connect__establish-button home-connect__establish-button--inactive relative block w-full min-w-[13.5rem] max-w-[22rem] cursor-not-allowed opacity-60 sm:min-w-[15rem] sm:max-w-[24rem] lg:min-w-[16.5rem] lg:max-w-[22rem] xl:min-w-[18rem] xl:max-w-[26rem]"
-            aria-disabled
-          >
-            <Image
-              src={BUTTON_BORDER_SRC}
-              alt=""
-              width={732}
-              height={103}
-              className="h-auto w-full"
-              sizes="(max-width: 640px) 216px, (max-width: 1024px) 264px, 416px"
-            />
-            <span className="absolute inset-0 flex items-center justify-center px-4 font-mono text-[0.62rem] tracking-[0.14em] whitespace-nowrap text-foreground uppercase sm:text-[0.7rem] sm:tracking-[0.18em] lg:text-[0.68rem] xl:text-[0.75rem]">
-              ESTABLISH CONNECTION
-            </span>
-          </span>
-        )}
+            ariaLabel={`Open ${active.name} profile (opens in new tab)`}
+          />
+        </div>
       </div>
     </div>
   );

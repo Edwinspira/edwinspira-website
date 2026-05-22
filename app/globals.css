@@ -357,50 +357,87 @@ body {
   grid-template-areas:
     "carousel"
     "copy"
-    "bridge"
-    "cta";
+    "establish";
 }
 
 .home-connect__featured-carousel {
   grid-area: carousel;
+  position: relative;
+  z-index: 3;
+  isolation: isolate;
   justify-self: start;
   width: 100%;
   max-width: 100%;
+  overflow: visible;
 }
 
 .home-connect__featured-copy {
   grid-area: copy;
+  position: relative;
+  z-index: 1;
+  min-width: 0;
   text-align: center;
 }
 
-.home-connect__signal-bridge {
-  grid-area: bridge;
+.home-connect__establish-stack {
+  grid-area: establish;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  width: 100%;
+  max-width: 26rem;
   justify-self: center;
-  width: min(100%, 18rem);
+}
+
+.home-connect__signal-bridge {
+  align-self: stretch;
+  width: 100%;
 }
 
 .home-connect__establish-cta {
-  grid-area: cta;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.home-connect__establish-stack .home-connect__establish-button {
+  width: 100%;
+  max-width: none;
 }
 
 @media (min-width: 1024px) {
   .home-connect__featured {
-    gap: 1rem 1.25rem;
-    grid-template-columns: auto minmax(0, min(28rem, 48vw)) auto auto;
-    grid-template-areas: "carousel copy bridge cta";
+    gap: 1rem 1.5rem;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "carousel copy establish";
+    align-items: center;
+  }
+
+  .home-connect__establish-stack {
+    justify-self: end;
+    align-items: stretch;
+    gap: 0.65rem;
+    width: min(100%, 26rem);
   }
 
   .home-connect__signal-bridge {
-    width: auto;
-    max-width: 3.5rem;
-    align-self: center;
-    margin-inline: 0.25rem 0.5rem;
+    width: 100%;
+    max-width: none;
+    margin-inline: 0;
   }
 
   .home-connect__featured-copy {
-    max-width: min(28rem, 48vw);
+    max-width: none;
     text-align: left;
-    padding-inline: 0.25rem 0.75rem;
+    padding-inline: 0.25rem 1rem;
+    /* Let clicks reach carousel arrows if grid cells touch at narrow widths */
+    pointer-events: none;
+  }
+
+  .home-connect__featured-name,
+  .home-connect__featured-description {
+    pointer-events: auto;
   }
 }
 
@@ -575,17 +612,27 @@ body {
 }
 
 .home-connect__nav-arrow {
+  position: relative;
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: center;
   width: auto;
-  min-width: 0;
-  padding: 0;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin: 0;
+  padding: 0.15rem;
+  border: none;
+  background: transparent;
   overflow: visible;
   font-family: var(--font-mono, ui-monospace, monospace);
   font-weight: 300;
   line-height: 1;
   color: var(--home-stat-red);
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   transition: opacity 0.2s ease;
 }
 
@@ -624,11 +671,19 @@ body {
 }
 
 .home-connect__establish-button {
+  aspect-ratio: 732 / 103;
   filter: drop-shadow(0 0 6px rgb(255 31 31 / 0.35));
   text-decoration: none;
   transition:
     filter 0.2s ease,
     transform 0.2s ease;
+}
+
+.home-connect__establish-button__border {
+  position: absolute;
+  inset: 0;
+  display: block;
+  overflow: hidden;
 }
 
 a.home-connect__establish-button:hover {
@@ -643,12 +698,6 @@ a.home-connect__establish-button:focus-visible {
 
 a.home-connect__establish-button:active {
   transform: translateY(0);
-}
-
-.home-connect__establish-button img {
-  display: block;
-  width: 100%;
-  height: auto;
 }
 
 @keyframes home-connect-fade-in {
@@ -921,17 +970,18 @@ a.home-connect__establish-button:active {
 /* ── Custom CSS cyber decorations (CyberDeco.tsx) ── */
 
 .cyber-signal-bridge {
-  display: grid;
-  grid-template-columns: 1fr auto auto auto auto 1fr;
+  display: flex;
   align-items: center;
-  gap: 0.5rem 0.4rem;
+  justify-content: center;
+  gap: 0.35rem;
   width: 100%;
   pointer-events: none;
 }
 
 .cyber-signal-bridge__line {
+  flex: 1 1 0;
+  min-width: 0;
   height: 1px;
-  min-width: 0.75rem;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -944,11 +994,11 @@ a.home-connect__establish-button:active {
 
 .cyber-signal-bridge__line--right {
   background: linear-gradient(
-    90deg,
+    270deg,
     transparent 0%,
-    rgb(255 31 31 / 0.35) 15%,
-    var(--home-stat-red) 45%,
-    rgb(255 31 31 / 0.2) 75%,
+    rgb(255 31 31 / 0.2) 25%,
+    var(--home-stat-red) 55%,
+    rgb(255 31 31 / 0.35) 85%,
     transparent 100%
   );
 }
@@ -956,6 +1006,7 @@ a.home-connect__establish-button:active {
 .cyber-signal-bridge__ticks,
 .cyber-signal-bridge__ticks--mirror {
   display: flex;
+  flex: 0 0 auto;
   gap: 0.2rem;
   align-items: center;
 }
@@ -984,6 +1035,7 @@ a.home-connect__establish-button:active {
 .cyber-signal-bridge__core {
   position: relative;
   display: flex;
+  flex: 0 0 auto;
   flex-direction: column;
   align-items: center;
   gap: 0.2rem;
@@ -1465,45 +1517,6 @@ a.home-connect__establish-button:active {
   50%,
   100% {
     opacity: 0.15;
-  }
-}
-
-@media (min-width: 1024px) {
-  .home-connect__signal-bridge .cyber-signal-bridge {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.35rem;
-    min-height: 5.5rem;
-  }
-
-  .home-connect__signal-bridge .cyber-signal-bridge__line {
-    width: 1px;
-    height: 1.25rem;
-    min-width: unset;
-    background: linear-gradient(
-      180deg,
-      transparent,
-      rgb(255 31 31 / 0.25) 30%,
-      var(--home-stat-red) 50%,
-      rgb(255 31 31 / 0.25) 70%,
-      transparent
-    );
-  }
-
-  .home-connect__signal-bridge .cyber-signal-bridge__ticks,
-  .home-connect__signal-bridge .cyber-signal-bridge__ticks--mirror {
-    flex-direction: column;
-  }
-
-  .home-connect__signal-bridge .cyber-signal-bridge__ticks--mirror {
-    flex-direction: column-reverse;
-  }
-
-  .home-connect__signal-bridge .cyber-signal-bridge__label {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    letter-spacing: 0.32em;
   }
 }
 
