@@ -1,10 +1,12 @@
+import { CyberBorder } from "@/components/CyberBorder";
 import { HomeWhatIDoCard } from "@/components/home/HomeWhatIDoCard";
 import { HOME_WHAT_I_DO_CARDS } from "@/lib/home-what-i-do";
 
 export function HomeWhatIDo() {
   return (
     <section className="home-what-i-do relative z-10 w-full bg-black" aria-labelledby="what-i-do-heading">
-      <div className="mx-auto w-full max-w-[90rem] px-[var(--home-pad)] py-20 sm:py-28 lg:px-12 lg:py-32">
+      <div className="w-full px-[var(--home-pad)] py-20 sm:py-28 lg:py-32">
+        <CyberBorder className="w-full">
         <div className="flex flex-wrap items-end gap-4 sm:gap-6">
           <div className="flex min-w-0 flex-wrap items-baseline gap-x-4 gap-y-2">
             <h2
@@ -30,6 +32,7 @@ export function HomeWhatIDo() {
             </li>
           ))}
         </ul>
+        </CyberBorder>
       </div>
     </section>
   );
