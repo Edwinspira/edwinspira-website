@@ -1,4 +1,5 @@
 import { CyberBorder } from "@/components/CyberBorder";
+import { HomeSideBarDeco } from "@/components/home/HomeSideBarDeco";
 import { HomeWhatIDoCard } from "@/components/home/HomeWhatIDoCard";
 import { HOME_WHAT_I_DO_CARDS } from "@/lib/home-what-i-do";
 
@@ -19,9 +20,12 @@ export function HomeWhatIDo() {
               スキルセット
             </span>
           </div>
-          <span className="ml-auto shrink-0 font-mono text-xs tracking-[0.2em] text-muted uppercase sm:text-sm">
-            LEVEL : 01
-          </span>
+          <div className="ml-auto flex shrink-0 items-center gap-3">
+            <HomeSideBarDeco size="compact" />
+            <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase sm:text-sm">
+              LEVEL : 01
+            </span>
+          </div>
         </div>
         <div className="home-what-i-do__rule mt-6 sm:mt-8" aria-hidden />
 

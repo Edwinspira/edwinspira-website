@@ -299,6 +299,36 @@ body {
     drop-shadow(0 0 10px rgb(255 31 31 / 0.35));
 }
 
+/* Vertical parallelogram accent (SideBarDeco.png) */
+.home-sidebar-deco {
+  pointer-events: none;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 5px rgb(255 31 31 / 0.4));
+}
+
+.home-sidebar-deco--default {
+  width: 1.125rem;
+  height: 4.5rem;
+}
+
+.home-sidebar-deco--compact {
+  width: 0.625rem;
+  height: 2.25rem;
+  opacity: 0.88;
+}
+
+@media (min-width: 640px) {
+  .home-sidebar-deco--default {
+    width: 1.25rem;
+    height: 5.5rem;
+  }
+
+  .home-sidebar-deco--compact {
+    width: 0.75rem;
+    height: 2.75rem;
+  }
+}
+
 .home-connect__featured {
   display: grid;
   width: 100%;

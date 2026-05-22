@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { CyberBorder } from "@/components/CyberBorder";
 import { FeaturedProjectCard } from "@/components/home/FeaturedProjectCard";
+import { HomeSideBarDeco } from "@/components/home/HomeSideBarDeco";
 import { getFeaturedWorks } from "@/lib/sanity/get-featured-works";
 
 export async function HomeFeaturedProjects() {
@@ -26,9 +27,12 @@ export async function HomeFeaturedProjects() {
                 注目のプロジェクト
               </span>
             </div>
-            <span className="ml-auto shrink-0 font-mono text-xs tracking-[0.2em] text-muted uppercase sm:text-sm">
-              LEVEL : 02
-            </span>
+            <div className="ml-auto flex shrink-0 items-center gap-3">
+              <HomeSideBarDeco size="compact" />
+              <span className="font-mono text-xs tracking-[0.2em] text-muted uppercase sm:text-sm">
+                LEVEL : 02
+              </span>
+            </div>
           </div>
 
           <div className="home-what-i-do__rule mt-6 sm:mt-8" aria-hidden />
