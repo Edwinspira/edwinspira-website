@@ -278,6 +278,13 @@ body {
   align-items: center;
 }
 
+@media (max-width: 639px) {
+  .home-connect__icon-bar {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: clamp(0.5rem, 2.5vw, 1rem);
+  }
+}
+
 .home-connect__icon-slot {
   aspect-ratio: 1;
   opacity: 0.72;
