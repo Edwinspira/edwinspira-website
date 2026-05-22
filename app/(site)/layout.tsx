@@ -20,7 +20,7 @@ export default function SiteLayout({
         Skip to content
       </a>
       <header className="relative z-20 w-full max-w-full overflow-x-hidden bg-black">
-        <div className="flex h-20 w-full max-w-full min-w-0 items-center justify-between gap-3 px-4 sm:h-24 sm:gap-12 sm:px-10 lg:gap-16 lg:px-16">
+        <div className="flex h-20 w-full max-w-full min-w-0 items-center justify-between gap-3 px-4 sm:h-24 sm:justify-start sm:gap-12 sm:px-10 lg:gap-16 lg:px-16">
           <Link
             href="/"
             className="group flex h-full min-h-0 min-w-0 shrink items-center gap-2 transition-opacity hover:opacity-90 sm:shrink-0 sm:gap-5"
