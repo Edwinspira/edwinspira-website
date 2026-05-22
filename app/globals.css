@@ -74,6 +74,19 @@ body {
   animation: home-stat-bar-load 1.35s steps(16) var(--stat-delay, 0ms) both;
 }
 
+.site-nav-link-active {
+  color: var(--foreground);
+  text-shadow:
+    0 0 8px rgb(255 31 31 / 0.95),
+    0 0 16px rgb(255 31 31 / 0.75),
+    0 0 28px rgb(255 31 31 / 0.45);
+}
+
+.site-nav-icon-active {
+  filter: drop-shadow(0 0 4px rgb(255 31 31 / 1))
+    drop-shadow(0 0 10px rgb(255 31 31 / 0.85)) drop-shadow(0 0 18px rgb(255 31 31 / 0.55));
+}
+
 @keyframes home-stat-bar-load {
   from {
     width: 0%;

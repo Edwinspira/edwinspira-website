@@ -5,8 +5,8 @@ export const siteConfig = {
     "Creative-tech portfolio showcasing software, art, video edits, and 3D sculpture.",
   tagline: "Software, art, motion, and form.",
   nav: [
-    { label: "Home", href: "/" },
-    { label: "Work", href: "/work" },
+    { label: "HOME", href: "/" },
+    { label: "WORK", href: "/work" },
   ] as const,
 } as const;
 

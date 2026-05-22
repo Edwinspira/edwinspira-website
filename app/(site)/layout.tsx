@@ -1,6 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 
+import { SiteNav } from "@/components/site/SiteNav";
 import { siteConfig } from "@/lib/site";
+
+const SITE_LOGO_SRC = "/images/home/EdwinspiraLogo.png";
 
 export default function SiteLayout({
   children,
@@ -15,28 +19,28 @@ export default function SiteLayout({
       >
         Skip to content
       </a>
-      <header className="relative z-20 border-b border-border bg-background/85 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+      <header className="relative z-20 overflow-visible border-b border-border bg-background/85 backdrop-blur-sm">
+        <div className="flex h-20 w-full items-center gap-8 px-6 sm:h-24 sm:gap-12 sm:px-10 lg:gap-16 lg:px-16">
           <Link
             href="/"
-            className="font-mono text-sm font-medium tracking-widest text-foreground uppercase transition-colors hover:text-accent"
+            className="group flex h-full min-h-0 shrink-0 items-center gap-4 transition-opacity hover:opacity-90 sm:gap-5"
+            aria-label={`${siteConfig.name} home`}
           >
-            {siteConfig.name}
+            <span className="relative aspect-square h-full shrink-0">
+              <Image
+                src={SITE_LOGO_SRC}
+                alt=""
+                fill
+                sizes="(max-width: 640px) 80px, 96px"
+                className="object-contain"
+                priority
+              />
+            </span>
+            <span className="text-base leading-none font-semibold tracking-[0.22em] text-foreground uppercase sm:text-lg">
+              EDWINSPIRA
+            </span>
           </Link>
-          <nav aria-label="Primary">
-            <ul className="flex gap-6">
-              {siteConfig.nav.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-muted transition-colors hover:text-foreground"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <SiteNav />
         </div>
       </header>
       <main id="main-content">{children}</main>
