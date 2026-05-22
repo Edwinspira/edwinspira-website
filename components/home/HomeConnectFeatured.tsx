@@ -105,7 +105,7 @@ export function HomeConnectFeatured({
       aria-live="polite"
       aria-atomic="true"
     >
-      <div className="home-connect__featured-carousel flex w-full items-center justify-start gap-2 sm:gap-3 lg:gap-4">
+      <div className="home-connect__featured-carousel flex w-full items-center justify-center gap-2 sm:justify-start sm:gap-3 lg:gap-4">
         <button
           type="button"
           onClick={(event) => {

@@ -27,7 +27,10 @@ export async function HomeFeaturedProjects() {
                 注目のプロジェクト
               </span>
             </div>
-            <CyberLevelBadge level="02" className="ml-auto shrink-0" />
+            <CyberLevelBadge
+              level="02"
+              className="ml-auto shrink-0 max-sm:flex max-sm:w-full max-sm:justify-end"
+            />
           </div>
 
           <div className="home-section-rule mt-6 sm:mt-8" aria-hidden>

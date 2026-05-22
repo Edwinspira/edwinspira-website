@@ -371,6 +371,12 @@ body {
   overflow: visible;
 }
 
+@media (max-width: 639px) {
+  .home-connect__featured-carousel {
+    justify-self: center;
+  }
+}
+
 .home-connect__featured-copy {
   grid-area: copy;
   position: relative;
@@ -1229,6 +1235,32 @@ a.home-connect__establish-button:active {
   min-height: 0;
   font-size: clamp(0.38rem, 2vw, 0.875rem);
   line-height: 1.35;
+}
+
+@media (max-width: 639px) {
+  .home-what-i-do-card__frame {
+    aspect-ratio: 833 / 1180;
+  }
+
+  .home-what-i-do-card__content {
+    padding: 10.5% 11.5% 13.5% 11.5%;
+  }
+
+  .home-what-i-do-card__icon {
+    width: clamp(3rem, 26%, 4.25rem);
+    height: clamp(3rem, 26%, 4.25rem);
+    margin-bottom: 0.4rem;
+  }
+
+  .home-what-i-do-card__title {
+    font-size: clamp(0.48rem, 2.75vw, 0.7rem);
+    line-height: 1.2;
+  }
+
+  .home-what-i-do-card__description {
+    font-size: clamp(0.44rem, 2.15vw, 0.62rem);
+    line-height: 1.45;
+  }
 }
 
 @media (min-width: 640px) {
