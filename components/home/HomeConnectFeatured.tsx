@@ -30,7 +30,10 @@ function FeaturedVisual({
         className="pointer-events-none object-contain"
         priority
       />
-      <div className="home-connect__icon-viewport absolute inset-[12%] flex items-center justify-center">
+      <div
+        key={`${active.id}-viewport`}
+        className="home-connect__icon-viewport home-connect__icon-viewport--glitch absolute inset-[12%] flex items-center justify-center"
+      >
         <div className="home-connect__icon-stage relative h-full w-full">
           <div
             key={active.id}
@@ -44,11 +47,23 @@ function FeaturedVisual({
               className="home-connect__featured-icon-image relative z-[1] object-contain object-center"
             />
             <span
-              className="home-connect__digital-scanlines pointer-events-none absolute inset-0 z-[2]"
+              className="home-connect__glitch-chroma home-connect__glitch-chroma--r pointer-events-none absolute inset-0 z-[2]"
               aria-hidden
             />
             <span
-              className="home-connect__digital-noise pointer-events-none absolute inset-0 z-[3]"
+              className="home-connect__glitch-chroma home-connect__glitch-chroma--b pointer-events-none absolute inset-0 z-[2]"
+              aria-hidden
+            />
+            <span
+              className="home-connect__glitch-slices pointer-events-none absolute inset-0 z-[3]"
+              aria-hidden
+            />
+            <span
+              className="home-connect__digital-scanlines pointer-events-none absolute inset-0 z-[4]"
+              aria-hidden
+            />
+            <span
+              className="home-connect__digital-noise pointer-events-none absolute inset-0 z-[5]"
               aria-hidden
             />
           </div>
