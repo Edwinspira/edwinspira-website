@@ -15,7 +15,7 @@ export default function SiteLayout({
       >
         Skip to content
       </a>
-      <header className="border-b border-border">
+      <header className="relative z-20 border-b border-border bg-background/85 backdrop-blur-sm">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
           <Link
             href="/"
@@ -40,7 +40,7 @@ export default function SiteLayout({
         </div>
       </header>
       <main id="main-content">{children}</main>
-      <footer className="border-t border-border">
+      <footer className="relative z-20 border-t border-border bg-background">
         <div className="mx-auto max-w-5xl px-6 py-8">
           <p className="font-mono text-xs text-muted">
             © {new Date().getFullYear()} {siteConfig.name}
