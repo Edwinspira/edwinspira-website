@@ -19,11 +19,11 @@ export default function SiteLayout({
       >
         Skip to content
       </a>
-      <header className="relative z-20 overflow-visible bg-black">
-        <div className="flex h-20 w-full items-center gap-8 px-6 sm:h-24 sm:gap-12 sm:px-10 lg:gap-16 lg:px-16">
+      <header className="relative z-20 w-full max-w-full overflow-x-hidden bg-black">
+        <div className="flex h-20 w-full max-w-full min-w-0 items-center justify-between gap-3 px-4 sm:h-24 sm:gap-12 sm:px-10 lg:gap-16 lg:px-16">
           <Link
             href="/"
-            className="group flex h-full min-h-0 shrink-0 items-center gap-4 transition-opacity hover:opacity-90 sm:gap-5"
+            className="group flex h-full min-h-0 min-w-0 shrink items-center gap-2 transition-opacity hover:opacity-90 sm:shrink-0 sm:gap-5"
             aria-label={`${siteConfig.name} home`}
           >
             <span className="relative aspect-square h-full shrink-0">
@@ -36,14 +36,16 @@ export default function SiteLayout({
                 priority
               />
             </span>
-            <span className="text-base leading-none font-semibold tracking-[0.22em] text-foreground uppercase sm:text-lg">
+            <span className="truncate text-sm leading-none font-semibold tracking-[0.18em] text-foreground uppercase sm:text-lg sm:tracking-[0.22em]">
               EDWINSPIRA
             </span>
           </Link>
           <SiteNav />
         </div>
       </header>
-      <main id="main-content">{children}</main>
+      <main id="main-content" className="w-full max-w-full overflow-x-hidden">
+        {children}
+      </main>
       <footer className="relative z-20 border-t border-border bg-background">
         <div className="mx-auto max-w-5xl px-6 py-8">
           <p className="font-mono text-xs text-muted">

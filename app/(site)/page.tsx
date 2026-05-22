@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/site";
 
 export default function HomePage() {
   return (
-    <div className="bg-black">
+    <div className="w-full max-w-full overflow-x-hidden bg-black">
       <HomeHero />
 
       <HomeHeroOverlay />

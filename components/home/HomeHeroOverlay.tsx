@@ -5,7 +5,10 @@ import { HomeStatsBox } from "@/components/home/HomeStatsBox";
 
 export function HomeHeroOverlay() {
   return (
-    <section className="home-hero-overlay relative z-10 min-h-svh" aria-label="Hero">
+    <section
+      className="home-hero-overlay relative z-10 w-full max-w-full min-h-[90dvh] overflow-x-hidden sm:min-h-svh"
+      aria-label="Hero"
+    >
       <HomeHeroName />
       <HomeCyberFrame>
         <HomeSideDeco />

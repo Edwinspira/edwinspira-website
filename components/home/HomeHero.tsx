@@ -11,7 +11,7 @@ export function HomeHero() {
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className="home-hero-image object-cover"
       />
       <div className="home-hero-vignette absolute inset-0" />
     </div>
