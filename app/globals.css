@@ -1100,6 +1100,8 @@ a.home-connect__establish-button:active {
   position: relative;
   aspect-ratio: 833 / 981;
   width: 100%;
+  overflow: hidden;
+  isolation: isolate;
   transition:
     filter 0.25s ease,
     transform 0.22s ease;
@@ -1108,6 +1110,16 @@ a.home-connect__establish-button:active {
 .home-what-i-do-card__border {
   pointer-events: none;
   transition: filter 0.25s ease;
+}
+
+.home-what-i-do-card__border--hud {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .home-what-i-do-card__glow {
@@ -1128,6 +1140,76 @@ a.home-connect__establish-button:active {
 .home-what-i-do-card__content {
   position: relative;
   z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: center;
+  /* Inset to HUD inner frame (viewBox 833×981, rails ~78–755 × 62–919) */
+  padding: 11.5% 12% 11.5% 12%;
+}
+
+.home-what-i-do-card__icon {
+  width: clamp(3.5rem, 32%, 7.5rem);
+  height: clamp(3.5rem, 32%, 7.5rem);
+  margin-bottom: clamp(0.35rem, 3%, 1.25rem);
+  aspect-ratio: 1;
+}
+
+.home-what-i-do-card__title {
+  max-width: 100%;
+  font-size: clamp(0.42rem, 2.6vw, 1rem);
+  line-height: 1.15;
+  word-break: break-word;
+}
+
+.home-what-i-do-card__subtitle {
+  margin-top: clamp(0.15rem, 1.5%, 0.5rem);
+  font-size: clamp(0.4rem, 2.2vw, 0.875rem);
+}
+
+.home-what-i-do-card__description {
+  margin-top: clamp(0.25rem, 2.5%, 1rem);
+  max-width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+  font-size: clamp(0.38rem, 2vw, 0.875rem);
+  line-height: 1.35;
+}
+
+@media (min-width: 640px) {
+  .home-what-i-do-card__content {
+    padding: 12.5% 12.5% 10.5% 12.5%;
+  }
+
+  .home-what-i-do-card__title {
+    font-size: clamp(0.5rem, 1.4vw, 0.875rem);
+  }
+
+  .home-what-i-do-card__description {
+    font-size: clamp(0.45rem, 1.1vw, 0.75rem);
+    line-height: 1.4;
+  }
+}
+
+@media (min-width: 1280px) {
+  .home-what-i-do-card__content {
+    padding: 13% 13% 10% 13%;
+  }
+
+  .home-what-i-do-card__title {
+    font-size: 1rem;
+  }
+
+  .home-what-i-do-card__subtitle {
+    font-size: 0.875rem;
+  }
+
+  .home-what-i-do-card__description {
+    font-size: 0.875rem;
+  }
 }
 
 .home-what-i-do-card:hover .home-what-i-do-card__frame,
@@ -1454,7 +1536,7 @@ a.home-connect__establish-button:active {
 @media (min-width: 640px) {
   .home-hero-name {
     left: calc(var(--home-pad) + 1.5rem);
-    bottom: calc(12vh + 30rem);
+    bottom: calc(12vh + 27rem);
     font-size: clamp(5rem, 11vw, 8.5rem);
   }
 }

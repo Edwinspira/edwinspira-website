@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 
+import { ArtHudCardBorder } from "@/components/home/ArtHudCardBorder";
 import { CyberHudBracket } from "@/components/CyberDeco";
 import type { HomeWhatIDoCard as HomeWhatIDoCardData } from "@/lib/home-what-i-do";
 
@@ -19,38 +20,43 @@ export function HomeWhatIDoCard({ card }: HomeWhatIDoCardProps) {
       aria-label={`${card.title} — ${card.subtitle}. ${card.description}`}
     >
       <div className="home-what-i-do-card__frame">
-        <CyberHudBracket />
+        {card.borderVariant === "hud" ? (
+          <span className="home-what-i-do-card__border home-what-i-do-card__border--hud" aria-hidden>
+            <ArtHudCardBorder accent={card.accent} />
+          </span>
+        ) : (
+          <>
+            <CyberHudBracket />
+            <Image
+              src={card.borderSrc}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 46vw, (max-width: 1280px) 50vw, 22vw"
+              className="home-what-i-do-card__border object-fill"
+            />
+          </>
+        )}
         <span className="home-what-i-do-card__glow" aria-hidden />
-        <Image
-          src={card.borderSrc}
-          alt=""
-          fill
-          sizes="(max-width: 640px) 46vw, (max-width: 1280px) 50vw, 22vw"
-          className="home-what-i-do-card__border object-fill"
-        />
-        <div className="home-what-i-do-card__content absolute inset-0 z-10 flex flex-col px-[10%] pb-[12%] pt-[14%] sm:px-[12%] sm:pb-[14%] sm:pt-[16%]">
-          <span
-            className="relative mx-auto mb-3 block h-12 w-12 shrink-0 sm:mb-6 sm:h-20 sm:w-20 lg:h-24 lg:w-24"
-            aria-hidden
-          >
+        <div className="home-what-i-do-card__content absolute inset-0 z-10 flex flex-col">
+          <span className="home-what-i-do-card__icon relative mx-auto block shrink-0" aria-hidden>
             <Image
               src={card.iconSrc}
               alt=""
               fill
-              sizes="(max-width: 640px) 48px, (max-width: 1024px) 80px, 96px"
+              sizes="(max-width: 640px) 64px, (max-width: 1024px) 96px, 120px"
               className="object-contain object-center transition-transform duration-300 group-hover:scale-105"
             />
           </span>
-          <span className="text-[0.5rem] font-semibold leading-tight tracking-[0.08em] text-foreground uppercase sm:text-sm lg:text-base">
+          <span className="home-what-i-do-card__title font-semibold tracking-[0.08em] text-foreground uppercase">
             {card.title}
           </span>
           <span
-            className="mt-1 font-mono text-[0.5rem] tracking-wide sm:mt-2 sm:text-xs lg:text-sm"
+            className="home-what-i-do-card__subtitle font-mono tracking-wide"
             style={{ color: card.accent }}
           >
             {card.subtitle}
           </span>
-          <span className="mt-2 text-[0.5rem] leading-snug text-foreground/75 sm:mt-6 sm:text-xs sm:leading-relaxed lg:text-sm">
+          <span className="home-what-i-do-card__description leading-snug text-foreground/75">
             {card.description}
           </span>
         </div>

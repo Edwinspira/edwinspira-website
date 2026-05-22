@@ -3,6 +3,8 @@ export type HomeWhatIDoCard = {
   subtitle: string;
   description: string;
   borderSrc: string;
+  /** When set, renders the SVG HUD frame instead of the border PNG. */
+  borderVariant?: "hud";
   iconSrc: string;
   accent: string;
 };
@@ -14,6 +16,7 @@ export const HOME_WHAT_I_DO_CARDS: HomeWhatIDoCard[] = [
     description:
       "Crafting visual stories and expressive artwork that connect emotion, design, and identity.",
     borderSrc: "/images/home/ArtBorder|cb3c37.png",
+    borderVariant: "hud",
     iconSrc: "/images/home/DrawingIcon.png",
     accent: "#cb3c37",
   },
@@ -23,6 +26,7 @@ export const HOME_WHAT_I_DO_CARDS: HomeWhatIDoCard[] = [
     description:
       "Building fast, responsive, and accessible websites with clean and efficient code.",
     borderSrc: "/images/home/SoftwareBorder|5ab160.png",
+    borderVariant: "hud",
     iconSrc: "/images/home/SoftwareIcon.png",
     accent: "#5ab160",
   },
@@ -32,6 +36,7 @@ export const HOME_WHAT_I_DO_CARDS: HomeWhatIDoCard[] = [
     description:
       "Bringing ideas to life through smooth motion, transitions, and visual storytelling.",
     borderSrc: "/images/home/VideoBorder|a382b6.png",
+    borderVariant: "hud",
     iconSrc: "/images/home/VideoIcon.png",
     accent: "#a382b6",
   },
@@ -41,6 +46,7 @@ export const HOME_WHAT_I_DO_CARDS: HomeWhatIDoCard[] = [
     description:
       "Creating immersive 3D visuals and graphics that add depth and impact to every project.",
     borderSrc: "/images/home/3DBorder|5784c0.png",
+    borderVariant: "hud",
     iconSrc: "/images/home/3DIcon.png",
     accent: "#5784c0",
   },
