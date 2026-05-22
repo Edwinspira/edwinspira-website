@@ -12,7 +12,7 @@ const STATS = [
 export function HomeStatsBox() {
   return (
     <article
-      className="relative w-full max-w-[17.5rem] sm:max-w-[19.5rem]"
+      className="relative w-[21rem] shrink-0 sm:w-[24rem]"
       aria-labelledby="home-stats-heading"
     >
       <div className="relative aspect-[702/608] w-full">
@@ -20,11 +20,11 @@ export function HomeStatsBox() {
           src={STATS_BORDER_SRC}
           alt=""
           fill
-          sizes="(max-width: 640px) 280px, 312px"
+          sizes="(max-width: 640px) 336px, 384px"
           className="pointer-events-none object-fill"
           priority
         />
-        <div className="relative z-10 flex h-full flex-col justify-center px-[13%] pb-[14%] pt-[12%]">
+        <div className="relative z-10 flex h-full flex-col justify-center px-[14%] pb-[15%] pt-[13%]">
           <h2
             id="home-stats-heading"
             className="font-mono text-lg font-bold tracking-[0.2em] text-[var(--home-stat-red)] uppercase sm:text-xl"

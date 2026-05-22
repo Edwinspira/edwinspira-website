@@ -19,7 +19,7 @@ export default function SiteLayout({
       >
         Skip to content
       </a>
-      <header className="relative z-20 overflow-visible border-b border-border bg-background/85 backdrop-blur-sm">
+      <header className="relative z-20 overflow-visible bg-black">
         <div className="flex h-20 w-full items-center gap-8 px-6 sm:h-24 sm:gap-12 sm:px-10 lg:gap-16 lg:px-16">
           <Link
             href="/"

@@ -1,23 +1,17 @@
 import Link from "next/link";
 
 import { HomeHero } from "@/components/home/HomeHero";
-import { HomeStatsBox } from "@/components/home/HomeStatsBox";
+import { HomeHeroOverlay } from "@/components/home/HomeHeroOverlay";
 import { siteConfig } from "@/lib/site";
 
 export default function HomePage() {
   return (
-    <>
+    <div className="bg-black">
       <HomeHero />
 
-      {/* Hero overlay: scrolls with page (not fixed to hero background) */}
-      <section
-        className="relative z-10 flex min-h-svh items-end px-6 pb-[10vh] sm:px-10 sm:pb-[12vh] lg:px-16"
-        aria-label="Hero"
-      >
-        <HomeStatsBox />
-      </section>
+      <HomeHeroOverlay />
 
-      <div className="relative z-10 bg-background">
+      <div className="relative z-10 bg-black">
         <div className="mx-auto max-w-5xl px-6 py-20">
           <p className="font-mono text-xs tracking-widest text-accent uppercase">
             Creative-tech portfolio
@@ -52,6 +46,6 @@ export default function HomePage() {
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }
