@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { HomeHero } from "@/components/home/HomeHero";
 import { HomeHeroOverlay } from "@/components/home/HomeHeroOverlay";
+import { HomeWhatIDo } from "@/components/home/HomeWhatIDo";
 import { siteConfig } from "@/lib/site";
 
 export default function HomePage() {
@@ -10,6 +11,8 @@ export default function HomePage() {
       <HomeHero />
 
       <HomeHeroOverlay />
+
+      <HomeWhatIDo />
 
       <div className="relative z-10 bg-black">
         <div className="mx-auto max-w-5xl px-6 py-20">

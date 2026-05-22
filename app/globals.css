@@ -140,6 +140,18 @@ body {
   background-color: var(--home-stat-red);
 }
 
+.home-what-i-do__rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--home-stat-red) 0%,
+    var(--home-stat-red) 12%,
+    rgb(255 31 31 / 0.35) 40%,
+    rgb(255 31 31 / 0.12) 70%,
+    transparent 100%
+  );
+}
+
 .home-hero-name {
   left: calc(var(--home-pad) + 0.75rem);
   bottom: calc(6vh + 11.5rem);
