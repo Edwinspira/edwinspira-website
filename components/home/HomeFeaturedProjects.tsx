@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { CyberBorder } from "@/components/CyberBorder";
 import { CyberLevelBadge, CyberRuleEndcap } from "@/components/CyberDeco";
-import { FeaturedProjectCard } from "@/components/home/FeaturedProjectCard";
+import { WorkCard } from "@/components/work/WorkCard";
 import { getFeaturedWorks } from "@/lib/sanity/get-featured-works";
 
 export async function HomeFeaturedProjects() {
@@ -42,7 +42,7 @@ export async function HomeFeaturedProjects() {
             <ul className="mt-10 grid list-none gap-6 sm:mt-16 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-6">
               {works.map((work, index) => (
                 <li key={work._id}>
-                  <FeaturedProjectCard work={work} index={index} />
+                  <WorkCard work={work} index={index + 1} />
                 </li>
               ))}
             </ul>

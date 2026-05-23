@@ -1,11 +1,11 @@
 import { fetchSanity } from "@/lib/sanity/fetch-sanity";
 import { getSanityClient } from "@/lib/sanity/client";
-import { featuredWorksQuery } from "@/lib/sanity/queries";
+import { worksQuery } from "@/lib/sanity/queries";
 import type { WorkListItem } from "@/lib/sanity/types";
 
-export async function getFeaturedWorks(): Promise<WorkListItem[]> {
+export async function getWorks(): Promise<WorkListItem[]> {
   return fetchSanity(
-    () => getSanityClient().fetch<WorkListItem[]>(featuredWorksQuery),
+    () => getSanityClient().fetch<WorkListItem[]>(worksQuery),
     [],
   );
 }

@@ -4,40 +4,37 @@ import Link from "next/link";
 import { CyberHudBracket } from "@/components/CyberDeco";
 import { urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
+import { WORK_CATEGORY_LABELS } from "@/lib/work-labels";
 
-const CATEGORY_LABELS: Record<WorkListItem["category"], string> = {
-  software: "Software",
-  art: "Art",
-  video: "Video",
-  sculpture3d: "3D Sculpture",
-};
-
-type FeaturedProjectCardProps = {
+type WorkCardProps = {
   work: WorkListItem;
-  index: number;
+  /** Optional 1-based index label for featured-style grids */
+  index?: number;
 };
 
-export function FeaturedProjectCard({ work, index }: FeaturedProjectCardProps) {
+export function WorkCard({ work, index }: WorkCardProps) {
   const coverUrl = work.coverImage ? urlFor(work.coverImage).width(640).height(360).url() : null;
-  const number = String(index + 1).padStart(2, "0");
+  const href = `/work/${work.slug}`;
 
   return (
-    <article className="featured-project-card relative flex h-full flex-col border border-[var(--home-stat-red)]/80 bg-black/40">
+    <article className="work-card relative flex h-full flex-col border border-[var(--home-stat-red)]/80 bg-black/40">
       <CyberHudBracket />
-      <Link href={`/work/${work.slug}`} className="flex h-full flex-col">
-        <div className="flex items-center gap-2 border-b border-[var(--home-stat-red)]/50 px-3 py-2 font-mono text-xs tracking-widest text-foreground uppercase">
-          <span>{number}</span>
-          <span className="text-[var(--home-stat-red)]" aria-hidden>
-            +
-          </span>
-        </div>
+      <Link href={href} className="flex h-full flex-col">
+        {index !== undefined ? (
+          <div className="flex items-center gap-2 border-b border-[var(--home-stat-red)]/50 px-3 py-2 font-mono text-xs tracking-widest text-foreground uppercase">
+            <span>{String(index).padStart(2, "0")}</span>
+            <span className="text-[var(--home-stat-red)]" aria-hidden>
+              +
+            </span>
+          </div>
+        ) : null}
         <div className="relative aspect-[16/10] w-full bg-foreground/5">
           {coverUrl ? (
             <Image
               src={coverUrl}
               alt={work.coverImage?.alt ?? work.title}
               fill
-              sizes="(max-width: 640px) 100vw, 25vw"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               className="object-cover"
             />
           ) : (
@@ -49,7 +46,7 @@ export function FeaturedProjectCard({ work, index }: FeaturedProjectCardProps) {
             {work.title}
           </h3>
           <p className="font-mono text-[0.65rem] tracking-[0.15em] text-muted uppercase">
-            {CATEGORY_LABELS[work.category]}
+            {WORK_CATEGORY_LABELS[work.category]}
           </p>
           <p className="mt-auto text-sm leading-relaxed text-foreground/80">{work.summary}</p>
         </div>
