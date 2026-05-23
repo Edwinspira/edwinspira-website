@@ -104,6 +104,8 @@ export const work = defineType({
       title: "Featured",
       type: "boolean",
       initialValue: false,
+      description:
+        "When enabled, this project appears in the home page Featured Projects section (max 6).",
     }),
     defineField({
       name: "sortOrder",
