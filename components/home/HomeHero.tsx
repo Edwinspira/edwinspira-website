@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const HERO_IMAGE_SRC = "/images/home/EdwinspiraHomeHero.png";
+const HERO_IMAGE_SRC = "/images/home/EdwinspiraHomeHero2.png";
 
 export function HomeHero() {
   return (
