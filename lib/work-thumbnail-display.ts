@@ -10,6 +10,20 @@ export const DEFAULT_WORK_THUMBNAIL_DISPLAY = {
   zoom: 100,
 } as const;
 
+export const WORK_THUMBNAIL_ZOOM_MIN = 100;
+export const WORK_THUMBNAIL_ZOOM_MAX = 200;
+
+export function clampWorkThumbnailFocus(value: number) {
+  return Math.min(100, Math.max(0, value));
+}
+
+export function clampWorkThumbnailZoom(value: number) {
+  return Math.min(
+    WORK_THUMBNAIL_ZOOM_MAX,
+    Math.max(WORK_THUMBNAIL_ZOOM_MIN, value),
+  );
+}
+
 export function resolveWorkThumbnailDisplay(
   display?: WorkThumbnailDisplay | null,
 ) {

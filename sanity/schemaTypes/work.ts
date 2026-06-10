@@ -1,5 +1,7 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+import { WorkThumbnailDisplayInput } from "../components/WorkThumbnailDisplayInput";
+
 const categories = [
   { title: "Software", value: "software" },
   { title: "Art", value: "art" },
@@ -76,10 +78,13 @@ export const work = defineType({
       title: "Grid thumbnail display",
       type: "object",
       description:
-        "Adjust how the cover image is cropped and zoomed in the work grid and featured projects section. Does not affect the detail page.",
+        "Drag to reposition and use the corner handle to resize the grid thumbnail. Does not affect the detail page.",
       options: {
         collapsible: true,
         collapsed: false,
+      },
+      components: {
+        input: WorkThumbnailDisplayInput,
       },
       fields: [
         defineField({
@@ -87,24 +92,24 @@ export const work = defineType({
           title: "Horizontal focus",
           type: "number",
           initialValue: 50,
+          hidden: true,
           validation: (rule) => rule.min(0).max(100),
-          description: "0 = left edge, 50 = center, 100 = right edge.",
         }),
         defineField({
           name: "focusY",
           title: "Vertical focus",
           type: "number",
           initialValue: 50,
+          hidden: true,
           validation: (rule) => rule.min(0).max(100),
-          description: "0 = top edge, 50 = center, 100 = bottom edge.",
         }),
         defineField({
           name: "zoom",
           title: "Zoom",
           type: "number",
           initialValue: 100,
+          hidden: true,
           validation: (rule) => rule.min(100).max(200),
-          description: "100 = default. Increase to zoom in on the focal point.",
         }),
       ],
     }),
