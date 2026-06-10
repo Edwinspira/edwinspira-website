@@ -13,9 +13,13 @@ export const DEFAULT_WORK_THUMBNAIL_DISPLAY = {
 export const WORK_THUMBNAIL_ZOOM_MIN = 100;
 export const WORK_THUMBNAIL_ZOOM_MAX = 200;
 
-/** Base CDN width before zoom/retina multipliers (matches ~1x grid cell). */
-export const WORK_THUMBNAIL_BASE_WIDTH = 960;
-export const WORK_THUMBNAIL_MAX_WIDTH = 2400;
+/** Largest grid cell width (px) at xl: ~90rem container, 4 columns. */
+export const WORK_THUMBNAIL_CELL_WIDTH = 480;
+export const WORK_THUMBNAIL_CELL_HEIGHT = Math.round(
+  (WORK_THUMBNAIL_CELL_WIDTH * 4) / 3,
+);
+export const WORK_THUMBNAIL_MAX_WIDTH = 3840;
+export const WORK_THUMBNAIL_MAX_HEIGHT = 5120;
 export const WORK_THUMBNAIL_RETINA_FACTOR = 2;
 
 export function clampWorkThumbnailFocus(value: number) {
@@ -52,18 +56,21 @@ export function workThumbnailImageVars(
   };
 }
 
-/** CDN width scaled for zoom + retina so CSS scale() does not upscale a tiny bitmap. */
-export function workThumbnailCoverWidth(
+/** CDN dimensions for sharp 3:4 object-cover, including zoom + retina headroom. */
+export function workThumbnailCoverDimensions(
   display?: WorkThumbnailDisplay | null,
-): number {
+): { width: number; height: number } {
   const { zoom } = resolveWorkThumbnailDisplay(display);
+  const multiplier = (zoom / 100) * WORK_THUMBNAIL_RETINA_FACTOR;
 
-  return Math.min(
-    WORK_THUMBNAIL_MAX_WIDTH,
-    Math.round(
-      WORK_THUMBNAIL_BASE_WIDTH *
-        (zoom / 100) *
-        WORK_THUMBNAIL_RETINA_FACTOR,
+  return {
+    width: Math.min(
+      WORK_THUMBNAIL_MAX_WIDTH,
+      Math.round(WORK_THUMBNAIL_CELL_WIDTH * multiplier),
     ),
-  );
+    height: Math.min(
+      WORK_THUMBNAIL_MAX_HEIGHT,
+      Math.round(WORK_THUMBNAIL_CELL_HEIGHT * multiplier),
+    ),
+  };
 }
