@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CyberHudBracket } from "@/components/CyberDeco";
 import { urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
-import { workThumbnailImageVars } from "@/lib/work-thumbnail-display";
+import { workThumbnailCoverWidth, workThumbnailImageVars } from "@/lib/work-thumbnail-display";
 import {
   WORK_CATEGORY_EN_LABELS,
   WORK_CATEGORY_JP_LABELS,
@@ -18,7 +18,12 @@ type WorkCardProps = {
 
 export function WorkCard({ work, index }: WorkCardProps) {
   const coverUrl = work.coverImage
-    ? urlFor(work.coverImage).width(960).fit("max").url()
+    ? urlFor(work.coverImage)
+        .width(workThumbnailCoverWidth(work.thumbnailDisplay))
+        .fit("max")
+        .quality(90)
+        .auto("format")
+        .url()
     : null;
   const thumbnailStyle = workThumbnailImageVars(work.thumbnailDisplay);
   const href = `/work/${work.slug}`;
@@ -45,6 +50,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
               alt={work.coverImage?.alt ?? work.title}
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              quality={90}
               className="work-card__image object-cover"
               style={thumbnailStyle}
             />
