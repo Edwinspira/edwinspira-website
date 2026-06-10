@@ -1734,6 +1734,11 @@ a.home-connect__establish-button:active {
 }
 
 .work-card__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   object-position: var(--work-thumb-x, 50%) var(--work-thumb-y, 50%);
   transform: scale(var(--work-thumb-zoom, 1));
   transform-origin: var(--work-thumb-x, 50%) var(--work-thumb-y, 50%);

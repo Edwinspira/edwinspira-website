@@ -75,10 +75,9 @@ export function workThumbnailCoverDimensions(
   };
 }
 
-/** Largest edge to request from the CDN without server-side cropping. */
-export function workThumbnailSourceMaxSize(
+/** CDN box for an uncropped source image; CSS handles 3:4 crop/zoom. */
+export function workThumbnailSourceDimensions(
   display?: WorkThumbnailDisplay | null,
-): number {
-  const { width, height } = workThumbnailCoverDimensions(display);
-  return Math.max(width, height);
+): { width: number; height: number } {
+  return workThumbnailCoverDimensions(display);
 }

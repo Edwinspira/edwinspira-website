@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 
 import { CyberHudBracket } from "@/components/CyberDeco";
@@ -6,7 +5,7 @@ import { urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
 import {
   workThumbnailImageVars,
-  workThumbnailSourceMaxSize,
+  workThumbnailSourceDimensions,
 } from "@/lib/work-thumbnail-display";
 import {
   WORK_CATEGORY_EN_LABELS,
@@ -20,9 +19,11 @@ type WorkCardProps = {
 };
 
 export function WorkCard({ work, index }: WorkCardProps) {
+  const thumbSource = workThumbnailSourceDimensions(work.thumbnailDisplay);
   const coverUrl = work.coverImage
     ? urlFor(work.coverImage)
-        .width(workThumbnailSourceMaxSize(work.thumbnailDisplay))
+        .width(thumbSource.width)
+        .height(thumbSource.height)
         .fit("max")
         .quality(90)
         .auto("format")
@@ -48,13 +49,13 @@ export function WorkCard({ work, index }: WorkCardProps) {
 
         <div className="work-card__media relative aspect-[3/4] w-full bg-foreground/5">
           {coverUrl ? (
-            <Image
+            // Native img matches Studio thumbnail preview (object-fit + focus/zoom).
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
               src={coverUrl}
               alt={work.coverImage?.alt ?? work.title}
-              fill
-              unoptimized
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 480px"
-              className="work-card__image object-cover"
+              draggable={false}
+              className="work-card__image"
               style={thumbnailStyle}
             />
           ) : (
