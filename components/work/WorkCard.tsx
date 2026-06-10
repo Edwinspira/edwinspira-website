@@ -4,7 +4,10 @@ import Link from "next/link";
 import { CyberHudBracket } from "@/components/CyberDeco";
 import { urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
-import { workThumbnailCoverDimensions, workThumbnailImageVars } from "@/lib/work-thumbnail-display";
+import {
+  workThumbnailImageVars,
+  workThumbnailSourceMaxSize,
+} from "@/lib/work-thumbnail-display";
 import {
   WORK_CATEGORY_EN_LABELS,
   WORK_CATEGORY_JP_LABELS,
@@ -17,12 +20,10 @@ type WorkCardProps = {
 };
 
 export function WorkCard({ work, index }: WorkCardProps) {
-  const thumbDimensions = workThumbnailCoverDimensions(work.thumbnailDisplay);
   const coverUrl = work.coverImage
     ? urlFor(work.coverImage)
-        .width(thumbDimensions.width)
-        .height(thumbDimensions.height)
-        .fit("min")
+        .width(workThumbnailSourceMaxSize(work.thumbnailDisplay))
+        .fit("max")
         .quality(90)
         .auto("format")
         .url()

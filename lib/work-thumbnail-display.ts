@@ -56,7 +56,7 @@ export function workThumbnailImageVars(
   };
 }
 
-/** CDN dimensions for sharp 3:4 object-cover, including zoom + retina headroom. */
+/** CDN dimensions for a sharp uncropped source image; CSS handles 3:4 crop/zoom. */
 export function workThumbnailCoverDimensions(
   display?: WorkThumbnailDisplay | null,
 ): { width: number; height: number } {
@@ -73,4 +73,12 @@ export function workThumbnailCoverDimensions(
       Math.round(WORK_THUMBNAIL_CELL_HEIGHT * multiplier),
     ),
   };
+}
+
+/** Largest edge to request from the CDN without server-side cropping. */
+export function workThumbnailSourceMaxSize(
+  display?: WorkThumbnailDisplay | null,
+): number {
+  const { width, height } = workThumbnailCoverDimensions(display);
+  return Math.max(width, height);
 }
