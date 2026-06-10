@@ -31,7 +31,7 @@ export default async function WorkPage({ searchParams }: WorkPageProps) {
 
   return (
     <div className="bg-black">
-      <div className="mx-auto max-w-6xl px-[var(--home-pad)] py-16 sm:py-20">
+      <div className="mx-auto max-w-[90rem] px-[var(--home-pad)] py-16 sm:py-20">
         <div className="mb-4 flex items-center gap-4">
           <CyberSectionMarker />
           <div className="home-section-rule flex-1" aria-hidden>

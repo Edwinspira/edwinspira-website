@@ -4,7 +4,10 @@ import Link from "next/link";
 import { CyberHudBracket } from "@/components/CyberDeco";
 import { urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
-import { WORK_CATEGORY_LABELS } from "@/lib/work-labels";
+import {
+  WORK_CATEGORY_EN_LABELS,
+  WORK_CATEGORY_JP_LABELS,
+} from "@/lib/work-labels";
 
 type WorkCardProps = {
   work: WorkListItem;
@@ -13,42 +16,59 @@ type WorkCardProps = {
 };
 
 export function WorkCard({ work, index }: WorkCardProps) {
-  const coverUrl = work.coverImage ? urlFor(work.coverImage).width(640).height(360).url() : null;
+  const coverUrl = work.coverImage
+    ? urlFor(work.coverImage).width(960).height(1280).url()
+    : null;
   const href = `/work/${work.slug}`;
 
   return (
-    <article className="work-card relative flex h-full flex-col border border-[var(--home-stat-red)]/80 bg-black/40">
+    <article className="work-card group relative">
       <CyberHudBracket />
-      <Link href={href} className="flex h-full flex-col">
+      <Link
+        href={href}
+        className="work-card__link block"
+        aria-label={`${work.title} — ${work.summary}`}
+      >
         {index !== undefined ? (
-          <div className="flex items-center gap-2 border-b border-[var(--home-stat-red)]/50 px-3 py-2 font-mono text-xs tracking-widest text-foreground uppercase">
-            <span>{String(index).padStart(2, "0")}</span>
-            <span className="text-[var(--home-stat-red)]" aria-hidden>
-              +
-            </span>
-          </div>
+          <span className="work-card__index font-mono" aria-hidden>
+            {String(index).padStart(2, "0")}
+            <span className="text-[var(--home-stat-red)]">+</span>
+          </span>
         ) : null}
-        <div className="relative aspect-[16/10] w-full bg-foreground/5">
+
+        <div className="work-card__media relative aspect-[3/4] w-full bg-foreground/5">
           {coverUrl ? (
             <Image
               src={coverUrl}
               alt={work.coverImage?.alt ?? work.title}
               fill
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+              className="work-card__image object-cover"
             />
           ) : (
             <div className="absolute inset-0 bg-foreground/5" aria-hidden />
           )}
-        </div>
-        <div className="flex flex-1 flex-col gap-2 p-4">
-          <h3 className="font-mono text-sm font-semibold tracking-[0.12em] text-foreground uppercase sm:text-base">
-            {work.title}
-          </h3>
-          <p className="font-mono text-[0.65rem] tracking-[0.15em] text-muted uppercase">
-            {WORK_CATEGORY_LABELS[work.category]}
-          </p>
-          <p className="mt-auto text-sm leading-relaxed text-foreground/80">{work.summary}</p>
+
+          <div className="work-card__category" aria-hidden>
+            <span className="work-card__category-jp">
+              {WORK_CATEGORY_JP_LABELS[work.category]}
+            </span>
+            <span className="work-card__category-en">
+              {WORK_CATEGORY_EN_LABELS[work.category]}
+            </span>
+          </div>
+
+          <div className="work-card__reveal" aria-hidden>
+            <div className="work-card__reveal-backdrop" />
+            <div className="work-card__reveal-pixels" />
+            <div className="work-card__reveal-scanlines" />
+            <div className="work-card__reveal-slices" />
+            <div className="work-card__reveal-content">
+              <p className="work-card__reveal-kicker font-mono">{"// DATA"}</p>
+              <h3 className="work-card__reveal-title font-mono">{work.title}</h3>
+              <p className="work-card__reveal-summary">{work.summary}</p>
+            </div>
+          </div>
         </div>
       </Link>
     </article>
