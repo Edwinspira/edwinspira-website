@@ -1,7 +1,5 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { WorkThumbnailDisplayInput } from "../components/WorkThumbnailDisplayInput";
-
 const categories = [
   { title: "Software", value: "software" },
   { title: "Art", value: "art" },
@@ -75,43 +73,7 @@ export const work = defineType({
     }),
     defineField({
       name: "thumbnailDisplay",
-      title: "Grid thumbnail display",
-      type: "object",
-      description:
-        "Drag to reposition and use the corner handle to resize the grid thumbnail. Does not affect the detail page.",
-      options: {
-        collapsible: true,
-        collapsed: false,
-      },
-      components: {
-        input: WorkThumbnailDisplayInput,
-      },
-      fields: [
-        defineField({
-          name: "focusX",
-          title: "Horizontal focus",
-          type: "number",
-          initialValue: 50,
-          hidden: true,
-          validation: (rule) => rule.min(0).max(100),
-        }),
-        defineField({
-          name: "focusY",
-          title: "Vertical focus",
-          type: "number",
-          initialValue: 50,
-          hidden: true,
-          validation: (rule) => rule.min(0).max(100),
-        }),
-        defineField({
-          name: "zoom",
-          title: "Zoom",
-          type: "number",
-          initialValue: 100,
-          hidden: true,
-          validation: (rule) => rule.min(100).max(200),
-        }),
-      ],
+      type: "workThumbnailDisplay",
     }),
     defineField({
       name: "gallery",

@@ -299,6 +299,13 @@ export function WorkThumbnailDisplayInput(props: ObjectInputProps) {
           Reset
         </button>
       </div>
+
+      <details style={{ fontSize: "0.8125rem", color: "rgb(161 161 170)" }}>
+        <summary style={{ cursor: "pointer", marginBottom: "0.5rem" }}>
+          Manual values (fallback)
+        </summary>
+        {props.renderDefault(props)}
+      </details>
     </div>
   );
 }
