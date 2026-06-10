@@ -12,7 +12,9 @@ type WorkDetailViewProps = {
 };
 
 export function WorkDetailView({ work }: WorkDetailViewProps) {
-  const coverUrl = work.coverImage ? urlFor(work.coverImage).width(1280).height(720).url() : null;
+  const coverUrl = work.coverImage
+    ? urlFor(work.coverImage).width(1920).fit("max").url()
+    : null;
 
   return (
     <article className="work-detail">
@@ -27,14 +29,15 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
       </header>
 
       {coverUrl ? (
-        <div className="relative mt-8 aspect-[16/10] w-full max-w-4xl overflow-hidden border border-[var(--home-stat-red)]/50 bg-foreground/5">
+        <div className="work-detail__cover mt-8 w-full max-w-4xl border border-[var(--home-stat-red)]/50 bg-foreground/5">
           <Image
             src={coverUrl}
             alt={work.coverImage?.alt ?? work.title}
-            fill
+            width={1920}
+            height={2560}
             priority
             sizes="(max-width: 1024px) 100vw, 896px"
-            className="object-cover"
+            className="h-auto w-full"
           />
         </div>
       ) : null}
@@ -54,18 +57,19 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
       {work.gallery && work.gallery.length > 0 ? (
         <ul className="mt-10 grid list-none gap-4 sm:grid-cols-2">
           {work.gallery.map((image, index) => {
-            const imageUrl = urlFor(image).width(960).height(720).url();
+            const imageUrl = urlFor(image).width(1200).fit("max").url();
             return (
               <li
                 key={image.asset?._ref ?? `gallery-${index}`}
-                className="relative aspect-[4/3] overflow-hidden border border-[var(--home-stat-red)]/30 bg-foreground/5"
+                className="overflow-hidden border border-[var(--home-stat-red)]/30 bg-foreground/5"
               >
                 <Image
                   src={imageUrl}
                   alt={image.alt ?? `${work.title} gallery image ${index + 1}`}
-                  fill
+                  width={1200}
+                  height={900}
                   sizes="(max-width: 640px) 100vw, 480px"
-                  className="object-cover"
+                  className="h-auto w-full"
                 />
               </li>
             );
