@@ -1,12 +1,20 @@
 import { defineQuery } from "next-sanity";
 
+const coverImageFields = /* groq */ `
+  alt,
+  asset,
+  "dimensions": asset->metadata.dimensions
+`;
+
 const workListFields = /* groq */ `
   _id,
   title,
   "slug": slug.current,
   category,
   summary,
-  coverImage,
+  coverImage {
+    ${coverImageFields}
+  },
   thumbnailDisplay,
   featured,
   publishedAt,

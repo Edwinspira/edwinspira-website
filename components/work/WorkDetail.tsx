@@ -4,16 +4,30 @@ import { ExternalLink } from "@/components/external-link";
 import { PortableTextContent } from "@/components/portable-text";
 import { VideoEmbed } from "@/components/video-embed";
 import { urlFor } from "@/lib/sanity/image";
-import type { WorkDetail } from "@/lib/sanity/types";
+import type { SanityImage, WorkDetail } from "@/lib/sanity/types";
 import { WORK_CATEGORY_LABELS } from "@/lib/work-labels";
+
+const WORK_DETAIL_COVER_MAX_WIDTH = 2560;
 
 type WorkDetailViewProps = {
   work: WorkDetail;
 };
 
+function coverImageDimensions(image?: SanityImage | null) {
+  const width = image?.dimensions?.width;
+  const height = image?.dimensions?.height;
+
+  if (width && height) {
+    return { width, height };
+  }
+
+  return { width: 1920, height: 1080 };
+}
+
 export function WorkDetailView({ work }: WorkDetailViewProps) {
+  const coverDimensions = coverImageDimensions(work.coverImage);
   const coverUrl = work.coverImage
-    ? urlFor(work.coverImage).width(1920).fit("max").url()
+    ? urlFor(work.coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
     : null;
 
   return (
@@ -29,15 +43,15 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
       </header>
 
       {coverUrl ? (
-        <div className="work-detail__cover mt-8 w-full max-w-4xl border border-[var(--home-stat-red)]/50 bg-foreground/5">
+        <div className="work-detail__cover mt-8 w-full border border-[var(--home-stat-red)]/50 bg-foreground/5">
           <Image
             src={coverUrl}
             alt={work.coverImage?.alt ?? work.title}
-            width={1920}
-            height={2560}
+            width={coverDimensions.width}
+            height={coverDimensions.height}
             priority
-            sizes="(max-width: 1024px) 100vw, 896px"
-            className="h-auto w-full"
+            sizes="(max-width: 1536px) 100vw, 90rem"
+            className="block h-auto w-full"
           />
         </div>
       ) : null}

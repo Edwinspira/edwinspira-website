@@ -16,10 +16,17 @@ export type SanityImageAsset = {
   _type: "reference";
 };
 
+export type SanityImageDimensions = {
+  width: number;
+  height: number;
+  aspectRatio?: number;
+};
+
 export type SanityImage = {
   _type?: "image";
   asset?: SanityImageAsset;
   alt?: string;
+  dimensions?: SanityImageDimensions | null;
 };
 
 export type WorkListItem = {

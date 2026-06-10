@@ -55,7 +55,7 @@ export default async function WorkDetailPage({ params }: WorkDetailPageProps) {
 
   return (
     <div className="bg-black">
-      <div className="mx-auto max-w-6xl px-[var(--home-pad)] py-16 sm:py-20">
+      <div className="mx-auto max-w-[90rem] px-[var(--home-pad)] py-16 sm:py-20">
         <p className="mb-8">
           <Link
             href="/work"
