@@ -7,6 +7,7 @@ const workListFields = /* groq */ `
   category,
   summary,
   coverImage,
+  thumbnailDisplay,
   featured,
   publishedAt,
   sortOrder

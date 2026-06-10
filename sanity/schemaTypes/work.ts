@@ -53,6 +53,8 @@ export const work = defineType({
       title: "Cover image",
       type: "image",
       options: { hotspot: true },
+      description:
+        "Used on the work detail page at full size. Grid thumbnail framing is controlled below.",
       fields: [
         defineField({
           name: "alt",
@@ -66,6 +68,43 @@ export const work = defineType({
               }
               return true;
             }),
+        }),
+      ],
+    }),
+    defineField({
+      name: "thumbnailDisplay",
+      title: "Grid thumbnail display",
+      type: "object",
+      description:
+        "Adjust how the cover image is cropped and zoomed in the work grid and featured projects section. Does not affect the detail page.",
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+      fields: [
+        defineField({
+          name: "focusX",
+          title: "Horizontal focus",
+          type: "number",
+          initialValue: 50,
+          validation: (rule) => rule.min(0).max(100),
+          description: "0 = left edge, 50 = center, 100 = right edge.",
+        }),
+        defineField({
+          name: "focusY",
+          title: "Vertical focus",
+          type: "number",
+          initialValue: 50,
+          validation: (rule) => rule.min(0).max(100),
+          description: "0 = top edge, 50 = center, 100 = bottom edge.",
+        }),
+        defineField({
+          name: "zoom",
+          title: "Zoom",
+          type: "number",
+          initialValue: 100,
+          validation: (rule) => rule.min(100).max(200),
+          description: "100 = default. Increase to zoom in on the focal point.",
         }),
       ],
     }),

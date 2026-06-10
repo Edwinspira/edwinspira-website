@@ -1734,12 +1734,15 @@ a.home-connect__establish-button:active {
 }
 
 .work-card__image {
+  object-position: var(--work-thumb-x, 50%) var(--work-thumb-y, 50%);
+  transform: scale(var(--work-thumb-zoom, 1));
+  transform-origin: var(--work-thumb-x, 50%) var(--work-thumb-y, 50%);
   transition: transform 0.45s ease, filter 0.35s ease;
 }
 
 .work-card:hover .work-card__image,
 .work-card:focus-within .work-card__image {
-  transform: scale(1.04);
+  transform: scale(calc(var(--work-thumb-zoom, 1) * 1.04));
   filter: brightness(0.72) contrast(1.08);
 }
 

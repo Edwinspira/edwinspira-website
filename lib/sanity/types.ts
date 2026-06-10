@@ -1,5 +1,7 @@
 import type { PortableTextBlock } from "sanity";
 
+import type { WorkThumbnailDisplay } from "@/lib/work-thumbnail-display";
+
 export const WORK_CATEGORIES = [
   "software",
   "art",
@@ -27,6 +29,7 @@ export type WorkListItem = {
   category: WorkCategory;
   summary: string;
   coverImage?: SanityImage | null;
+  thumbnailDisplay?: WorkThumbnailDisplay | null;
   featured: boolean;
   publishedAt: string;
   sortOrder: number;
