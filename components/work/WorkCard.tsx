@@ -5,7 +5,7 @@ import { urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
 import {
   workThumbnailImageStyle,
-  workThumbnailSourceWidth,
+  workThumbnailSourceDimensions,
 } from "@/lib/work-thumbnail-display";
 import {
   WORK_CATEGORY_EN_LABELS,
@@ -19,9 +19,14 @@ type WorkCardProps = {
 };
 
 export function WorkCard({ work, index }: WorkCardProps) {
+  const thumbSource = workThumbnailSourceDimensions(
+    work.thumbnailDisplay,
+    work.coverImage?.dimensions,
+  );
   const coverUrl = work.coverImage
     ? urlFor(work.coverImage)
-        .width(workThumbnailSourceWidth(work.thumbnailDisplay))
+        .width(thumbSource.width)
+        .height(thumbSource.height)
         .fit("max")
         .ignoreImageParams()
         .quality(90)
