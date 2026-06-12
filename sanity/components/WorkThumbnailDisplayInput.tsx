@@ -15,6 +15,8 @@ import {
   clampWorkThumbnailZoom,
   DEFAULT_WORK_THUMBNAIL_DISPLAY,
   resolveWorkThumbnailDisplay,
+  WORK_THUMBNAIL_PREVIEW_WIDTH,
+  workThumbnailImageStyle,
   type WorkThumbnailDisplay,
 } from "@/lib/work-thumbnail-display";
 import { apiVersion } from "@/lib/sanity/env";
@@ -60,8 +62,9 @@ export function WorkThumbnailDisplayInput(props: ObjectInputProps) {
 
     return imageUrlBuilder(client)
       .image(coverImage)
-      .width(800)
+      .width(WORK_THUMBNAIL_PREVIEW_WIDTH)
       .fit("max")
+      .ignoreImageParams()
       .url();
   }, [client, coverImage]);
 
@@ -215,10 +218,9 @@ export function WorkThumbnailDisplayInput(props: ObjectInputProps) {
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            objectPosition: `${display.focusX}% ${display.focusY}%`,
             transform: `scale(${display.zoom / 100})`,
-            transformOrigin: `${display.focusX}% ${display.focusY}%`,
             cursor: isDragging ? "grabbing" : "grab",
+            ...workThumbnailImageStyle(display),
           }}
         />
 

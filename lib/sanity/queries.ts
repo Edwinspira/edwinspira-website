@@ -3,6 +3,8 @@ import { defineQuery } from "next-sanity";
 const coverImageFields = /* groq */ `
   alt,
   asset,
+  crop,
+  hotspot,
   "dimensions": asset->metadata.dimensions
 `;
 
@@ -15,7 +17,11 @@ const workListFields = /* groq */ `
   coverImage {
     ${coverImageFields}
   },
-  thumbnailDisplay,
+  thumbnailDisplay {
+    focusX,
+    focusY,
+    zoom
+  },
   featured,
   publishedAt,
   sortOrder

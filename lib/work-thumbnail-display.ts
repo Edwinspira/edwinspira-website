@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 export type WorkThumbnailDisplay = {
   focusX?: number | null;
   focusY?: number | null;
@@ -15,12 +17,10 @@ export const WORK_THUMBNAIL_ZOOM_MAX = 200;
 
 /** Largest grid cell width (px) at xl: ~90rem container, 4 columns. */
 export const WORK_THUMBNAIL_CELL_WIDTH = 480;
-export const WORK_THUMBNAIL_CELL_HEIGHT = Math.round(
-  (WORK_THUMBNAIL_CELL_WIDTH * 4) / 3,
-);
 export const WORK_THUMBNAIL_MAX_WIDTH = 3840;
-export const WORK_THUMBNAIL_MAX_HEIGHT = 5120;
 export const WORK_THUMBNAIL_RETINA_FACTOR = 2;
+/** Studio preview width — keep in sync with WorkThumbnailDisplayInput. */
+export const WORK_THUMBNAIL_PREVIEW_WIDTH = 800;
 
 export function clampWorkThumbnailFocus(value: number) {
   return Math.min(100, Math.max(0, value));
@@ -43,41 +43,28 @@ export function resolveWorkThumbnailDisplay(
   };
 }
 
-/** CSS variables consumed by `.work-card__image` in globals.css */
-export function workThumbnailImageVars(
+/** Inline positioning for grid thumbnails (Studio + site). */
+export function workThumbnailImageStyle(
   display?: WorkThumbnailDisplay | null,
-): Record<string, string> {
+): CSSProperties & Record<`--${string}`, string> {
   const { focusX, focusY, zoom } = resolveWorkThumbnailDisplay(display);
 
   return {
-    "--work-thumb-x": `${focusX}%`,
-    "--work-thumb-y": `${focusY}%`,
     "--work-thumb-zoom": String(zoom / 100),
+    objectPosition: `${focusX}% ${focusY}%`,
+    transformOrigin: `${focusX}% ${focusY}%`,
   };
 }
 
-/** CDN dimensions for a sharp uncropped source image; CSS handles 3:4 crop/zoom. */
-export function workThumbnailCoverDimensions(
+/** CDN width for an uncropped source image; CSS handles 3:4 crop/zoom. */
+export function workThumbnailSourceWidth(
   display?: WorkThumbnailDisplay | null,
-): { width: number; height: number } {
+): number {
   const { zoom } = resolveWorkThumbnailDisplay(display);
   const multiplier = (zoom / 100) * WORK_THUMBNAIL_RETINA_FACTOR;
 
-  return {
-    width: Math.min(
-      WORK_THUMBNAIL_MAX_WIDTH,
-      Math.round(WORK_THUMBNAIL_CELL_WIDTH * multiplier),
-    ),
-    height: Math.min(
-      WORK_THUMBNAIL_MAX_HEIGHT,
-      Math.round(WORK_THUMBNAIL_CELL_HEIGHT * multiplier),
-    ),
-  };
-}
-
-/** CDN box for an uncropped source image; CSS handles 3:4 crop/zoom. */
-export function workThumbnailSourceDimensions(
-  display?: WorkThumbnailDisplay | null,
-): { width: number; height: number } {
-  return workThumbnailCoverDimensions(display);
+  return Math.min(
+    WORK_THUMBNAIL_MAX_WIDTH,
+    Math.round(WORK_THUMBNAIL_CELL_WIDTH * multiplier),
+  );
 }
