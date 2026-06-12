@@ -5,6 +5,7 @@ import { structureTool } from "sanity/structure";
 import { getSanityStudioEnv } from "@/lib/sanity/env";
 
 import { schemaTypes } from "./sanity/schemaTypes";
+import { structure } from "./sanity/structure";
 
 const { projectId, dataset } = getSanityStudioEnv();
 
@@ -14,7 +15,7 @@ export default defineConfig({
   projectId,
   dataset,
   basePath: "/studio",
-  plugins: [structureTool(), visionTool()],
+  plugins: [structureTool({ structure }), visionTool()],
   schema: {
     types: schemaTypes,
   },

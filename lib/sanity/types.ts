@@ -39,7 +39,6 @@ export type WorkListItem = {
   thumbnailDisplay?: WorkThumbnailDisplay | null;
   featured: boolean;
   publishedAt: string;
-  sortOrder: number;
 };
 
 export type WorkDetail = WorkListItem & {

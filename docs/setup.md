@@ -55,6 +55,12 @@ npm run dev
 
 Sign in to Studio with your Sanity account and create **Work** documents (software, art, video, 3D sculpture categories).
 
+### Work ordering
+
+Work appears in a drag-and-drop list in Studio. Reorder projects there; the site uses that order on the work page and featured section.
+
+If you are migrating from the old manual **Sort order** number field, open the Work list menu (top right) and choose **Reset Order** once to generate ranks for existing documents.
+
 ## Validation
 
 Before opening a PR:

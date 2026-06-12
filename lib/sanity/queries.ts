@@ -23,20 +23,19 @@ const workListFields = /* groq */ `
     zoom
   },
   featured,
-  publishedAt,
-  sortOrder
+  publishedAt
 `;
 
 export const worksQuery = defineQuery(`
   *[_type == "work" && defined(slug.current)]
-  | order(sortOrder asc, publishedAt desc) {
+  | order(orderRank asc, publishedAt desc) {
     ${workListFields}
   }
 `);
 
 export const featuredWorksQuery = defineQuery(`
   *[_type == "work" && featured == true && defined(slug.current)]
-  | order(sortOrder asc, publishedAt desc) [0...6] {
+  | order(orderRank asc, publishedAt desc) [0...6] {
     ${workListFields}
   }
 `);
