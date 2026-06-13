@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { CyberHudBracket } from "@/components/CyberDeco";
-import { urlFor } from "@/lib/sanity/image";
+import { hasSanityImageAsset, sanityImageUrl } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
 import {
   workThumbnailImageStyle,
@@ -23,15 +23,16 @@ export function WorkCard({ work, index }: WorkCardProps) {
     work.thumbnailDisplay,
     work.coverImage?.dimensions,
   );
-  const coverUrl = work.coverImage
-    ? urlFor(work.coverImage)
-        .width(thumbSource.width)
-        .height(thumbSource.height)
-        .fit("max")
-        .ignoreImageParams()
-        .quality(90)
-        .auto("format")
-        .url()
+  const coverUrl = hasSanityImageAsset(work.coverImage)
+    ? sanityImageUrl(work.coverImage, (image) =>
+        image
+          .width(thumbSource.width)
+          .height(thumbSource.height)
+          .fit("max")
+          .ignoreImageParams()
+          .quality(90)
+          .auto("format"),
+      )
     : null;
   const thumbnailStyle = workThumbnailImageStyle(work.thumbnailDisplay);
   const href = `/work/${work.slug}`;
