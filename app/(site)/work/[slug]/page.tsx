@@ -6,7 +6,7 @@ import { CyberSectionMarker } from "@/components/CyberDeco";
 import { WorkDetailView } from "@/components/work/WorkDetail";
 import { getWorkBySlug } from "@/lib/sanity/get-work-by-slug";
 import { getWorkSlugs } from "@/lib/sanity/get-work-slugs";
-import { urlFor } from "@/lib/sanity/image";
+import { hasSanityImageAsset, urlFor } from "@/lib/sanity/image";
 
 type WorkDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: WorkDetailPageProps): Promise
     return { title: "Work not found" };
   }
 
-  const coverUrl = work.coverImage
+  const coverUrl = hasSanityImageAsset(work.coverImage)
     ? urlFor(work.coverImage).width(1200).height(630).fit("crop").url()
     : undefined;
 
