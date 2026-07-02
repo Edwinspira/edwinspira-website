@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ExternalLink } from "@/components/external-link";
 import { PortableTextContent } from "@/components/portable-text";
 import { VideoEmbed } from "@/components/video-embed";
-import { urlFor } from "@/lib/sanity/image";
+import { hasSanityImageAsset, urlFor } from "@/lib/sanity/image";
 import type { SanityImage, WorkDetail } from "@/lib/sanity/types";
 import { WORK_CATEGORY_LABELS } from "@/lib/work-labels";
 
@@ -26,9 +26,10 @@ function coverImageDimensions(image?: SanityImage | null) {
 
 export function WorkDetailView({ work }: WorkDetailViewProps) {
   const coverDimensions = coverImageDimensions(work.coverImage);
-  const coverUrl = work.coverImage
+  const coverUrl = hasSanityImageAsset(work.coverImage)
     ? urlFor(work.coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
     : null;
+  const galleryImages = work.gallery?.filter(hasSanityImageAsset) ?? [];
 
   return (
     <article className="work-detail">
@@ -68,13 +69,13 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
         </div>
       ) : null}
 
-      {work.gallery && work.gallery.length > 0 ? (
+      {galleryImages.length > 0 ? (
         <ul className="mt-10 grid list-none gap-4 sm:grid-cols-2">
-          {work.gallery.map((image, index) => {
+          {galleryImages.map((image, index) => {
             const imageUrl = urlFor(image).width(1200).fit("max").url();
             return (
               <li
-                key={image.asset?._ref ?? `gallery-${index}`}
+                key={`${image.asset._ref}-${index}`}
                 className="overflow-hidden border border-[var(--home-stat-red)]/30 bg-foreground/5"
               >
                 <Image
