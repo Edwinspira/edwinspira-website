@@ -25,10 +25,10 @@ function coverImageDimensions(image?: SanityImage | null) {
 }
 
 export function WorkDetailView({ work }: WorkDetailViewProps) {
-  const hasCoverImage = hasSanityImageAsset(work.coverImage);
+  const coverImage = hasSanityImageAsset(work.coverImage) ? work.coverImage : null;
   const coverDimensions = coverImageDimensions(work.coverImage);
-  const coverUrl = hasCoverImage
-    ? urlFor(work.coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
+  const coverUrl = coverImage
+    ? urlFor(coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
     : null;
   const galleryImages = work.gallery?.filter(hasSanityImageAsset) ?? [];
 

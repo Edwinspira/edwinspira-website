@@ -19,13 +19,13 @@ type WorkCardProps = {
 };
 
 export function WorkCard({ work, index }: WorkCardProps) {
-  const hasCoverImage = hasSanityImageAsset(work.coverImage);
+  const coverImage = hasSanityImageAsset(work.coverImage) ? work.coverImage : null;
   const thumbSource = workThumbnailSourceDimensions(
     work.thumbnailDisplay,
     work.coverImage?.dimensions,
   );
-  const coverUrl = hasCoverImage
-    ? urlFor(work.coverImage)
+  const coverUrl = coverImage
+    ? urlFor(coverImage)
         .width(thumbSource.width)
         .height(thumbSource.height)
         .fit("max")
