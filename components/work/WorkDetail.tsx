@@ -50,7 +50,7 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
         <div className="work-detail__cover mt-8 w-full border border-[var(--home-stat-red)]/50 bg-foreground/5">
           <Image
             src={coverUrl}
-            alt={coverImage.alt ?? work.title}
+            alt={coverImage?.alt ?? work.title}
             width={coverDimensions.width}
             height={coverDimensions.height}
             priority
