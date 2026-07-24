@@ -25,10 +25,10 @@ function coverImageDimensions(image?: SanityImage | null) {
 }
 
 export function WorkDetailView({ work }: WorkDetailViewProps) {
-  const hasCoverImage = hasSanityImageAsset(work.coverImage);
-  const coverDimensions = coverImageDimensions(work.coverImage);
-  const coverUrl = hasCoverImage
-    ? urlFor(work.coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
+  const coverImage = hasSanityImageAsset(work.coverImage) ? work.coverImage : null;
+  const coverDimensions = coverImageDimensions(coverImage);
+  const coverUrl = coverImage
+    ? urlFor(coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
     : null;
   const galleryImages = work.gallery?.filter(hasSanityImageAsset) ?? [];
 
@@ -48,7 +48,7 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
         <div className="work-detail__cover mt-8 w-full border border-[var(--home-stat-red)]/50 bg-foreground/5">
           <Image
             src={coverUrl}
-            alt={work.coverImage?.alt ?? work.title}
+            alt={coverImage.alt ?? work.title}
             width={coverDimensions.width}
             height={coverDimensions.height}
             priority
