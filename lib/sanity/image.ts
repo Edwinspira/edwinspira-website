@@ -21,8 +21,8 @@ export function urlFor(source: SanityImageSource) {
   return getBuilder().image(source);
 }
 
-export function hasSanityImageAsset(
-  source: SanityImageWithOptionalAsset | null | undefined,
-): source is SanityImageWithOptionalAsset & { asset: { _ref: string } } {
+export function hasSanityImageAsset<T extends SanityImageWithOptionalAsset>(
+  source: T | null | undefined,
+): source is T & { asset: { _ref: string } } {
   return typeof source?.asset?._ref === "string" && source.asset._ref.trim().length > 0;
 }
