@@ -4,6 +4,12 @@ import { getSanityClient } from "@/lib/sanity/client";
 
 let builder: ReturnType<typeof imageUrlBuilder> | null = null;
 
+type SanityImageWithOptionalAsset = {
+  asset?: {
+    _ref?: unknown;
+  } | null;
+};
+
 function getBuilder() {
   if (!builder) {
     builder = imageUrlBuilder(getSanityClient());
@@ -13,4 +19,10 @@ function getBuilder() {
 
 export function urlFor(source: SanityImageSource) {
   return getBuilder().image(source);
+}
+
+export function hasSanityImageAsset<T extends SanityImageWithOptionalAsset>(
+  source: T | null | undefined,
+): source is T & { asset: { _ref: string } } {
+  return typeof source?.asset?._ref === "string" && source.asset._ref.trim().length > 0;
 }
