@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { CyberHudBracket } from "@/components/CyberDeco";
-import { urlFor } from "@/lib/sanity/image";
+import { hasSanityImageAsset, urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
 import {
   workThumbnailImageStyle,
@@ -23,7 +23,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
     work.thumbnailDisplay,
     work.coverImage?.dimensions,
   );
-  const coverUrl = work.coverImage
+  const coverUrl = hasSanityImageAsset(work.coverImage)
     ? urlFor(work.coverImage)
         .width(thumbSource.width)
         .height(thumbSource.height)
