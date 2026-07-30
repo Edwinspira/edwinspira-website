@@ -29,13 +29,14 @@ export async function generateMetadata({ params }: WorkDetailPageProps): Promise
   const coverUrl = coverImage
     ? urlFor(coverImage).width(1200).height(630).fit("crop").url()
     : undefined;
+  const coverAlt = coverImage?.alt ?? work.title;
 
   return {
     title: work.title,
     description: work.summary,
     openGraph: coverUrl
       ? {
-          images: [{ url: coverUrl, alt: coverImage.alt ?? work.title }],
+          images: [{ url: coverUrl, alt: coverAlt }],
         }
       : undefined,
   };
