@@ -13,7 +13,7 @@ export type WorkCategory = (typeof WORK_CATEGORIES)[number];
 
 export type SanityImageAsset = {
   _ref: string;
-  _type: "reference";
+  _type?: "reference";
 };
 
 export type SanityImageDimensions = {
@@ -24,8 +24,8 @@ export type SanityImageDimensions = {
 
 export type SanityImage = {
   _type?: "image";
-  asset?: SanityImageAsset;
-  alt?: string;
+  asset?: SanityImageAsset | null;
+  alt?: string | null;
   dimensions?: SanityImageDimensions | null;
 };
 
