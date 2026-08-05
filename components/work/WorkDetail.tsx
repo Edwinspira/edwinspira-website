@@ -30,6 +30,7 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
   const coverUrl = coverImage
     ? urlFor(coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
     : null;
+  const coverAlt = coverImage?.alt ?? work.title;
   const gallery = work.gallery?.filter(hasSanityImageAsset) ?? [];
 
   return (
@@ -48,7 +49,7 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
         <div className="work-detail__cover mt-8 w-full border border-[var(--home-stat-red)]/50 bg-foreground/5">
           <Image
             src={coverUrl}
-            alt={coverImage.alt ?? work.title}
+            alt={coverAlt}
             width={coverDimensions.width}
             height={coverDimensions.height}
             priority

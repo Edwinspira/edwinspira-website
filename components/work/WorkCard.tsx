@@ -34,6 +34,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
         .auto("format")
         .url()
     : null;
+  const coverAlt = coverImage?.alt ?? work.title;
   const thumbnailStyle = workThumbnailImageStyle(work.thumbnailDisplay);
   const href = `/work/${work.slug}`;
 
@@ -58,7 +59,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={coverUrl}
-              alt={coverImage.alt ?? work.title}
+              alt={coverAlt}
               draggable={false}
               className="work-card__image"
               style={thumbnailStyle}
