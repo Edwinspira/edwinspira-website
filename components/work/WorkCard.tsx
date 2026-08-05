@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { CyberHudBracket } from "@/components/CyberDeco";
-import { urlFor } from "@/lib/sanity/image";
+import { hasSanityImageAsset, urlFor } from "@/lib/sanity/image";
 import type { WorkListItem } from "@/lib/sanity/types";
 import {
   workThumbnailImageStyle,
@@ -19,12 +19,13 @@ type WorkCardProps = {
 };
 
 export function WorkCard({ work, index }: WorkCardProps) {
+  const coverImage = hasSanityImageAsset(work.coverImage) ? work.coverImage : null;
   const thumbSource = workThumbnailSourceDimensions(
     work.thumbnailDisplay,
     work.coverImage?.dimensions,
   );
-  const coverUrl = work.coverImage
-    ? urlFor(work.coverImage)
+  const coverUrl = coverImage
+    ? urlFor(coverImage)
         .width(thumbSource.width)
         .height(thumbSource.height)
         .fit("max")
@@ -33,6 +34,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
         .auto("format")
         .url()
     : null;
+  const coverAlt = coverImage?.alt ?? work.title;
   const thumbnailStyle = workThumbnailImageStyle(work.thumbnailDisplay);
   const href = `/work/${work.slug}`;
 
@@ -57,7 +59,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={coverUrl}
-              alt={work.coverImage?.alt ?? work.title}
+              alt={coverAlt}
               draggable={false}
               className="work-card__image"
               style={thumbnailStyle}
