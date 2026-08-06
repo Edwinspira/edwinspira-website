@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { CyberSignalBridge } from "@/components/CyberDeco";
 import { HomeConnectEstablishButton } from "@/components/home/HomeConnectEstablishButton";
-import type { HomeConnectPlatform } from "@/lib/home-connect";
+import { isMailHref, type HomeConnectPlatform } from "@/lib/home-connect";
 
 const SOCIAL_BORDER_SRC = "/images/social/SocialBorder.png";
 
@@ -73,13 +73,17 @@ function FeaturedVisual({
   );
 
   if (active.href) {
+    const mail = isMailHref(active.href);
     return (
       <a
         href={active.href}
-        target="_blank"
-        rel="noopener noreferrer"
+        {...(mail ? {} : { target: "_blank", rel: "noopener noreferrer" })}
         className="home-connect__featured-link relative block w-full"
-        aria-label={`Open ${active.name} profile (opens in new tab)`}
+        aria-label={
+          mail
+            ? "Compose email to edwin@edwinspira.com"
+            : `Open ${active.name} profile (opens in new tab)`
+        }
       >
         {inner}
       </a>
@@ -165,7 +169,11 @@ export function HomeConnectFeatured({
         <div className="home-connect__establish-cta flex min-w-0 justify-center lg:justify-stretch">
           <HomeConnectEstablishButton
             href={active.href}
-            ariaLabel={`Open ${active.name} profile (opens in new tab)`}
+            ariaLabel={
+              active.href && isMailHref(active.href)
+                ? "Compose email to edwin@edwinspira.com"
+                : `Open ${active.name} profile (opens in new tab)`
+            }
           />
         </div>
       </div>

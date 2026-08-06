@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { CyberRuleEndcap } from "@/components/CyberDeco";
 import { HomeConnectFeatured } from "@/components/home/HomeConnectFeatured";
-import type { HomeConnectPlatform } from "@/lib/home-connect";
+import { isMailHref, type HomeConnectPlatform } from "@/lib/home-connect";
 import { useConnectCarousel } from "@/lib/use-connect-carousel";
 
 type HomeConnectBodyProps = {
@@ -43,10 +43,15 @@ export function HomeConnectBody({ platforms }: HomeConnectBodyProps) {
               {platform.href ? (
                 <a
                   href={platform.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  {...(isMailHref(platform.href)
+                    ? {}
+                    : { target: "_blank", rel: "noopener noreferrer" })}
                   className={`${slotClass} home-connect__icon-slot--link`}
-                  aria-label={`Open ${platform.name} profile (opens in new tab)`}
+                  aria-label={
+                    isMailHref(platform.href)
+                      ? "Compose email to edwin@edwinspira.com"
+                      : `Open ${platform.name} profile (opens in new tab)`
+                  }
                   aria-current={isActive ? "true" : undefined}
                   onClick={() => selectPlatform(index)}
                 >

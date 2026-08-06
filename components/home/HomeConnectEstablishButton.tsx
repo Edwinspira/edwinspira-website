@@ -1,4 +1,5 @@
 import { CyberEstablishButtonBorder } from "@/components/CyberEstablishButtonBorder";
+import { isMailHref } from "@/lib/home-connect";
 
 const BUTTON_CLASS =
   "home-connect__establish-button relative block w-full min-w-[13.5rem] max-w-[22rem] sm:min-w-[15rem] sm:max-w-[24rem] lg:min-w-[16.5rem] lg:max-w-[22rem] xl:min-w-[18rem] xl:max-w-[26rem]";
@@ -28,11 +29,13 @@ export function HomeConnectEstablishButton({
   );
 
   if (href) {
+    const mail = isMailHref(href);
     return (
       <a
         href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+        {...(mail
+          ? {}
+          : { target: "_blank", rel: "noopener noreferrer" })}
         className={BUTTON_CLASS}
         aria-label={ariaLabel}
       >

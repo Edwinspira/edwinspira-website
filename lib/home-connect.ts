@@ -3,12 +3,16 @@ export type HomeConnectPlatform = {
   name: string;
   description: string;
   iconSrc: string;
-  /** External profile URL; omit for platforms without a link yet (e.g. email). */
+  /** Profile URL or mailto link; omit when no destination is available yet. */
   href?: string;
 };
 
 export const CONNECT_ROTATE_MS = 10_000;
 export const CONNECT_MANUAL_FREEZE_MS = 20_000;
+
+export function isMailHref(href: string) {
+  return href.startsWith("mailto:");
+}
 
 export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
   {
@@ -17,6 +21,7 @@ export const HOME_CONNECT_PLATFORMS: HomeConnectPlatform[] = [
     description:
       "Reach out for inquiries, collaborations, and conversations about new projects.",
     iconSrc: "/images/social/MailIcon.png",
+    href: "mailto:edwin@edwinspira.com",
   },
   {
     id: "youtube",
