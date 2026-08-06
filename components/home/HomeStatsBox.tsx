@@ -4,9 +4,9 @@ import Image from "next/image";
 const STATS_BORDER_SRC = "/images/home/StatsBox.png";
 
 const STATS = [
-  { label: "ARTIST", percent: 88, delayMs: 0 },
-  { label: "SOFTWARE", percent: 96, delayMs: 380 },
-  { label: "CREATIVE", percent: 82, delayMs: 760 },
+  { label: "SOFTWARE ENGINEER", percent: 96, delayMs: 0 },
+  { label: "VISUAL ARTIST", percent: 88, delayMs: 380 },
+  { label: "PHOTOGRAPHER + VIDEO", percent: 82, delayMs: 760 },
 ] as const;
 
 export function HomeStatsBox() {
@@ -34,7 +34,7 @@ export function HomeStatsBox() {
           <ul className="mt-2.5 space-y-2 sm:mt-6 sm:space-y-5" role="list">
             {STATS.map((stat) => (
               <li key={stat.label}>
-                <span className="font-mono text-[0.5rem] tracking-[0.14em] text-foreground/90 uppercase sm:text-xs">
+                <span className="font-mono text-[0.42rem] tracking-[0.08em] text-foreground/90 uppercase sm:text-[0.7rem] sm:tracking-[0.12em]">
                   {stat.label}
                 </span>
                 <div
