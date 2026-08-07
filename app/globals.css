@@ -1742,14 +1742,6 @@ a.home-connect__establish-button:active {
     height: 8.35rem;
     width: 1.65rem;
   }
-
-  /* Desktop name offset (12vh + 27rem) pushes this off-screen in landscape */
-  .home-hero-name {
-    left: 1.35rem;
-    bottom: calc(1.25vh + 8.85rem);
-    font-size: clamp(1.25rem, 6.2vh, 1.75rem);
-    max-width: min(48vw, 14rem);
-  }
 }
 
 .home-what-i-do-card:hover .home-what-i-do-card__frame,
@@ -2039,6 +2031,17 @@ a.home-connect__establish-button:active {
     left: calc(var(--home-pad) + 1.5rem);
     bottom: calc(12vh + 27rem);
     font-size: clamp(5rem, 11vw, 8.5rem);
+  }
+}
+
+/* After sm rules so landscape name wins over desktop offsets */
+@media (orientation: landscape) and (max-height: 500px) {
+  .home-hero-name {
+    left: 1.35rem;
+    bottom: calc(1.25vh + 8.85rem);
+    z-index: 30;
+    font-size: clamp(2.4rem, 12vh, 3.4rem);
+    max-width: min(58vw, 22rem);
   }
 }
 
