@@ -75,9 +75,9 @@ body {
   }
 }
 
-/* Mobile: bias right of center so the middle of the artwork stays in frame */
+/* Mobile: bias right of center; Y nudged down so the crop sits slightly higher */
 .home-hero-image {
-  object-position: 68% 33%;
+  object-position: 68% 40%;
 }
 
 @media (min-width: 640px) {
