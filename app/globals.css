@@ -226,7 +226,38 @@ body {
   z-index: 2;
   width: var(--cyber-corner-art);
   height: var(--cyber-corner-art);
+  color: var(--home-stat-red);
   pointer-events: none;
+}
+
+.cyber-border__corner-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 3px rgb(255 31 31 / 0.55))
+    drop-shadow(0 0 8px rgb(255 31 31 / 0.22));
+}
+
+.cyber-border__corner-ring {
+  transform-origin: 18px 18px;
+  animation: cyber-corner-ring-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes cyber-corner-ring-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-border__corner-ring {
+    animation: none;
+  }
 }
 
 .cyber-border__corner--tl {
@@ -237,16 +268,19 @@ body {
 .cyber-border__corner--tr {
   top: 0;
   right: 0;
+  transform: rotate(90deg);
 }
 
 .cyber-border__corner--bl {
   bottom: 0;
   left: 0;
+  transform: rotate(-90deg);
 }
 
 .cyber-border__corner--br {
   bottom: 0;
   right: 0;
+  transform: rotate(180deg);
 }
 
 .cyber-border__edge {
