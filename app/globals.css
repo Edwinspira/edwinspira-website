@@ -1283,6 +1283,12 @@ a.home-connect__establish-button:active {
   opacity: 0;
 }
 
+@media (scripting: none) {
+  .home-what-i-do__grid.is-glitch-pending .home-what-i-do-glitch {
+    opacity: 1;
+  }
+}
+
 .home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch {
   animation: what-i-do-glitch-appear 0.5s ease-out both;
   animation-delay: var(--glitch-stagger, 0ms);
