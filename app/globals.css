@@ -1685,6 +1685,52 @@ a.home-connect__establish-button:active {
   }
 }
 
+/*
+ * Phone landscape: viewport width often crosses sm (640px), so desktop
+ * stats sizing kicks in. Keep a compact box on short landscape screens only.
+ */
+@media (orientation: landscape) and (max-height: 500px) {
+  .home-stats-box {
+    width: min(12rem, 40vw);
+  }
+
+  .home-stats-box__frame {
+    aspect-ratio: auto;
+    height: 6.5rem;
+  }
+
+  .home-stats-box__content {
+    padding: 8% 11% 9%;
+  }
+
+  .home-stats-box__heading {
+    font-size: 0.65rem;
+  }
+
+  .home-stats-box__list {
+    margin-top: 0.35rem;
+  }
+
+  .home-stats-box__list > :not([hidden]) ~ :not([hidden]) {
+    margin-top: 0.3rem;
+  }
+
+  .home-stats-box .home-role-label {
+    overflow-wrap: normal;
+    white-space: nowrap;
+    font-size: 0.68rem;
+  }
+
+  .home-stats-box .home-stat-bar-track--compact {
+    height: 0.3rem;
+    margin-top: 0.15rem;
+  }
+
+  .home-side-deco {
+    height: 6.75rem;
+  }
+}
+
 .home-what-i-do-card:hover .home-what-i-do-card__frame,
 .home-what-i-do-card:focus-visible .home-what-i-do-card__frame {
   transform: translateY(-2px);

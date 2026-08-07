@@ -24,14 +24,17 @@ export function HomeStatsBox() {
           className="pointer-events-none object-fill"
           priority
         />
-        <div className="relative z-10 flex h-full flex-col justify-center px-[12%] pb-[11%] pt-[10%] sm:px-[14%] sm:pb-[15%] sm:pt-[13%]">
+        <div className="home-stats-box__content relative z-10 flex h-full flex-col justify-center px-[12%] pb-[11%] pt-[10%] sm:px-[14%] sm:pb-[15%] sm:pt-[13%]">
           <h2
             id="home-stats-heading"
-            className="font-mono text-xs font-bold tracking-[0.18em] text-[var(--home-stat-red)] uppercase sm:text-xl"
+            className="home-stats-box__heading font-mono text-xs font-bold tracking-[0.18em] text-[var(--home-stat-red)] uppercase sm:text-xl"
           >
             STATS
           </h2>
-          <ul className="mt-1.5 space-y-1.5 sm:mt-6 sm:space-y-5" role="list">
+          <ul
+            className="home-stats-box__list mt-1.5 space-y-1.5 sm:mt-6 sm:space-y-5"
+            role="list"
+          >
             {STATS.map((stat) => (
               <li key={stat.label}>
                 <span className="home-role-label text-foreground/90">
