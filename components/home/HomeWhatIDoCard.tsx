@@ -31,7 +31,7 @@ export function HomeWhatIDoCard({ card }: HomeWhatIDoCardProps) {
               src={card.borderSrc}
               alt=""
               fill
-              sizes="(max-width: 640px) 46vw, (max-width: 1280px) 50vw, 22vw"
+              sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 18vw"
               className="home-what-i-do-card__border object-fill"
             />
           </>
@@ -47,7 +47,7 @@ export function HomeWhatIDoCard({ card }: HomeWhatIDoCardProps) {
               className="object-contain object-center transition-transform duration-300 group-hover:scale-105"
             />
           </span>
-          <span className="home-what-i-do-card__title font-semibold tracking-[0.08em] text-foreground uppercase">
+          <span className="home-what-i-do-card__title home-role-label font-semibold text-foreground">
             {card.title}
           </span>
           <span
@@ -56,7 +56,7 @@ export function HomeWhatIDoCard({ card }: HomeWhatIDoCardProps) {
           >
             {card.subtitle}
           </span>
-          <span className="home-what-i-do-card__description leading-snug text-foreground/75">
+          <span className="home-what-i-do-card__description text-foreground/75">
             {card.description}
           </span>
         </div>

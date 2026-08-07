@@ -10,18 +10,32 @@
   --home-stat-red: #ff1f1f;
   --home-pad: 1rem;
   --home-deco-w: 2rem;
+  /* Shared by What I Do titles + Stats box labels */
+  --home-role-label-size: clamp(0.7rem, 0.4vw + 0.6rem, 1rem);
+  --home-role-body-size: clamp(0.62rem, 0.3vw + 0.52rem, 0.88rem);
 }
 
 @media (min-width: 640px) {
   :root {
     --home-pad: 2.5rem;
     --home-deco-w: 4rem;
+    --home-role-label-size: clamp(0.8rem, 0.45vw + 0.65rem, 1.125rem);
+    --home-role-body-size: clamp(0.7rem, 0.35vw + 0.55rem, 0.95rem);
   }
 }
 
 @media (min-width: 1024px) {
   :root {
     --home-pad: 4rem;
+    --home-role-label-size: clamp(0.85rem, 0.35vw + 0.7rem, 1.2rem);
+    --home-role-body-size: clamp(0.72rem, 0.28vw + 0.58rem, 1rem);
+  }
+}
+
+@media (min-width: 1536px) {
+  :root {
+    --home-role-label-size: clamp(0.95rem, 0.3vw + 0.75rem, 1.3rem);
+    --home-role-body-size: clamp(0.8rem, 0.25vw + 0.65rem, 1.05rem);
   }
 }
 
@@ -1136,10 +1150,66 @@ a.home-connect__establish-button:active {
 }
 
 /* Full-border tap target for What I Do skill cards */
+.home-what-i-do__grid {
+  display: grid;
+  /* 4 tracks → visual 2-col; last orphan can center */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.home-what-i-do__grid > li {
+  grid-column: span 2;
+}
+
+/* Center the single leftover card under a 2-column row */
+.home-what-i-do__grid > li:nth-child(5) {
+  grid-column: 2 / 4;
+}
+
+@media (min-width: 640px) {
+  .home-what-i-do__grid {
+    /* 6 tracks → visual 3-col; last two center as a pair */
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .home-what-i-do__grid > li {
+    grid-column: span 2;
+  }
+
+  .home-what-i-do__grid > li:nth-child(4) {
+    grid-column: 2 / 4;
+  }
+
+  .home-what-i-do__grid > li:nth-child(5) {
+    grid-column: 4 / 6;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-what-i-do__grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  .home-what-i-do__grid > li,
+  .home-what-i-do__grid > li:nth-child(4),
+  .home-what-i-do__grid > li:nth-child(5) {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .home-what-i-do__grid {
+    gap: 1rem;
+  }
+}
+
 .home-what-i-do-card {
   --card-accent: var(--home-stat-red);
   display: block;
   width: 100%;
+  height: 100%;
   margin: 0;
   padding: 0;
   border: none;
@@ -1149,6 +1219,9 @@ a.home-connect__establish-button:active {
   color: inherit;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  /* Scale type to the card, not the viewport — stays readable on ultrawide */
+  container-type: inline-size;
+  container-name: what-i-do-card;
   transition:
     transform 0.22s ease,
     filter 0.22s ease;
@@ -1158,6 +1231,7 @@ a.home-connect__establish-button:active {
   position: relative;
   aspect-ratio: 833 / 981;
   width: 100%;
+  height: auto;
   overflow: hidden;
   isolation: isolate;
   transition:
@@ -1196,7 +1270,8 @@ a.home-connect__establish-button:active {
 }
 
 .home-what-i-do-card__content {
-  position: relative;
+  position: absolute;
+  inset: 0;
   z-index: 10;
   display: flex;
   flex-direction: column;
@@ -1205,35 +1280,43 @@ a.home-connect__establish-button:active {
   box-sizing: border-box;
   overflow: hidden;
   text-align: center;
-  /* Inset to HUD inner frame (viewBox 833×981, rails ~78–755 × 62–919) */
-  padding: 11.5% 12% 11.5% 12%;
+  /* Keep copy inside the HUD rails (viewBox 833×981) */
+  padding: 12% 11% 14% 11%;
 }
 
 .home-what-i-do-card__icon {
-  width: clamp(3.5rem, 32%, 7.5rem);
-  height: clamp(3.5rem, 32%, 7.5rem);
-  margin-bottom: clamp(0.35rem, 3%, 1.25rem);
+  width: clamp(2.5rem, 24cqw, 4.75rem);
+  height: clamp(2.5rem, 24cqw, 4.75rem);
+  margin-bottom: clamp(0.25rem, 2cqw, 0.55rem);
   aspect-ratio: 1;
+  flex-shrink: 0;
 }
 
 .home-what-i-do-card__title {
   max-width: 100%;
-  font-size: clamp(0.42rem, 2.6vw, 1rem);
+  /* Never exceed card width — prevents ultrawide viewport sizes from blowing out */
+  font-size: min(var(--home-role-label-size), 7.8cqw);
   line-height: 1.15;
+  letter-spacing: 0.04em;
   word-break: break-word;
+  overflow-wrap: anywhere;
+  flex-shrink: 0;
 }
 
 .home-what-i-do-card__subtitle {
-  margin-top: clamp(0.15rem, 1.5%, 0.5rem);
-  font-size: clamp(0.4rem, 2.2vw, 0.875rem);
+  margin-top: clamp(0.15rem, 1.2cqw, 0.4rem);
+  font-size: min(calc(var(--home-role-label-size) * 0.85), 6.5cqw);
+  line-height: 1.2;
+  flex-shrink: 0;
 }
 
 .home-what-i-do-card__description {
-  margin-top: clamp(0.25rem, 2.5%, 1rem);
+  margin-top: clamp(0.25rem, 2cqw, 0.55rem);
   max-width: 100%;
   flex: 1 1 auto;
   min-height: 0;
-  font-size: clamp(0.38rem, 2vw, 0.875rem);
+  overflow: hidden;
+  font-size: min(var(--home-role-body-size), 5.6cqw);
   line-height: 1.35;
 }
 
@@ -1243,57 +1326,64 @@ a.home-connect__establish-button:active {
   }
 
   .home-what-i-do-card__content {
-    padding: 10.5% 11.5% 13.5% 11.5%;
+    padding: 11% 10.5% 15% 10.5%;
   }
 
   .home-what-i-do-card__icon {
-    width: clamp(3rem, 26%, 4.25rem);
-    height: clamp(3rem, 26%, 4.25rem);
-    margin-bottom: 0.4rem;
+    width: clamp(2.35rem, 24cqw, 3.75rem);
+    height: clamp(2.35rem, 24cqw, 3.75rem);
+    margin-bottom: 0.3rem;
   }
 
   .home-what-i-do-card__title {
-    font-size: clamp(0.48rem, 2.75vw, 0.7rem);
-    line-height: 1.2;
+    font-size: min(var(--home-role-label-size), 8.2cqw);
+  }
+
+  .home-what-i-do-card__title.home-role-label {
+    font-size: min(var(--home-role-label-size), 8.2cqw);
   }
 
   .home-what-i-do-card__description {
-    font-size: clamp(0.44rem, 2.15vw, 0.62rem);
-    line-height: 1.45;
+    font-size: min(var(--home-role-body-size), 5.8cqw);
   }
 }
 
 @media (min-width: 640px) {
   .home-what-i-do-card__content {
-    padding: 12.5% 12.5% 10.5% 12.5%;
-  }
-
-  .home-what-i-do-card__title {
-    font-size: clamp(0.5rem, 1.4vw, 0.875rem);
-  }
-
-  .home-what-i-do-card__description {
-    font-size: clamp(0.45rem, 1.1vw, 0.75rem);
-    line-height: 1.4;
+    padding: 12% 10.5% 14% 10.5%;
   }
 }
 
-@media (min-width: 1280px) {
+@media (min-width: 1024px) {
   .home-what-i-do-card__content {
-    padding: 13% 13% 10% 13%;
+    padding: 12% 10% 14.5% 10%;
   }
 
-  .home-what-i-do-card__title {
-    font-size: 1rem;
+  .home-what-i-do-card__icon {
+    width: clamp(2.4rem, 22cqw, 4.25rem);
+    height: clamp(2.4rem, 22cqw, 4.25rem);
   }
+}
 
-  .home-what-i-do-card__subtitle {
-    font-size: 0.875rem;
-  }
+/* Shared role label — What I Do titles + Stats box rows */
+.home-role-label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--home-role-label-size);
+  line-height: 1.2;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
 
-  .home-what-i-do-card__description {
-    font-size: 0.875rem;
-  }
+.home-what-i-do-card__title.home-role-label {
+  font-size: min(var(--home-role-label-size), 7.8cqw);
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+}
+
+.home-stats-box .home-role-label {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .home-what-i-do-card:hover .home-what-i-do-card__frame,

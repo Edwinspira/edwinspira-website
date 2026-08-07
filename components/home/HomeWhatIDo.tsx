@@ -30,9 +30,9 @@ export function HomeWhatIDo() {
           <CyberRuleEndcap />
         </div>
 
-        <ul className="mt-10 grid list-none grid-cols-2 gap-4 max-sm:mt-12 sm:mt-16 sm:gap-12 lg:gap-14 xl:grid-cols-4">
+        <ul className="home-what-i-do__grid mt-10 list-none items-stretch max-sm:mt-12 sm:mt-16">
           {HOME_WHAT_I_DO_CARDS.map((card) => (
-            <li key={card.title}>
+            <li key={card.title} className="min-w-0">
               <HomeWhatIDoCard card={card} />
             </li>
           ))}

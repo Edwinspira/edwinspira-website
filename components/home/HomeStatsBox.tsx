@@ -12,7 +12,7 @@ const STATS = [
 export function HomeStatsBox() {
   return (
     <article
-      className="relative w-[10.5rem] max-w-[48vw] shrink-0 sm:w-[24rem] sm:max-w-none"
+      className="home-stats-box relative w-[min(13.5rem,52vw)] shrink-0 sm:w-[24rem] sm:max-w-none"
       aria-labelledby="home-stats-heading"
     >
       <div className="relative aspect-[702/608] w-full">
@@ -34,7 +34,7 @@ export function HomeStatsBox() {
           <ul className="mt-2.5 space-y-2 sm:mt-6 sm:space-y-5" role="list">
             {STATS.map((stat) => (
               <li key={stat.label}>
-                <span className="font-mono text-[0.42rem] tracking-[0.08em] text-foreground/90 uppercase sm:text-[0.7rem] sm:tracking-[0.12em]">
+                <span className="home-role-label text-foreground/90">
                   {stat.label}
                 </span>
                 <div
