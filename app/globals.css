@@ -1687,47 +1687,68 @@ a.home-connect__establish-button:active {
 
 /*
  * Phone landscape: viewport width often crosses sm (640px), so desktop
- * stats sizing kicks in. Keep a compact box on short landscape screens only.
+ * hero sizing/spacing kicks in. Retune only short landscape screens.
  */
 @media (orientation: landscape) and (max-height: 500px) {
+  .home-cyber-frame {
+    bottom: 1.25vh;
+    left: 0.85rem;
+    gap: 0.4rem;
+    padding-bottom: 0.4rem;
+    padding-left: 0.45rem;
+  }
+
+  .home-cyber-frame__cluster {
+    gap: 0.4rem;
+  }
+
   .home-stats-box {
-    width: min(12rem, 40vw);
+    width: min(15.25rem, 38vw);
   }
 
   .home-stats-box__frame {
     aspect-ratio: auto;
-    height: 6.5rem;
+    height: 8.15rem;
   }
 
   .home-stats-box__content {
-    padding: 8% 11% 9%;
+    padding: 9% 12% 10%;
   }
 
   .home-stats-box__heading {
-    font-size: 0.65rem;
+    font-size: 0.7rem;
   }
 
   .home-stats-box__list {
-    margin-top: 0.35rem;
+    margin-top: 0.4rem;
   }
 
   .home-stats-box__list > :not([hidden]) ~ :not([hidden]) {
-    margin-top: 0.3rem;
+    margin-top: 0.35rem;
   }
 
   .home-stats-box .home-role-label {
     overflow-wrap: normal;
     white-space: nowrap;
-    font-size: 0.68rem;
+    font-size: 0.72rem;
   }
 
   .home-stats-box .home-stat-bar-track--compact {
-    height: 0.3rem;
-    margin-top: 0.15rem;
+    height: 0.32rem;
+    margin-top: 0.2rem;
   }
 
   .home-side-deco {
-    height: 6.75rem;
+    height: 8.35rem;
+    width: 1.65rem;
+  }
+
+  /* Desktop name offset (12vh + 27rem) pushes this off-screen in landscape */
+  .home-hero-name {
+    left: 1.35rem;
+    bottom: calc(1.25vh + 8.85rem);
+    font-size: clamp(1.25rem, 6.2vh, 1.75rem);
+    max-width: min(48vw, 14rem);
   }
 }
 
