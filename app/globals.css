@@ -113,13 +113,13 @@ body {
       linear-gradient(
         to right,
         rgb(0 0 0) 0%,
-        rgb(0 0 0 / 0.96) 12%,
-        rgb(0 0 0 / 0.9) 24%,
-        rgb(0 0 0 / 0.82) 38%,
-        rgb(0 0 0 / 0.72) 52%,
-        rgb(0 0 0 / 0.62) 68%,
-        rgb(0 0 0 / 0.52) 82%,
-        rgb(0 0 0 / 0.45) 100%
+        rgb(0 0 0 / 0.94) 8%,
+        rgb(0 0 0 / 0.86) 16%,
+        rgb(0 0 0 / 0.72) 28%,
+        rgb(0 0 0 / 0.55) 40%,
+        rgb(0 0 0 / 0.4) 54%,
+        rgb(0 0 0 / 0.28) 70%,
+        rgb(0 0 0 / 0.2) 100%
       ),
       linear-gradient(
         to bottom,
@@ -1384,6 +1384,19 @@ a.home-connect__establish-button:active {
   display: block;
   max-width: 100%;
   overflow-wrap: anywhere;
+}
+
+/* Mobile: widen frame without growing taller; keep role labels on one line */
+@media (max-width: 639px) {
+  .home-stats-box__frame {
+    aspect-ratio: auto;
+    height: 10.15rem;
+  }
+
+  .home-stats-box .home-role-label {
+    overflow-wrap: normal;
+    white-space: nowrap;
+  }
 }
 
 .home-what-i-do-card:hover .home-what-i-do-card__frame,

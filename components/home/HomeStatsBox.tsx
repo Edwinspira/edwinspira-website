@@ -12,15 +12,15 @@ const STATS = [
 export function HomeStatsBox() {
   return (
     <article
-      className="home-stats-box relative w-[min(13.5rem,52vw)] shrink-0 sm:w-[24rem] sm:max-w-none"
+      className="home-stats-box relative w-[min(15rem,60vw)] shrink-0 sm:w-[24rem] sm:max-w-none"
       aria-labelledby="home-stats-heading"
     >
-      <div className="relative aspect-[702/608] w-full">
+      <div className="home-stats-box__frame relative aspect-[702/608] w-full">
         <Image
           src={STATS_BORDER_SRC}
           alt=""
           fill
-          sizes="(max-width: 640px) 168px, 384px"
+          sizes="(max-width: 640px) 188px, 384px"
           className="pointer-events-none object-fill"
           priority
         />
