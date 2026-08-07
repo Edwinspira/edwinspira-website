@@ -1,7 +1,6 @@
 import { CyberBorder } from "@/components/CyberBorder";
 import { CyberLevelBadge, CyberRuleEndcap } from "@/components/CyberDeco";
-import { HomeWhatIDoCard } from "@/components/home/HomeWhatIDoCard";
-import { HOME_WHAT_I_DO_CARDS } from "@/lib/home-what-i-do";
+import { HomeWhatIDoCards } from "@/components/home/HomeWhatIDoCards";
 
 export function HomeWhatIDo() {
   return (
@@ -30,13 +29,7 @@ export function HomeWhatIDo() {
           <CyberRuleEndcap />
         </div>
 
-        <ul className="home-what-i-do__grid mt-10 list-none items-stretch max-sm:mt-12 sm:mt-16">
-          {HOME_WHAT_I_DO_CARDS.map((card) => (
-            <li key={card.title} className="min-w-0">
-              <HomeWhatIDoCard card={card} />
-            </li>
-          ))}
-        </ul>
+        <HomeWhatIDoCards />
         </CyberBorder>
       </div>
     </section>

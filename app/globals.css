@@ -1230,6 +1230,220 @@ a.home-connect__establish-button:active {
   }
 }
 
+.home-what-i-do-card--decorative {
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Codrops CSS Glitch Effect — adapted for What I Do card reveal
+   https://github.com/codrops/CSSGlitchEffect/ */
+.home-what-i-do-glitch {
+  --gap-horizontal: 8px;
+  --gap-vertical: 4px;
+  --glitch-duration: 0.9s;
+  position: relative;
+  height: 100%;
+  isolation: isolate;
+}
+
+.home-what-i-do-glitch__base {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+.home-what-i-do-glitch__layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(0, 0, 0);
+}
+
+.home-what-i-do-glitch__layer .home-what-i-do-card {
+  height: 100%;
+}
+
+.home-what-i-do__grid.is-glitch-pending .home-what-i-do-glitch {
+  opacity: 0;
+}
+
+.home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch {
+  animation: what-i-do-glitch-appear 0.5s ease-out both;
+  animation-delay: var(--glitch-stagger, 0ms);
+}
+
+.home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch__layer--1 {
+  animation-name: what-i-do-glitch-1;
+  animation-duration: var(--glitch-duration);
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-delay: var(--glitch-stagger, 0ms);
+  filter: contrast(1.15) saturate(1.35);
+  mix-blend-mode: hard-light;
+}
+
+.home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch__layer--2 {
+  animation-name: what-i-do-glitch-2;
+  animation-duration: var(--glitch-duration);
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-delay: calc(var(--glitch-stagger, 0ms) + 40ms);
+  filter: hue-rotate(195deg) contrast(1.25) saturate(1.4);
+  mix-blend-mode: screen;
+}
+
+.home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch__layer--flash {
+  animation-name: what-i-do-glitch-flash;
+  animation-duration: var(--glitch-duration);
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-delay: var(--glitch-stagger, 0ms);
+  mix-blend-mode: overlay;
+  filter: brightness(1.35) sepia(0.55) hue-rotate(-35deg) saturate(2);
+}
+
+@keyframes what-i-do-glitch-appear {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Remapped from Codrops glitch-anim-1 (first ~22% of cycle → full one-shot) */
+@keyframes what-i-do-glitch-1 {
+  0% {
+    opacity: 1;
+    transform: translate3d(var(--gap-horizontal), 0, 0);
+    clip-path: polygon(0 2%, 100% 2%, 100% 5%, 0 5%);
+  }
+  8% {
+    clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%);
+  }
+  16% {
+    clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);
+  }
+  24% {
+    clip-path: polygon(0 1%, 100% 1%, 100% 2%, 0 2%);
+  }
+  32% {
+    clip-path: polygon(0 33%, 100% 33%, 100% 33%, 0 33%);
+  }
+  40% {
+    clip-path: polygon(0 44%, 100% 44%, 100% 44%, 0 44%);
+  }
+  48% {
+    clip-path: polygon(0 50%, 100% 50%, 100% 20%, 0 20%);
+  }
+  56% {
+    clip-path: polygon(0 70%, 100% 70%, 100% 70%, 0 70%);
+  }
+  64% {
+    clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%);
+  }
+  72% {
+    clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%);
+  }
+  80% {
+    clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%);
+  }
+  90% {
+    opacity: 1;
+    transform: translate3d(var(--gap-horizontal), 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  }
+}
+
+/* Remapped from Codrops glitch-anim-2 */
+@keyframes what-i-do-glitch-2 {
+  0% {
+    opacity: 1;
+    transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);
+    clip-path: polygon(0 25%, 100% 25%, 100% 30%, 0 30%);
+  }
+  10% {
+    clip-path: polygon(0 3%, 100% 3%, 100% 3%, 0 3%);
+  }
+  18% {
+    clip-path: polygon(0 5%, 100% 5%, 100% 20%, 0 20%);
+  }
+  26% {
+    clip-path: polygon(0 20%, 100% 20%, 100% 20%, 0 20%);
+  }
+  34% {
+    clip-path: polygon(0 40%, 100% 40%, 100% 40%, 0 40%);
+  }
+  42% {
+    clip-path: polygon(0 52%, 100% 52%, 100% 59%, 0 59%);
+  }
+  50% {
+    clip-path: polygon(0 60%, 100% 60%, 100% 60%, 0 60%);
+  }
+  58% {
+    clip-path: polygon(0 75%, 100% 75%, 100% 75%, 0 75%);
+  }
+  66% {
+    clip-path: polygon(0 65%, 100% 65%, 100% 40%, 0 40%);
+  }
+  74% {
+    clip-path: polygon(0 45%, 100% 45%, 100% 50%, 0 50%);
+  }
+  82% {
+    clip-path: polygon(0 14%, 100% 14%, 100% 33%, 0 33%);
+  }
+  90% {
+    opacity: 1;
+    transform: translate3d(calc(-1 * var(--gap-horizontal)), 0, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+  }
+}
+
+@keyframes what-i-do-glitch-flash {
+  0%,
+  18% {
+    opacity: 0.22;
+    transform: translate3d(var(--gap-horizontal), var(--gap-vertical), 0);
+  }
+  22%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-what-i-do__grid.is-glitch-pending .home-what-i-do-glitch,
+  .home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch {
+    opacity: 1;
+    animation: none;
+    transform: none;
+  }
+
+  .home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch__layer--1,
+  .home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch__layer--2,
+  .home-what-i-do__grid.is-glitch-in .home-what-i-do-glitch__layer--flash {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 .home-what-i-do-card {
   --card-accent: var(--home-stat-red);
   display: block;
