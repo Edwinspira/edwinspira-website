@@ -12,7 +12,7 @@ const STATS = [
 export function HomeStatsBox() {
   return (
     <article
-      className="home-stats-box relative w-[min(15rem,60vw)] shrink-0 sm:w-[24rem] sm:max-w-none"
+      className="home-stats-box relative w-[min(13.75rem,56vw)] shrink-0 sm:w-[24rem] sm:max-w-none"
       aria-labelledby="home-stats-heading"
     >
       <div className="home-stats-box__frame relative aspect-[702/608] w-full">
@@ -20,18 +20,18 @@ export function HomeStatsBox() {
           src={STATS_BORDER_SRC}
           alt=""
           fill
-          sizes="(max-width: 640px) 188px, 384px"
+          sizes="(max-width: 640px) 172px, 384px"
           className="pointer-events-none object-fill"
           priority
         />
-        <div className="relative z-10 flex h-full flex-col justify-center px-[14%] pb-[15%] pt-[13%]">
+        <div className="relative z-10 flex h-full flex-col justify-center px-[12%] pb-[11%] pt-[10%] sm:px-[14%] sm:pb-[15%] sm:pt-[13%]">
           <h2
             id="home-stats-heading"
             className="font-mono text-xs font-bold tracking-[0.18em] text-[var(--home-stat-red)] uppercase sm:text-xl"
           >
             STATS
           </h2>
-          <ul className="mt-2.5 space-y-2 sm:mt-6 sm:space-y-5" role="list">
+          <ul className="mt-1.5 space-y-1.5 sm:mt-6 sm:space-y-5" role="list">
             {STATS.map((stat) => (
               <li key={stat.label}>
                 <span className="home-role-label text-foreground/90">

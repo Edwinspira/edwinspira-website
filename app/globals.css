@@ -1638,11 +1638,11 @@ a.home-connect__establish-button:active {
   overflow-wrap: anywhere;
 }
 
-/* Mobile: widen frame without growing taller; keep role labels on one line */
+/* Mobile: shorter/narrower frame; keep role label size; labels on one line */
 @media (max-width: 639px) {
   .home-stats-box__frame {
     aspect-ratio: auto;
-    height: 10.15rem;
+    height: 8.85rem;
   }
 
   .home-stats-box .home-role-label {
@@ -1929,7 +1929,7 @@ a.home-connect__establish-button:active {
 
 .home-hero-name {
   left: calc(var(--home-pad) + 0.75rem);
-  bottom: calc(2.5vh + 11.5rem);
+  bottom: calc(2.5vh + 10rem);
   font-size: clamp(2.25rem, 11vw, 3.5rem);
 }
 
