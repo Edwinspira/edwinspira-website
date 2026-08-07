@@ -1677,7 +1677,7 @@ a.home-connect__establish-button:active {
 
 .home-hero-name {
   left: calc(var(--home-pad) + 0.75rem);
-  bottom: calc(6vh + 11.5rem);
+  bottom: calc(2.5vh + 11.5rem);
   font-size: clamp(2.25rem, 11vw, 3.5rem);
 }
 
