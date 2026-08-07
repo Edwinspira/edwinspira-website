@@ -62,6 +62,19 @@ body {
   font-family: var(--font-sans), system-ui, sans-serif;
 }
 
+/*
+ * Mobile: lock fixed hero to large viewport height.
+ * Dynamic inset-0 reflows when the URL bar shows/hides, which makes
+ * object-cover appear to shift and zoom. Desktop keeps inset-0 as-is.
+ */
+@media (max-width: 639px) {
+  .home-hero {
+    bottom: auto;
+    height: 100vh;
+    height: 100lvh;
+  }
+}
+
 /* Mobile: bias right of center so the middle of the artwork stays in frame */
 .home-hero-image {
   object-position: 68% 33%;

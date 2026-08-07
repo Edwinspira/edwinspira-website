@@ -4,7 +4,7 @@ const HERO_IMAGE_SRC = "/images/home/EdwinspiraHomeHero2.png";
 
 export function HomeHero() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0" aria-hidden>
+    <div className="home-hero pointer-events-none fixed inset-0 z-0" aria-hidden>
       <Image
         src={HERO_IMAGE_SRC}
         alt=""
