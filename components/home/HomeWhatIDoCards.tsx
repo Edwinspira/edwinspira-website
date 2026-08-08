@@ -18,25 +18,36 @@ export function HomeWhatIDoCards() {
     const root = listRef.current;
     if (!root) return;
 
-    const reducedMotion = window.matchMedia(
+    const reducedMotion = window.matchMedia?.(
       "(prefers-reduced-motion: reduce)",
-    ).matches;
+    )?.matches ?? false;
 
     if (reducedMotion) {
       setRevealed(true);
       return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        setRevealed(true);
-        observer.disconnect();
-      },
-      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
-    );
+    if (!("IntersectionObserver" in window)) {
+      setRevealed(true);
+      return;
+    }
 
-    observer.observe(root);
+    let observer: IntersectionObserver;
+    try {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting) return;
+          setRevealed(true);
+          observer.disconnect();
+        },
+        { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
+      );
+      observer.observe(root);
+    } catch {
+      setRevealed(true);
+      return;
+    }
+
     return () => observer.disconnect();
   }, []);
 
