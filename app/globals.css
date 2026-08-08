@@ -147,7 +147,7 @@ body {
   .home-hero-profile.home-hero-image {
     object-position: 70% 10%;
     /* Lift bust so the name sits under the chin, not over it */
-    transform: translateY(-2vh);
+    transform: translateY(-4vh);
     transform-origin: 68% 36%;
   }
 
