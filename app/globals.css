@@ -209,7 +209,7 @@ body {
 /* Portrait phone only — lift year; leave landscape mobile + desktop alone */
 @media (max-width: 639px) and (orientation: portrait) {
   .home-hero-marks__year {
-    margin-bottom: 1vh;
+    margin-bottom: 2vh;
   }
 }
 
