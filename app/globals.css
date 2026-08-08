@@ -112,7 +112,7 @@ body {
  */
 @media (max-width: 639px) {
   .home-hero-profile.home-hero-image {
-    object-position: 70% 30%;
+    object-position: 70% 10%;
     transform: scale(1);
     transform-origin: 68% 36%;
   }
