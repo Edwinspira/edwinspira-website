@@ -8,6 +8,8 @@
   --accent-muted: #0891b2;
   --border: #27272a;
   --home-stat-red: #ff1f1f;
+  /* Sampled from EdwinspiraHomeHero2 vertical year mark */
+  --home-hero-year-red: #eb2f0a;
   --home-pad: 1rem;
   --home-deco-w: 2rem;
   /* Shared by What I Do titles + Stats box labels */
@@ -86,8 +88,134 @@ body {
   }
 }
 
+/* Contain loop video z-indexes so they never stack above the profile cutout */
+.home-hero-loop {
+  z-index: 0;
+  isolation: isolate;
+}
+
+/* Binary: over video, under character */
+.home-hero-binary {
+  z-index: 1;
+  opacity: 0.9;
+  mix-blend-mode: soft-light;
+}
+
+/* Character cutout — above binary so code never sits on the face */
+.home-hero-profile {
+  z-index: 2;
+}
+
+/*
+ * Mobile portrait: frame the bust like the portrait reference — full face
+ * visible, not an extreme ear crop. Day/night profiles share this crop.
+ */
+@media (max-width: 639px) {
+  .home-hero-profile.home-hero-image {
+    object-position: 70% 30%;
+    transform: scale(1);
+    transform-origin: 68% 36%;
+  }
+}
+
+/*
+ * Vertical JP + year — match EdwinspiraHomeHero2 right-edge column
+ * (~92.5–98.5% x, ~2–70% y; year digits ~16–17vh each).
+ */
+.home-hero-marks {
+  position: absolute;
+  top: 2%;
+  right: 2.4%;
+  bottom: 2.4%;
+  z-index: 3;
+  display: grid;
+  width: 6.2%;
+  min-width: 2.75rem;
+  max-width: 7.5rem;
+  pointer-events: none;
+}
+
+.home-hero-marks__jp,
+.home-hero-marks__year {
+  grid-area: 1 / 1;
+  justify-self: center;
+  margin: 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  line-height: 1;
+}
+
+.home-hero-marks__jp {
+  z-index: 0;
+  align-self: start;
+  margin-top: 4.5vh;
+  font-family: var(--font-noto-sans-jp), "Hiragino Sans", sans-serif;
+  font-size: clamp(1.75rem, 6.4vh, 3.85rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.42em;
+}
+
+.home-hero-marks__year {
+  z-index: 1;
+  align-self: end;
+  justify-self: end;
+  translate: 0.14vw 0;
+  font-family: var(--font-orbitron), sans-serif;
+  font-size: clamp(2.6rem, 13vh, 8.25rem);
+  font-weight: 800;
+  color: var(--home-hero-year-red);
+  letter-spacing: 0.04em;
+  /* Slight see-through so white JP shows through the digits */
+  opacity: 0.5;
+}
+
+/* Dual-video crossfade for seamless hero loop restarts */
+.home-hero-loop-video {
+  opacity: 0;
+  transition: opacity 1s linear;
+  will-change: opacity;
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-loop-video {
+    transition: none;
+  }
+}
+
+@media (max-width: 639px) {
+  .home-hero-marks {
+    top: 3%;
+    right: 1.6%;
+    bottom: 1.6%;
+    width: 9%;
+    min-width: 2.1rem;
+    max-width: 3.25rem;
+  }
+
+  .home-hero-marks__jp {
+    margin-top: 3.5vh;
+    font-size: clamp(1.15rem, 4.3vh, 1.85rem);
+    letter-spacing: 0.32em;
+  }
+
+  .home-hero-marks__year {
+    translate: 0.18vw 0;
+    font-size: clamp(1.75rem, 9vh, 2.85rem);
+  }
+}
+
+/* Portrait phone only — lift year; leave landscape mobile + desktop alone */
+@media (max-width: 639px) and (orientation: portrait) {
+  .home-hero-marks__year {
+    margin-bottom: 1vh;
+  }
+}
+
 /* Home hero: left + top strongest; left fades over ~30% into page black */
 .home-hero-vignette {
+  z-index: 4;
   background:
     linear-gradient(
       to right,
@@ -103,12 +231,11 @@ body {
     ),
     linear-gradient(
       to bottom,
-      rgb(0 0 0 / 0.95) 0%,
-      rgb(0 0 0 / 0.88) 8%,
-      rgb(0 0 0 / 0.72) 16%,
-      rgb(0 0 0 / 0.45) 26%,
-      rgb(0 0 0 / 0.15) 36%,
-      transparent 50%
+      rgb(0 0 0 / 0.62) 0%,
+      rgb(0 0 0 / 0.4) 8%,
+      rgb(0 0 0 / 0.2) 18%,
+      rgb(0 0 0 / 0.07) 28%,
+      transparent 40%
     ),
     linear-gradient(
       to left,
@@ -136,12 +263,11 @@ body {
       ),
       linear-gradient(
         to bottom,
-        rgb(0 0 0 / 0.95) 0%,
-        rgb(0 0 0 / 0.88) 8%,
-        rgb(0 0 0 / 0.72) 16%,
-        rgb(0 0 0 / 0.45) 26%,
-        rgb(0 0 0 / 0.15) 36%,
-        transparent 50%
+        rgb(0 0 0 / 0.58) 0%,
+        rgb(0 0 0 / 0.36) 8%,
+        rgb(0 0 0 / 0.16) 18%,
+        rgb(0 0 0 / 0.05) 28%,
+        transparent 38%
       ),
       linear-gradient(to top, rgb(0 0 0 / 0.4) 0%, rgb(0 0 0 / 0.12) 8%, transparent 16%);
   }
