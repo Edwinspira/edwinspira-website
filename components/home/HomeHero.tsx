@@ -100,6 +100,9 @@ export function HomeHero() {
         className="home-hero-image home-hero-binary object-cover"
       />
 
+      {/* Black under the masked bust edge so it fades to black, not the video */}
+      <div className="home-hero-profile-bottom-blend" />
+
       {profileSrc ? (
         <Image
           key={profileSrc}

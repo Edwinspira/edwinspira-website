@@ -104,6 +104,39 @@ body {
 /* Character cutout — above binary so code never sits on the face */
 .home-hero-profile {
   z-index: 2;
+  /* Soften only the bottom of the PNG so the bust edge isn't a hard line */
+  -webkit-mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    rgb(0 0 0 / 0.4) 5%,
+    black 18%,
+    black 100%
+  );
+  mask-image: linear-gradient(
+    to top,
+    transparent 0%,
+    rgb(0 0 0 / 0.4) 5%,
+    black 18%,
+    black 100%
+  );
+  mask-mode: alpha;
+}
+
+/* Black under the masked bottom so the cutout fades into black, not the video */
+.home-hero-profile-bottom-blend {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 2;
+  height: 28%;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0) 0%,
+    rgb(0 0 0 / 0.85) 28%,
+    rgb(0 0 0 / 0.4) 55%,
+    transparent 100%
+  );
 }
 
 /*
@@ -113,8 +146,13 @@ body {
 @media (max-width: 639px) {
   .home-hero-profile.home-hero-image {
     object-position: 70% 10%;
-    transform: scale(1);
+    /* Lift bust so the name sits under the chin, not over it */
+    transform: translateY(-2vh);
     transform-origin: 68% 36%;
+  }
+
+  .home-hero-profile-bottom-blend {
+    height: 34%;
   }
 }
 
