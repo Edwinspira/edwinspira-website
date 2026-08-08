@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type RefObject } from "react";
 
 const CROSSFADE_MS = 1000;
 /** Start decoding the standby clip this far before the fade begins. */
 const PREPARE_LEAD_S = 1.75;
 const FADE_LEAD_S = CROSSFADE_MS / 1000;
-/** Retry muted autoplay while the first frame is still buffering on mobile. */
-const PLAY_RETRY_MS = 400;
-const PLAY_RETRY_MAX = 40;
+const PLAY_RETRY_MS = 300;
+const PLAY_RETRY_MAX = 60;
 
 type HomeHeroLoopVideoProps = {
   src: string;
@@ -29,7 +28,6 @@ function waitForPaintedFrame(video: HTMLVideoElement): Promise<void> {
       return;
     }
 
-    // Double rAF: after play(), one frame is usually committed by the second.
     requestAnimationFrame(() => {
       requestAnimationFrame(() => resolve());
     });
@@ -48,7 +46,6 @@ function seekToStart(video: HTMLVideoElement): Promise<void> {
 
     video.addEventListener("seeked", finish);
 
-    // Force a seek even when already at 0 so `seeked` fires and a frame decodes.
     if (video.currentTime < 0.001) {
       video.currentTime = 0.001;
     }
@@ -58,37 +55,137 @@ function seekToStart(video: HTMLVideoElement): Promise<void> {
   });
 }
 
-function waitUntilCanPlay(video: HTMLVideoElement): Promise<void> {
-  if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
-    return Promise.resolve();
-  }
+function armMutedInline(video: HTMLVideoElement) {
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+  video.setAttribute("webkit-playsinline", "true");
+}
 
-  return new Promise((resolve) => {
-    let settled = false;
-    const finish = () => {
-      if (settled) return;
-      settled = true;
-      video.removeEventListener("canplay", finish);
-      video.removeEventListener("loadeddata", finish);
-      resolve();
+function usePreferSimpleLoop(): boolean {
+  const [simple, setSimple] = useState(true);
+
+  useEffect(() => {
+    const mq = window.matchMedia(
+      "(max-width: 639px), (hover: none) and (pointer: coarse)",
+    );
+    const sync = () => setSimple(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  return simple;
+}
+
+function useKeepPlaying(
+  videoRef: RefObject<HTMLVideoElement | null>,
+  src: string,
+) {
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    let cancelled = false;
+    let playRetryId: number | null = null;
+    let playAttempts = 0;
+
+    armMutedInline(video);
+
+    const clearPlayRetry = () => {
+      if (playRetryId !== null) {
+        window.clearTimeout(playRetryId);
+        playRetryId = null;
+      }
     };
 
-    video.addEventListener("canplay", finish);
-    video.addEventListener("loadeddata", finish);
+    const ensurePlaying = async () => {
+      if (cancelled) return;
+      if (!video.paused && !video.ended) {
+        clearPlayRetry();
+        return;
+      }
 
-    // Some WebKit builds stall event delivery after a cold cache miss.
-    window.setTimeout(finish, 8000);
-  });
+      try {
+        armMutedInline(video);
+        // Call play() immediately — waiting for canplay first stalls iOS,
+        // which often will not buffer until play() is invoked.
+        await video.play();
+        clearPlayRetry();
+      } catch {
+        if (cancelled || playAttempts >= PLAY_RETRY_MAX) return;
+        playAttempts += 1;
+        clearPlayRetry();
+        playRetryId = window.setTimeout(() => {
+          playRetryId = null;
+          void ensurePlaying();
+        }, PLAY_RETRY_MS);
+      }
+    };
+
+    void ensurePlaying();
+
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") void ensurePlaying();
+    };
+
+    const unlockEvents = ["touchstart", "pointerdown", "click"] as const;
+    const onUserGesture = () => {
+      void ensurePlaying();
+    };
+
+    document.addEventListener("visibilitychange", onVisibility);
+    for (const eventName of unlockEvents) {
+      window.addEventListener(eventName, onUserGesture, {
+        passive: true,
+        once: true,
+      });
+    }
+
+    return () => {
+      cancelled = true;
+      clearPlayRetry();
+      document.removeEventListener("visibilitychange", onVisibility);
+      for (const eventName of unlockEvents) {
+        window.removeEventListener(eventName, onUserGesture);
+      }
+      video.pause();
+    };
+  }, [src, videoRef]);
 }
 
 /**
- * Seamless visual loop via dual-element crossfade.
- * Native `loop` hard-cuts; this overlaps ending frames into a fresh start.
- *
- * The incoming clip stays opacity 0 until a decoded frame is painted, then
- * fades in over a still-fully-opaque outgoing clip (avoids black page flash).
+ * Mobile / touch: one native looping video.
+ * Dual-element crossfade needs two decoders and often never starts on phones.
  */
-export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
+function HomeHeroSimpleLoop({ src }: HomeHeroLoopVideoProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useKeepPlaying(videoRef, src);
+
+  return (
+    <div className="home-hero-loop absolute inset-0">
+      <video
+        ref={videoRef}
+        className="home-hero-image absolute inset-0 h-full w-full object-cover"
+        src={src}
+        muted
+        playsInline
+        loop
+        autoPlay
+        preload="auto"
+        style={{ opacity: 1 }}
+      />
+    </div>
+  );
+}
+
+/**
+ * Desktop: seamless visual loop via dual-element crossfade.
+ * Native `loop` hard-cuts; this overlaps ending frames into a fresh start.
+ */
+function HomeHeroCrossfadeLoop({ src }: HomeHeroLoopVideoProps) {
   const primaryRef = useRef<HTMLVideoElement>(null);
   const secondaryRef = useRef<HTMLVideoElement>(null);
   const activeIndexRef = useRef<0 | 1>(0);
@@ -127,7 +224,8 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
     primary.style.transition = "";
     secondary.style.transition = "";
 
-    // Standby stays cold until near loop end so the primary can buffer first.
+    armMutedInline(primary);
+    armMutedInline(secondary);
     secondary.preload = "none";
     secondary.removeAttribute("src");
     secondary.load();
@@ -141,17 +239,13 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
 
     const ensurePrimaryPlaying = async () => {
       if (cancelled) return;
-      if (!primary.paused && !primary.ended && primary.currentTime > 0) {
+      if (!primary.paused && !primary.ended) {
         clearPlayRetry();
         return;
       }
 
       try {
-        await waitUntilCanPlay(primary);
-        if (cancelled) return;
-        if (primary.currentTime > 0.05 && !primary.paused) return;
-
-        primary.muted = true;
+        armMutedInline(primary);
         await primary.play();
         clearPlayRetry();
       } catch {
@@ -165,44 +259,15 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
       }
     };
 
-    const kickPlayback = () => {
-      void ensurePrimaryPlaying();
-    };
-
-    // Seek only after metadata exists — setting currentTime too early fails on WebKit.
-    const bootPrimary = async () => {
-      try {
-        if (primary.readyState < HTMLMediaElement.HAVE_METADATA) {
-          await new Promise<void>((resolve) => {
-            const onMeta = () => {
-              primary.removeEventListener("loadedmetadata", onMeta);
-              resolve();
-            };
-            primary.addEventListener("loadedmetadata", onMeta);
-            window.setTimeout(() => {
-              primary.removeEventListener("loadedmetadata", onMeta);
-              resolve();
-            }, 8000);
-          });
-        }
-        if (cancelled) return;
-        await seekToStart(primary);
-      } catch {
-        // Ignore seek failures; play retry still runs.
-      }
-      kickPlayback();
-    };
-
-    void bootPrimary();
+    void ensurePrimaryPlaying();
 
     const onVisibility = () => {
-      if (document.visibilityState === "visible") kickPlayback();
+      if (document.visibilityState === "visible") void ensurePrimaryPlaying();
     };
 
-    // First-tap / scroll often unlocks muted autoplay after a cold load.
     const unlockEvents = ["touchstart", "pointerdown", "click"] as const;
     const onUserGesture = () => {
-      kickPlayback();
+      void ensurePrimaryPlaying();
     };
 
     document.addEventListener("visibilitychange", onVisibility);
@@ -224,6 +289,7 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
       if (secondary.getAttribute("src") === src) return;
       secondary.preload = "auto";
       secondary.src = src;
+      armMutedInline(secondary);
       secondary.load();
     };
 
@@ -241,8 +307,6 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
         to.pause();
         to.style.transition = "none";
         to.style.opacity = "0";
-        await waitUntilCanPlay(to);
-        if (cancelled) return;
         await seekToStart(to);
         if (!cancelled) standbyReadyRef.current = true;
       } finally {
@@ -272,14 +336,12 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
       ensureStandbySrc();
 
       if (!standbyReadyRef.current) {
-        await waitUntilCanPlay(to);
-        if (cancelled) return;
         await seekToStart(to);
       }
       if (cancelled) return;
 
       try {
-        to.muted = true;
+        armMutedInline(to);
         await to.play();
       } catch {
         // Autoplay can fail; still attempt the frame wait below.
@@ -289,7 +351,6 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
       await waitForPaintedFrame(to);
       if (cancelled) return;
 
-      // Frame is on screen at opacity 0 — now fade in over the opaque outgoing.
       void to.offsetHeight;
       to.style.transition = "";
       to.style.opacity = "1";
@@ -375,5 +436,18 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
         style={{ opacity: 0, zIndex: 1 }}
       />
     </div>
+  );
+}
+
+/**
+ * Seamless visual loop via dual-element crossfade on desktop.
+ * Uses a single native `loop` video on mobile/touch where dual decode fails.
+ */
+export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
+  const preferSimple = usePreferSimpleLoop();
+  return preferSimple ? (
+    <HomeHeroSimpleLoop src={src} />
+  ) : (
+    <HomeHeroCrossfadeLoop src={src} />
   );
 }
