@@ -6,6 +6,9 @@ const CROSSFADE_MS = 1000;
 /** Start decoding the standby clip this far before the fade begins. */
 const PREPARE_LEAD_S = 1.75;
 const FADE_LEAD_S = CROSSFADE_MS / 1000;
+/** Retry muted autoplay while the first frame is still buffering on mobile. */
+const PLAY_RETRY_MS = 400;
+const PLAY_RETRY_MAX = 40;
 
 type HomeHeroLoopVideoProps = {
   src: string;
@@ -55,6 +58,29 @@ function seekToStart(video: HTMLVideoElement): Promise<void> {
   });
 }
 
+function waitUntilCanPlay(video: HTMLVideoElement): Promise<void> {
+  if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+    return Promise.resolve();
+  }
+
+  return new Promise((resolve) => {
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      video.removeEventListener("canplay", finish);
+      video.removeEventListener("loadeddata", finish);
+      resolve();
+    };
+
+    video.addEventListener("canplay", finish);
+    video.addEventListener("loadeddata", finish);
+
+    // Some WebKit builds stall event delivery after a cold cache miss.
+    window.setTimeout(finish, 8000);
+  });
+}
+
 /**
  * Seamless visual loop via dual-element crossfade.
  * Native `loop` hard-cuts; this overlaps ending frames into a fresh start.
@@ -78,6 +104,8 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
 
     const layers = [primary, secondary] as const;
     let cancelled = false;
+    let playRetryId: number | null = null;
+    let playAttempts = 0;
 
     activeIndexRef.current = 0;
     crossfadingRef.current = false;
@@ -99,16 +127,104 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
     primary.style.transition = "";
     secondary.style.transition = "";
 
-    primary.currentTime = 0;
-    secondary.currentTime = 0;
-    secondary.pause();
-    void primary.play().catch(() => {});
+    // Standby stays cold until near loop end so the primary can buffer first.
+    secondary.preload = "none";
+    secondary.removeAttribute("src");
+    secondary.load();
+
+    const clearPlayRetry = () => {
+      if (playRetryId !== null) {
+        window.clearTimeout(playRetryId);
+        playRetryId = null;
+      }
+    };
+
+    const ensurePrimaryPlaying = async () => {
+      if (cancelled) return;
+      if (!primary.paused && !primary.ended && primary.currentTime > 0) {
+        clearPlayRetry();
+        return;
+      }
+
+      try {
+        await waitUntilCanPlay(primary);
+        if (cancelled) return;
+        if (primary.currentTime > 0.05 && !primary.paused) return;
+
+        primary.muted = true;
+        await primary.play();
+        clearPlayRetry();
+      } catch {
+        if (cancelled || playAttempts >= PLAY_RETRY_MAX) return;
+        playAttempts += 1;
+        clearPlayRetry();
+        playRetryId = window.setTimeout(() => {
+          playRetryId = null;
+          void ensurePrimaryPlaying();
+        }, PLAY_RETRY_MS);
+      }
+    };
+
+    const kickPlayback = () => {
+      void ensurePrimaryPlaying();
+    };
+
+    // Seek only after metadata exists — setting currentTime too early fails on WebKit.
+    const bootPrimary = async () => {
+      try {
+        if (primary.readyState < HTMLMediaElement.HAVE_METADATA) {
+          await new Promise<void>((resolve) => {
+            const onMeta = () => {
+              primary.removeEventListener("loadedmetadata", onMeta);
+              resolve();
+            };
+            primary.addEventListener("loadedmetadata", onMeta);
+            window.setTimeout(() => {
+              primary.removeEventListener("loadedmetadata", onMeta);
+              resolve();
+            }, 8000);
+          });
+        }
+        if (cancelled) return;
+        await seekToStart(primary);
+      } catch {
+        // Ignore seek failures; play retry still runs.
+      }
+      kickPlayback();
+    };
+
+    void bootPrimary();
+
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") kickPlayback();
+    };
+
+    // First-tap / scroll often unlocks muted autoplay after a cold load.
+    const unlockEvents = ["touchstart", "pointerdown", "click"] as const;
+    const onUserGesture = () => {
+      kickPlayback();
+    };
+
+    document.addEventListener("visibilitychange", onVisibility);
+    for (const eventName of unlockEvents) {
+      window.addEventListener(eventName, onUserGesture, {
+        passive: true,
+        once: true,
+      });
+    }
 
     const clearFadeTimeout = () => {
       if (fadeTimeoutRef.current !== null) {
         window.clearTimeout(fadeTimeoutRef.current);
         fadeTimeoutRef.current = null;
       }
+    };
+
+    const ensureStandbySrc = () => {
+      if (secondary.getAttribute("src") === src) return;
+      secondary.preload = "auto";
+      secondary.src = src;
+      secondary.load();
     };
 
     const prepareStandby = async () => {
@@ -121,9 +237,12 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
       const to = layers[toIndex];
 
       try {
+        ensureStandbySrc();
         to.pause();
         to.style.transition = "none";
         to.style.opacity = "0";
+        await waitUntilCanPlay(to);
+        if (cancelled) return;
         await seekToStart(to);
         if (!cancelled) standbyReadyRef.current = true;
       } finally {
@@ -150,12 +269,17 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
       to.style.transition = "none";
       to.style.opacity = "0";
 
+      ensureStandbySrc();
+
       if (!standbyReadyRef.current) {
+        await waitUntilCanPlay(to);
+        if (cancelled) return;
         await seekToStart(to);
       }
       if (cancelled) return;
 
       try {
+        to.muted = true;
         await to.play();
       } catch {
         // Autoplay can fail; still attempt the frame wait below.
@@ -216,7 +340,12 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
 
     return () => {
       cancelled = true;
+      clearPlayRetry();
       clearFadeTimeout();
+      document.removeEventListener("visibilitychange", onVisibility);
+      for (const eventName of unlockEvents) {
+        window.removeEventListener(eventName, onUserGesture);
+      }
       for (const video of layers) {
         video.removeEventListener("timeupdate", onTimeUpdate);
         video.removeEventListener("ended", onEnded);
@@ -240,10 +369,9 @@ export function HomeHeroLoopVideo({ src }: HomeHeroLoopVideoProps) {
       <video
         ref={secondaryRef}
         className="home-hero-image home-hero-loop-video absolute inset-0 h-full w-full object-cover"
-        src={src}
         muted
         playsInline
-        preload="auto"
+        preload="none"
         style={{ opacity: 0, zIndex: 1 }}
       />
     </div>
