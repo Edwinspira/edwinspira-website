@@ -237,16 +237,19 @@ function HomeHeroCrossfadeLoop({ src }: HomeHeroLoopVideoProps) {
       }
     };
 
-    const ensurePrimaryPlaying = async () => {
+    const ensureActivePlaying = async () => {
       if (cancelled) return;
-      if (!primary.paused && !primary.ended) {
+      const active = layers[activeIndexRef.current];
+
+      if (!active.paused && !active.ended) {
         clearPlayRetry();
         return;
       }
 
       try {
-        armMutedInline(primary);
-        await primary.play();
+        armMutedInline(active);
+        await active.play();
+        playAttempts = 0;
         clearPlayRetry();
       } catch {
         if (cancelled || playAttempts >= PLAY_RETRY_MAX) return;
@@ -254,20 +257,20 @@ function HomeHeroCrossfadeLoop({ src }: HomeHeroLoopVideoProps) {
         clearPlayRetry();
         playRetryId = window.setTimeout(() => {
           playRetryId = null;
-          void ensurePrimaryPlaying();
+          void ensureActivePlaying();
         }, PLAY_RETRY_MS);
       }
     };
 
-    void ensurePrimaryPlaying();
+    void ensureActivePlaying();
 
     const onVisibility = () => {
-      if (document.visibilityState === "visible") void ensurePrimaryPlaying();
+      if (document.visibilityState === "visible") void ensureActivePlaying();
     };
 
     const unlockEvents = ["touchstart", "pointerdown", "click"] as const;
     const onUserGesture = () => {
-      void ensurePrimaryPlaying();
+      void ensureActivePlaying();
     };
 
     document.addEventListener("visibilitychange", onVisibility);
@@ -368,6 +371,7 @@ function HomeHeroCrossfadeLoop({ src }: HomeHeroLoopVideoProps) {
         standbyReadyRef.current = false;
         activeIndexRef.current = toIndex;
         crossfadingRef.current = false;
+        void ensureActivePlaying();
       }, CROSSFADE_MS);
     };
 
