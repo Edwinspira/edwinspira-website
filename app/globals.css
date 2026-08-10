@@ -601,16 +601,11 @@ body {
   position: relative;
   z-index: 3;
   isolation: isolate;
-  justify-self: start;
+  /* Center until desktop row layout; landscape phones are often ≥640px wide */
+  justify-self: center;
   width: 100%;
   max-width: 100%;
   overflow: visible;
-}
-
-@media (max-width: 639px) {
-  .home-connect__featured-carousel {
-    justify-self: center;
-  }
 }
 
 .home-connect__featured-copy {
@@ -654,6 +649,10 @@ body {
     grid-template-columns: auto minmax(0, 1fr) auto;
     grid-template-areas: "carousel copy establish";
     align-items: center;
+  }
+
+  .home-connect__featured-carousel {
+    justify-self: start;
   }
 
   .home-connect__establish-stack {
