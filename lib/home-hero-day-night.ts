@@ -1,8 +1,8 @@
 export type HeroDayNightMode = "day" | "night";
 
-/** Cache-bust after moov/faststart remux so phones don't keep the old file. */
-export const HERO_DAY_VIDEO_SRC = "/images/videos/Dia.mp4?v=faststart2";
-export const HERO_NIGHT_VIDEO_SRC = "/images/videos/Noche.mp4?v=faststart2";
+/** Cache-bust when hero loop MP4s change. */
+export const HERO_DAY_VIDEO_SRC = "/images/videos/Dia.mp4?v=matched6";
+export const HERO_NIGHT_VIDEO_SRC = "/images/videos/Noche.mp4?v=matched6";
 export const HERO_DAY_PROFILE_SRC = "/images/home/Edwinspira Profile Day.png";
 export const HERO_NIGHT_PROFILE_SRC =
   "/images/home/Edwinspira Profile Night.png";

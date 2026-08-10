@@ -208,20 +208,6 @@ body {
   opacity: 0.5;
 }
 
-/* Dual-video crossfade for seamless hero loop restarts */
-.home-hero-loop-video {
-  opacity: 0;
-  transition: opacity 1s linear;
-  will-change: opacity;
-  background: transparent;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-hero-loop-video {
-    transition: none;
-  }
-}
-
 @media (max-width: 639px) {
   .home-hero-marks {
     top: 3%;
