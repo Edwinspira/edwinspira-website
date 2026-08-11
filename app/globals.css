@@ -2688,3 +2688,211 @@ a.home-connect__establish-button:active {
     animation: none;
   }
 }
+
+/* Featured projects — View all projects CTA */
+.home-view-all-projects {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.7rem 1.15rem 0.7rem 1.25rem;
+  overflow: hidden;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--foreground);
+  text-decoration: none;
+  text-transform: uppercase;
+  background:
+    linear-gradient(
+      135deg,
+      rgb(255 31 31 / 0.08) 0%,
+      rgb(255 31 31 / 0.02) 40%,
+      transparent 70%
+    ),
+    rgb(255 255 255 / 0.02);
+  border: 1px solid rgb(255 31 31 / 0.35);
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
+}
+
+.home-view-all-projects__frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.home-view-all-projects__corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: var(--home-stat-red);
+  border-style: solid;
+  opacity: 0.75;
+  transition: opacity 0.2s ease;
+}
+
+.home-view-all-projects__corner--tl {
+  top: 3px;
+  left: 3px;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.home-view-all-projects__corner--tr {
+  top: 3px;
+  right: 3px;
+  border-width: 1.5px 1.5px 0 0;
+}
+
+.home-view-all-projects__corner--bl {
+  bottom: 3px;
+  left: 3px;
+  border-width: 0 0 1.5px 1.5px;
+}
+
+.home-view-all-projects__corner--br {
+  right: 3px;
+  bottom: 3px;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+.home-view-all-projects__scan {
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 31 31 / 0.12),
+    transparent
+  );
+  opacity: 0;
+  transform: skewX(-18deg);
+  transition: opacity 0.2s ease;
+}
+
+.home-view-all-projects__label {
+  position: relative;
+  z-index: 1;
+}
+
+.home-view-all-projects__arrow {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  color: var(--home-stat-red);
+  transition: transform 0.25s ease;
+}
+
+.home-view-all-projects__arrow-svg {
+  width: 1.15rem;
+  height: 0.6rem;
+}
+
+.home-view-all-projects:hover {
+  color: #fff;
+  border-color: rgb(255 31 31 / 0.75);
+  background:
+    linear-gradient(
+      135deg,
+      rgb(255 31 31 / 0.18) 0%,
+      rgb(255 31 31 / 0.06) 45%,
+      transparent 75%
+    ),
+    rgb(255 255 255 / 0.04);
+  box-shadow:
+    0 0 0 1px rgb(255 31 31 / 0.12),
+    0 0 18px rgb(255 31 31 / 0.22);
+  transform: translateY(-1px);
+}
+
+.home-view-all-projects:hover .home-view-all-projects__corner {
+  opacity: 1;
+}
+
+.home-view-all-projects:hover .home-view-all-projects__scan {
+  opacity: 1;
+  animation: home-view-all-scan 0.7s ease both;
+}
+
+.home-view-all-projects:hover .home-view-all-projects__arrow {
+  transform: translateX(4px);
+}
+
+.home-view-all-projects:focus-visible {
+  outline: 2px solid var(--home-stat-red);
+  outline-offset: 3px;
+}
+
+.home-view-all-projects:active {
+  transform: translateY(0);
+  box-shadow: 0 0 10px rgb(255 31 31 / 0.18);
+}
+
+@keyframes home-view-all-scan {
+  from {
+    left: -40%;
+  }
+  to {
+    left: 110%;
+  }
+}
+
+@media (min-width: 640px) {
+  .home-view-all-projects {
+    gap: 1rem;
+    padding: 0.8rem 1.35rem 0.8rem 1.45rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.22em;
+    clip-path: polygon(
+      0 0,
+      calc(100% - 12px) 0,
+      100% 12px,
+      100% 100%,
+      12px 100%,
+      0 calc(100% - 12px)
+    );
+  }
+
+  .home-view-all-projects__arrow-svg {
+    width: 1.35rem;
+    height: 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-view-all-projects,
+  .home-view-all-projects__arrow,
+  .home-view-all-projects__corner,
+  .home-view-all-projects__scan {
+    transition: none;
+  }
+
+  .home-view-all-projects:hover {
+    transform: none;
+  }
+
+  .home-view-all-projects:hover .home-view-all-projects__arrow {
+    transform: none;
+  }
+
+  .home-view-all-projects:hover .home-view-all-projects__scan {
+    animation: none;
+    opacity: 0.35;
+    left: 30%;
+  }
+}
