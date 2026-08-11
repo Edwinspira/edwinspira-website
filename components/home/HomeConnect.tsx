@@ -6,7 +6,8 @@ import { HOME_CONNECT_PLATFORMS } from "@/lib/home-connect";
 export function HomeConnect() {
   return (
     <section
-      className="home-connect relative z-10 w-full bg-black"
+      id="connect"
+      className="home-connect relative z-10 w-full scroll-mt-6 bg-black"
       aria-labelledby="connect-heading"
     >
       <div className="home-section-pad w-full px-[var(--home-pad)]">

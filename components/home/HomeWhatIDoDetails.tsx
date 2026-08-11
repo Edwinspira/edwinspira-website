@@ -67,11 +67,16 @@ export function HomeWhatIDoDetails({
     const reduced = prefersReducedMotion();
 
     const finish = () => {
-      stopAnimations();
+      const root = rootRef.current;
+      if (root) {
+        root.style.visibility = "hidden";
+        root.style.pointerEvents = "none";
+      }
       origin.bg.style.opacity = "";
       origin.img.style.opacity = "";
       origin.trigger.classList.remove("is-expand-origin");
       origin.trigger.focus();
+      stopAnimations();
       onClosed();
     };
 
@@ -84,25 +89,31 @@ export function HomeWhatIDoDetails({
     const imgFrom = origin.img.getBoundingClientRect();
     const bgTo = bgDown.getBoundingClientRect();
     const imgTo = img.getBoundingClientRect();
+    const bgInvert = invertTransform(bgFrom, bgTo);
+    const imgInvert = invertTransform(imgFrom, imgTo);
 
     stopAnimations();
 
     const bgAnim = bgDown.animate(
       [
         { transform: "none", opacity: 1 },
-        { transform: invertTransform(bgFrom, bgTo), opacity: 1 },
+        { transform: bgInvert, opacity: 1 },
       ],
       { duration: 250, easing: EASE_OUT_SINE, fill: "forwards" },
     );
     const imgAnim = img.animate(
       [
         { transform: "none", opacity: 1 },
-        { transform: invertTransform(imgFrom, imgTo), opacity: 1 },
+        { transform: imgInvert, opacity: 1 },
       ],
       { duration: 250, easing: EASE_OUT_SINE, fill: "forwards" },
     );
     animationsRef.current = [bgAnim, imgAnim];
-    imgAnim.onfinish = finish;
+    imgAnim.onfinish = () => {
+      bgDown.style.transform = bgInvert;
+      img.style.transform = imgInvert;
+      finish();
+    };
   }, [onClosed, origin, stopAnimations]);
 
   useLayoutEffect(() => {
@@ -223,14 +234,37 @@ export function HomeWhatIDoDetails({
     "--details-accent": card.accent,
   } as CSSProperties;
 
+  const isRich = Boolean(card.services?.length);
+
+  const onProjectClick = (event: ReactMouseEvent<HTMLAnchorElement>) => {
+    if (!card.projectHref?.startsWith("/#")) return;
+    event.preventDefault();
+    const id = card.projectHref.slice(2);
+    const reduced = prefersReducedMotion();
+    close();
+    window.setTimeout(
+      () => {
+        document.getElementById(id)?.scrollIntoView({
+          behavior: reduced ? "auto" : "smooth",
+        });
+        window.history.replaceState(null, "", card.projectHref);
+      },
+      reduced ? 80 : 400,
+    );
+  };
+
   return createPortal(
     <div
       ref={rootRef}
       id="what-i-do-details"
       className={[
         "home-what-i-do-details",
+        isRich ? "home-what-i-do-details--rich" : "",
+        isRich && card.titleLines?.length ? "home-what-i-do-details--stacked" : "",
         phase === "closing" ? "is-closing" : "is-open",
-      ].join(" ")}
+      ]
+        .filter(Boolean)
+        .join(" ")}
       style={accentStyle}
       role="dialog"
       aria-modal="true"
@@ -257,28 +291,73 @@ export function HomeWhatIDoDetails({
           id="what-i-do-details-title"
           className="home-what-i-do-details__title home-role-label font-semibold text-foreground"
         >
-          {card.title}
+          {card.titleLines?.length ? (
+            card.titleLines.map((line, index) => (
+              <span key={line}>
+                {index > 0 ? <br /> : null}
+                {line}
+              </span>
+            ))
+          ) : (
+            card.title
+          )}
         </h3>
-        <span className="home-what-i-do-details__deco" aria-hidden>
-          <HomeWhatIDoSkillIcon id={card.id} />
-        </span>
         <p
           className="home-what-i-do-details__subtitle font-mono"
           style={{ color: card.accent }}
         >
-          {card.subtitle}
+          {card.detailsSubtitle ?? card.subtitle}
         </p>
-        <ul className="home-what-i-do-details__highlights font-mono">
-          {card.highlights.map((item) => (
-            <li key={item}>{item}</li>
-          ))}
-        </ul>
+        {card.categoryLine ? (
+          <p className="home-what-i-do-details__category font-mono">
+            {card.categoryLine}
+          </p>
+        ) : (
+          <ul className="home-what-i-do-details__highlights font-mono">
+            {card.highlights.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        )}
         <p className="home-what-i-do-details__description text-foreground/80">
           {card.body}
         </p>
-        <Link href={card.workHref} className="home-what-i-do-details__cta font-mono">
-          {card.workLabel} →
-        </Link>
+        {card.services?.length ? (
+          <div className="home-what-i-do-details__section">
+            <h4 className="home-what-i-do-details__section-label font-mono">
+              {card.servicesTitle ?? "What I Build"}
+            </h4>
+            <ul className="home-what-i-do-details__services">
+              {card.services.map((service) => (
+                <li key={service.index} className="home-what-i-do-details__service">
+                  <span className="home-what-i-do-details__service-index" aria-hidden>
+                    {service.index}
+                  </span>
+                  <span className="home-what-i-do-details__service-label">
+                    {service.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+        {card.note ? (
+          <p className="home-what-i-do-details__note">{card.note}</p>
+        ) : null}
+        <div className="home-what-i-do-details__actions">
+          <Link href={card.workHref} className="home-what-i-do-details__cta font-mono">
+            {card.workLabel} →
+          </Link>
+          {card.projectHref && card.projectLabel ? (
+            <Link
+              href={card.projectHref}
+              className="home-what-i-do-details__cta home-what-i-do-details__cta--primary font-mono"
+              onClick={onProjectClick}
+            >
+              {card.projectLabel} ↗
+            </Link>
+          ) : null}
+        </div>
       </div>
 
       <button
