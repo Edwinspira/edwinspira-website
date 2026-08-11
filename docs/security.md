@@ -29,6 +29,7 @@ Never log:
 - tokens
 - passwords
 - full request bodies
+- full client IP addresses
 
 ## Dependencies
 
@@ -40,9 +41,21 @@ Never log:
 - Use HTTPS
 - Use secure cookies for sessions
 
-## Rate Limiting (future)
+## Contact form
 
-- Protect API endpoints from abuse
+The public `/api/contact` route uses defense in depth:
+
+- Origin / Referer allowlisting
+- Server-side field validation and enum allowlists
+- Honeypot field checked only on the server
+- Google Cloud reCAPTCHA Enterprise assessment with action `contact_submit` and a configurable score threshold
+- Rate limiting: 5 requests / 15 minutes and 20 requests / 24 hours per hashed client identity
+- HTML-escaped user content in email output
+- Server-controlled email subject and envelope fields
+
+Client IP for rate limiting comes from Vercel-controlled headers (`x-vercel-forwarded-for` first). Arbitrary `x-forwarded-for` values are ignored unless the request is on Vercel.
+
+Durable rate limiting requires Upstash Redis REST credentials. Without them, limits are in-memory only.
 
 ## File Uploads (if added later)
 

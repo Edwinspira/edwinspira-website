@@ -31,6 +31,7 @@ Open [http://localhost:3000](http://localhost:3000). Studio: [http://localhost:3
 | `npm run start` | Run production server |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | TypeScript check |
+| `npm test` | Unit tests |
 
 ## Project rules
 

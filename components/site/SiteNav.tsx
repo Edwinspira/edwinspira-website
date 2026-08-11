@@ -20,7 +20,7 @@ export function SiteNav() {
 
   return (
     <nav aria-label="Primary" className="h-full shrink-0">
-      <ul className="flex h-full items-center gap-4 sm:gap-10 lg:gap-12">
+      <ul className="flex h-full items-center gap-2 sm:gap-10 lg:gap-12">
         {siteConfig.nav.map((item) => {
           const active = isNavActive(pathname, item.href);
 
@@ -28,7 +28,7 @@ export function SiteNav() {
             <li key={item.href} className="flex h-full">
               <Link
                 href={item.href}
-                className="relative flex h-full w-[4.25rem] items-center justify-center px-0.5 sm:w-[6.25rem] sm:px-1"
+                className="relative flex h-full min-w-[3.75rem] items-center justify-center px-1 sm:min-w-[6.25rem] sm:px-2"
                 aria-current={active ? "page" : undefined}
               >
                 <span

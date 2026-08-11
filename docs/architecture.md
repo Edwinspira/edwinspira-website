@@ -11,7 +11,8 @@ This project is a Next.js App Router application using:
 
 /app
 - pages and routes
-- `(site)/` — public site pages (home, work)
+- `(site)/` — public site pages (home, work, contact)
+- `api/contact/` — project inquiry form endpoint
 - `studio/[[...tool]]/` — embedded Sanity Studio at `/studio`
 
 /sanity
@@ -54,6 +55,9 @@ User → UI (components) → API route → external service / CMS → response �
 Used for:
 - Sanity config
 - API tokens
+- Contact form email delivery (Resend)
+- Google Cloud reCAPTCHA Enterprise assessment (server-only API key + project ID)
+- Optional Upstash Redis REST credentials for durable contact rate limiting
 
 Never exposed in client unless prefixed with NEXT_PUBLIC_
 
