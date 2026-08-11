@@ -2845,6 +2845,20 @@ a.home-connect__establish-button:active {
     drop-shadow(0 0 10px rgb(255 31 31 / 0.85)) drop-shadow(0 0 18px rgb(255 31 31 / 0.55));
 }
 
+.site-nav-glyph {
+  width: 1.4rem;
+  height: 1.4rem;
+  overflow: visible;
+  color: inherit;
+}
+
+@media (max-width: 639px) and (orientation: portrait) {
+  .site-nav-glyph {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+}
+
 @keyframes home-stat-bar-load {
   from {
     width: 0%;
