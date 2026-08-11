@@ -39,7 +39,7 @@ export async function HomeFeaturedProjects() {
           </div>
 
           {works.length > 0 ? (
-            <ul className="work-grid mt-10 grid list-none gap-3 sm:mt-16 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4 lg:gap-5">
+            <ul className="work-grid mt-10 grid list-none grid-cols-2 gap-3 sm:mt-16 sm:gap-4 lg:grid-cols-4 lg:gap-5">
               {works.map((work, index) => (
                 <li key={work._id}>
                   <WorkCard work={work} index={index + 1} />
