@@ -1674,6 +1674,14 @@ a.home-connect__establish-button:active {
     transform 0.22s ease;
 }
 
+.home-what-i-do-card__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: color-mix(in srgb, var(--card-accent) 8%, #050505);
+  pointer-events: none;
+}
+
 .home-what-i-do-card__border {
   pointer-events: none;
   transition: filter 0.25s ease;
@@ -1725,6 +1733,13 @@ a.home-connect__establish-button:active {
   margin-bottom: clamp(0.25rem, 2cqw, 0.55rem);
   aspect-ratio: 1;
   flex-shrink: 0;
+}
+
+.home-what-i-do-card__icon .home-what-i-do-skill-icon,
+.home-what-i-do-details__img .home-what-i-do-skill-icon {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .home-what-i-do-card__title {
@@ -1926,6 +1941,369 @@ a.home-connect__establish-button:active {
 
 .home-what-i-do-card:active .home-what-i-do-card__border {
   filter: brightness(1.05);
+}
+
+.home-what-i-do-card.is-expand-origin .home-what-i-do-card__bg,
+.home-what-i-do-card.is-expand-origin .home-what-i-do-card__icon {
+  opacity: 0;
+}
+
+.home-what-i-do-card.is-expand-origin .home-what-i-do-card__frame,
+.home-what-i-do-card.is-expand-origin:hover .home-what-i-do-card__frame,
+.home-what-i-do-card.is-expand-origin:focus-visible .home-what-i-do-card__frame,
+.home-what-i-do-card.is-expand-origin:active .home-what-i-do-card__frame {
+  transform: none;
+}
+
+/* Codrops Expanding Grid Item Animation — adapted for What I Do
+   https://github.com/codrops/ExpandingGridItemAnimation/ */
+.home-what-i-do-details {
+  --details-accent: var(--home-stat-red);
+  --details-bg-up: #050505;
+  --details-bg-down: color-mix(in srgb, var(--details-accent) 16%, #0a0a0a);
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 38vh 0 8vh 8vw;
+  pointer-events: auto;
+}
+
+.home-what-i-do-details__bg {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  transform-origin: 0 0;
+}
+
+.home-what-i-do-details__bg--up {
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--details-bg-up);
+  opacity: 0;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__bg--up {
+  animation: what-i-do-details-fade 120ms linear both;
+}
+
+.home-what-i-do-details.is-closing .home-what-i-do-details__bg--up {
+  animation: what-i-do-details-fade 100ms linear reverse both;
+}
+
+.home-what-i-do-details__bg--down {
+  top: 38vh;
+  height: 62vh;
+  height: 62dvh;
+  background: var(--details-bg-down);
+  opacity: 0;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--details-accent) 55%, transparent);
+}
+
+.home-what-i-do-details__img {
+  position: absolute;
+  top: 10vh;
+  right: 8vw;
+  width: min(42vh, 34vw);
+  height: min(42vh, 34vw);
+  transform-origin: 0 0;
+  opacity: 0;
+  filter: drop-shadow(0 0 28px color-mix(in srgb, var(--details-accent) 45%, transparent));
+  pointer-events: none;
+}
+
+.home-what-i-do-details__copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: min(52vw, 36rem);
+  min-height: 0;
+}
+
+.home-what-i-do-details__kicker,
+.home-what-i-do-details__title,
+.home-what-i-do-details__deco,
+.home-what-i-do-details__subtitle,
+.home-what-i-do-details__highlights,
+.home-what-i-do-details__description,
+.home-what-i-do-details__cta,
+.home-what-i-do-details__close {
+  opacity: 0;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__kicker,
+.home-what-i-do-details.is-open .home-what-i-do-details__title,
+.home-what-i-do-details.is-open .home-what-i-do-details__deco,
+.home-what-i-do-details.is-open .home-what-i-do-details__subtitle,
+.home-what-i-do-details.is-open .home-what-i-do-details__highlights,
+.home-what-i-do-details.is-open .home-what-i-do-details__description,
+.home-what-i-do-details.is-open .home-what-i-do-details__cta {
+  animation: what-i-do-details-rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__close {
+  animation: what-i-do-details-close-in 0.25s ease-out both;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__kicker {
+  animation-delay: 80ms;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__title {
+  animation-delay: 140ms;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__deco {
+  animation-delay: 200ms;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__subtitle {
+  animation-delay: 260ms;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__highlights {
+  animation-delay: 320ms;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__description {
+  animation-delay: 380ms;
+}
+
+.home-what-i-do-details.is-open .home-what-i-do-details__cta {
+  animation-delay: 440ms;
+}
+
+.home-what-i-do-details.is-closing .home-what-i-do-details__kicker,
+.home-what-i-do-details.is-closing .home-what-i-do-details__title,
+.home-what-i-do-details.is-closing .home-what-i-do-details__deco,
+.home-what-i-do-details.is-closing .home-what-i-do-details__subtitle,
+.home-what-i-do-details.is-closing .home-what-i-do-details__highlights,
+.home-what-i-do-details.is-closing .home-what-i-do-details__description,
+.home-what-i-do-details.is-closing .home-what-i-do-details__cta,
+.home-what-i-do-details.is-closing .home-what-i-do-details__close {
+  opacity: 0;
+  animation: none;
+}
+
+.home-what-i-do-details__kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--details-accent) 80%, #fff);
+}
+
+.home-what-i-do-details__title {
+  margin: 0;
+  font-size: clamp(1.6rem, 4.2vw, 3.75rem);
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+}
+
+.home-what-i-do-details__deco {
+  display: block;
+  width: 7em;
+  height: 18px;
+  margin: 0.85rem 0 0.35rem;
+  overflow: hidden;
+}
+
+.home-what-i-do-details__deco .home-what-i-do-skill-icon {
+  display: block;
+  width: 160%;
+  height: auto;
+  margin-top: -70%;
+  margin-left: -30%;
+}
+
+.home-what-i-do-details__subtitle {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1rem, 2vw, 1.65rem);
+  letter-spacing: 0.12em;
+}
+
+.home-what-i-do-details__highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem 0.7rem;
+  margin: 1.1rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--details-accent) 85%, #fff);
+}
+
+.home-what-i-do-details__highlights li {
+  border: 1px solid color-mix(in srgb, var(--details-accent) 45%, transparent);
+  padding: 0.28rem 0.55rem;
+}
+
+.home-what-i-do-details__description {
+  margin: 1.15rem 0 0;
+  max-width: 38rem;
+  font-size: clamp(0.9rem, 1.15vw, 1.05rem);
+  line-height: 1.55;
+}
+
+.home-what-i-do-details__cta {
+  margin-top: 1.35rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--foreground);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--details-accent) 70%, transparent);
+  padding-bottom: 0.2rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.home-what-i-do-details__cta:hover,
+.home-what-i-do-details__cta:focus-visible {
+  color: var(--details-accent);
+  border-color: var(--details-accent);
+  outline: none;
+}
+
+.home-what-i-do-details__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: 0;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--details-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--details-accent) 10%, #050505);
+  color: var(--foreground);
+  cursor: pointer;
+}
+
+.home-what-i-do-details__close:hover,
+.home-what-i-do-details__close:focus-visible {
+  border-color: var(--details-accent);
+  outline: 2px solid var(--details-accent);
+  outline-offset: 3px;
+}
+
+.home-what-i-do-details__close-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+}
+
+@keyframes what-i-do-details-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes what-i-do-details-rise {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes what-i-do-details-close-in {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 639px) {
+  .home-what-i-do-details {
+    padding: 30vh 8vw 6vh;
+  }
+
+  .home-what-i-do-details__bg--down {
+    top: 28vh;
+    height: 72vh;
+    height: 72dvh;
+  }
+
+  .home-what-i-do-details__img {
+    top: 6vh;
+    right: 6vw;
+    width: min(28vh, 38vw);
+    height: min(28vh, 38vw);
+  }
+
+  .home-what-i-do-details__copy {
+    max-width: 100%;
+  }
+
+  .home-what-i-do-details__description {
+    max-width: 92%;
+  }
+
+  .home-what-i-do-details__deco {
+    width: 4.5em;
+    height: 10px;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .home-what-i-do-details {
+    padding: 22vh 6vw 4vh;
+    overflow-y: auto;
+  }
+
+  .home-what-i-do-details__bg--down {
+    top: 20vh;
+    height: 80vh;
+    height: 80dvh;
+  }
+
+  .home-what-i-do-details__img {
+    top: 4vh;
+    width: min(22vh, 28vw);
+    height: min(22vh, 28vw);
+  }
+
+  .home-what-i-do-details__description {
+    margin-top: 0.7rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-what-i-do-details.is-open .home-what-i-do-details__bg--up,
+  .home-what-i-do-details.is-closing .home-what-i-do-details__bg--up,
+  .home-what-i-do-details.is-open .home-what-i-do-details__kicker,
+  .home-what-i-do-details.is-open .home-what-i-do-details__title,
+  .home-what-i-do-details.is-open .home-what-i-do-details__deco,
+  .home-what-i-do-details.is-open .home-what-i-do-details__subtitle,
+  .home-what-i-do-details.is-open .home-what-i-do-details__highlights,
+  .home-what-i-do-details.is-open .home-what-i-do-details__description,
+  .home-what-i-do-details.is-open .home-what-i-do-details__cta,
+  .home-what-i-do-details.is-open .home-what-i-do-details__close {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .cyber-section-marker {
