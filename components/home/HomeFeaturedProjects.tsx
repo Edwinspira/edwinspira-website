@@ -54,11 +54,32 @@ export async function HomeFeaturedProjects() {
           )}
 
           <div className="mt-10 flex justify-end sm:mt-12">
-            <Link
-              href="/work"
-              className="font-mono text-xs tracking-[0.2em] text-foreground uppercase transition-colors hover:text-[var(--home-stat-red)] sm:text-sm"
-            >
-              View all projects →
+            <Link href="/work" className="home-view-all-projects">
+              <span className="home-view-all-projects__frame" aria-hidden>
+                <span className="home-view-all-projects__corner home-view-all-projects__corner--tl" />
+                <span className="home-view-all-projects__corner home-view-all-projects__corner--tr" />
+                <span className="home-view-all-projects__corner home-view-all-projects__corner--bl" />
+                <span className="home-view-all-projects__corner home-view-all-projects__corner--br" />
+                <span className="home-view-all-projects__scan" />
+              </span>
+              <span className="home-view-all-projects__label">
+                View all projects
+              </span>
+              <span className="home-view-all-projects__arrow" aria-hidden>
+                <svg
+                  viewBox="0 0 24 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="home-view-all-projects__arrow-svg"
+                >
+                  <path
+                    d="M1 6H21M21 6L16 1M21 6L16 11"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="square"
+                  />
+                </svg>
+              </span>
             </Link>
           </div>
         </CyberBorder>
