@@ -1,12 +1,15 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
+import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { WorkCard } from "@/components/work/WorkCard";
 import { WorkDetailView } from "@/components/work/WorkDetail";
 import { hasSanityImageAsset } from "@/lib/sanity/image";
 import type { SanityImage, WorkDetail, WorkListItem } from "@/lib/sanity/types";
+
+(globalThis as typeof globalThis & { React: typeof React }).React = React;
 
 const malformedImage: SanityImage = {
   _type: "image",
