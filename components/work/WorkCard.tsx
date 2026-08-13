@@ -58,7 +58,7 @@ export function WorkCard({ work, index }: WorkCardProps) {
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={coverUrl}
-              alt={coverImage.alt ?? work.title}
+              alt={coverImage?.alt ?? work.title}
               draggable={false}
               className="work-card__image"
               style={thumbnailStyle}
