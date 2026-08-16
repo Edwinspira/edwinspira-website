@@ -1,13 +1,16 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 
-import { createElement } from "react";
+import React, { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { WorkCard } from "../components/work/WorkCard";
 import { WorkDetailView } from "../components/work/WorkDetail";
 import { hasSanityImageAsset } from "./sanity/image";
 import type { SanityImage, WorkDetail, WorkListItem } from "./sanity/types";
+
+const globalWithReact = globalThis as typeof globalThis & { React: typeof React };
+globalWithReact.React = React;
 
 const missingAssetImage: SanityImage = {
   _type: "image",
