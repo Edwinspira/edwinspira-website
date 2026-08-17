@@ -1,8 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
+import * as React from "react";
 
-import { WorkCard } from "../components/work/WorkCard";
-import { WorkDetailView } from "../components/work/WorkDetail";
 import { hasSanityImageAsset } from "./sanity/image";
 import type { SanityImage, WorkDetail, WorkListItem } from "./sanity/types";
 
@@ -45,7 +44,13 @@ describe("Sanity image asset guards", () => {
     );
   });
 
-  it("does not build WorkCard or WorkDetail URLs when asset references are missing", () => {
+  it("does not build WorkCard or WorkDetail URLs when asset references are missing", async () => {
+    (globalThis as typeof globalThis & { React: typeof React }).React = React;
+    const [{ WorkCard }, { WorkDetailView }] = await Promise.all([
+      import("../components/work/WorkCard"),
+      import("../components/work/WorkDetail"),
+    ]);
+
     assert.doesNotThrow(() => WorkCard({ work: workListItem }));
     assert.doesNotThrow(() => WorkDetailView({ work: workDetail }));
   });
