@@ -10,6 +10,16 @@ const missingAssetImage: SanityImage = {
   alt: "Image without an asset reference",
 };
 
+const emptyAssetImage: SanityImage = {
+  _type: "image",
+  asset: { _type: "reference", _ref: "" },
+};
+
+const validAssetImage: SanityImage = {
+  _type: "image",
+  asset: { _type: "reference", _ref: "image-abc-1200x800-png" },
+};
+
 const workListItem: WorkListItem = {
   _id: "work-1",
   title: "Missing Asset Work",
@@ -33,15 +43,9 @@ const workDetail: WorkDetail = {
 describe("Sanity image asset guards", () => {
   it("recognizes only images with usable asset references", () => {
     assert.equal(hasSanityImageAsset(null), false);
-    assert.equal(hasSanityImageAsset({ _type: "image" }), false);
-    assert.equal(hasSanityImageAsset({ _type: "image", asset: { _ref: "" } }), false);
-    assert.equal(
-      hasSanityImageAsset({
-        _type: "image",
-        asset: { _type: "reference", _ref: "image-abc-1200x800-png" },
-      }),
-      true,
-    );
+    assert.equal(hasSanityImageAsset(missingAssetImage), false);
+    assert.equal(hasSanityImageAsset(emptyAssetImage), false);
+    assert.equal(hasSanityImageAsset(validAssetImage), true);
   });
 
   it("does not build WorkCard or WorkDetail URLs when asset references are missing", async () => {
