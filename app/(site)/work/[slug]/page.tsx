@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: WorkDetailPageProps): Promise
     description: work.summary,
     openGraph: coverUrl
       ? {
-          images: [{ url: coverUrl, alt: coverImage.alt ?? work.title }],
+          images: [{ url: coverUrl, alt: coverImage?.alt ?? work.title }],
         }
       : undefined,
   };
