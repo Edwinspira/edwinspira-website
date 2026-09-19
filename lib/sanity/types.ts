@@ -29,6 +29,16 @@ export type SanityImage = {
   dimensions?: SanityImageDimensions | null;
 };
 
+export type SanityImageWithAsset = SanityImage & {
+  asset: SanityImageAsset;
+};
+
+export function hasSanityImageAsset(
+  image?: SanityImage | null,
+): image is SanityImageWithAsset {
+  return typeof image?.asset?._ref === "string" && image.asset._ref.length > 0;
+}
+
 export type WorkListItem = {
   _id: string;
   title: string;
