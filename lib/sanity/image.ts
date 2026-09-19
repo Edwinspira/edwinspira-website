@@ -1,8 +1,13 @@
 import imageUrlBuilder, { type SanityImageSource } from "@sanity/image-url";
 
 import { getSanityClient } from "@/lib/sanity/client";
+import type { SanityImage, SanityImageAsset } from "@/lib/sanity/types";
 
 let builder: ReturnType<typeof imageUrlBuilder> | null = null;
+
+type SanityImageWithAsset = SanityImage & {
+  asset: SanityImageAsset & { _ref: string };
+};
 
 function getBuilder() {
   if (!builder) {
@@ -13,4 +18,12 @@ function getBuilder() {
 
 export function urlFor(source: SanityImageSource) {
   return getBuilder().image(source);
+}
+
+export function hasSanityImageAsset(
+  image?: SanityImage | null,
+): image is SanityImageWithAsset {
+  return (
+    typeof image?.asset?._ref === "string" && image.asset._ref.trim().length > 0
+  );
 }
