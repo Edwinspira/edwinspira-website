@@ -24,7 +24,7 @@ export type SanityImageDimensions = {
 
 export type SanityImage = {
   _type?: "image";
-  asset?: SanityImageAsset;
+  asset?: SanityImageAsset | null;
   alt?: string;
   dimensions?: SanityImageDimensions | null;
 };
