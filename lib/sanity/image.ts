@@ -14,3 +14,14 @@ function getBuilder() {
 export function urlFor(source: SanityImageSource) {
   return getBuilder().image(source);
 }
+
+export function hasSanityImageAsset<
+  T extends { asset?: { _ref?: string | null } | null } | null | undefined,
+>(
+  source: T,
+): source is T & { asset: { _ref: string } } {
+  return (
+    typeof source?.asset?._ref === "string" &&
+    source.asset._ref.trim().length > 0
+  );
+}
