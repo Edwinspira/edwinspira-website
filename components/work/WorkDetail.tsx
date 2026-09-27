@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ExternalLink } from "@/components/external-link";
 import { PortableTextContent } from "@/components/portable-text";
 import { VideoEmbed } from "@/components/video-embed";
-import { urlFor } from "@/lib/sanity/image";
+import { hasSanityImageAsset, urlFor } from "@/lib/sanity/image";
 import type { SanityImage, WorkDetail } from "@/lib/sanity/types";
 import { WORK_CATEGORY_LABELS } from "@/lib/work-labels";
 
@@ -25,10 +25,13 @@ function coverImageDimensions(image?: SanityImage | null) {
 }
 
 export function WorkDetailView({ work }: WorkDetailViewProps) {
-  const coverDimensions = coverImageDimensions(work.coverImage);
-  const coverUrl = work.coverImage
-    ? urlFor(work.coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
+  const coverImage = hasSanityImageAsset(work.coverImage) ? work.coverImage : null;
+  const coverDimensions = coverImageDimensions(coverImage);
+  const coverUrl = coverImage
+    ? urlFor(coverImage).width(WORK_DETAIL_COVER_MAX_WIDTH).fit("max").url()
     : null;
+  const coverAlt = coverImage?.alt ?? work.title;
+  const gallery = work.gallery?.filter(hasSanityImageAsset) ?? [];
 
   return (
     <article className="work-detail">
@@ -46,7 +49,7 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
         <div className="work-detail__cover mt-8 w-full border border-[var(--home-stat-red)]/50 bg-foreground/5">
           <Image
             src={coverUrl}
-            alt={work.coverImage?.alt ?? work.title}
+            alt={coverAlt}
             width={coverDimensions.width}
             height={coverDimensions.height}
             priority
@@ -68,9 +71,9 @@ export function WorkDetailView({ work }: WorkDetailViewProps) {
         </div>
       ) : null}
 
-      {work.gallery && work.gallery.length > 0 ? (
+      {gallery.length > 0 ? (
         <ul className="mt-10 grid list-none gap-4 sm:grid-cols-2">
-          {work.gallery.map((image, index) => {
+          {gallery.map((image, index) => {
             const imageUrl = urlFor(image).width(1200).fit("max").url();
             return (
               <li
