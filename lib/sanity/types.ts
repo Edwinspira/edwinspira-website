@@ -12,8 +12,8 @@ export const WORK_CATEGORIES = [
 export type WorkCategory = (typeof WORK_CATEGORIES)[number];
 
 export type SanityImageAsset = {
-  _ref: string;
-  _type: "reference";
+  _ref?: string | null;
+  _type?: "reference";
 };
 
 export type SanityImageDimensions = {
@@ -24,8 +24,8 @@ export type SanityImageDimensions = {
 
 export type SanityImage = {
   _type?: "image";
-  asset?: SanityImageAsset;
-  alt?: string;
+  asset?: SanityImageAsset | null;
+  alt?: string | null;
   dimensions?: SanityImageDimensions | null;
 };
 
@@ -43,7 +43,7 @@ export type WorkListItem = {
 
 export type WorkDetail = WorkListItem & {
   body?: PortableTextBlock[] | null;
-  gallery?: SanityImage[] | null;
+  gallery?: Array<SanityImage | null> | null;
   videoUrl?: string | null;
   externalUrl?: string | null;
 };
