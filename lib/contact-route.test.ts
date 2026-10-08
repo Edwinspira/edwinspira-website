@@ -52,6 +52,28 @@ function contactRequest(body: unknown, init?: { origin?: string }) {
   });
 }
 
+function oversizedStreamRequest() {
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(encoder.encode('{"project":"'));
+      controller.enqueue(encoder.encode("x".repeat(20_000)));
+      controller.close();
+    },
+  });
+
+  return new Request("https://edwinspira.com/api/contact", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      origin: "https://edwinspira.com",
+      "x-vercel-forwarded-for": `203.0.113.${Math.floor(Math.random() * 200) + 1}`,
+    },
+    body: stream,
+    duplex: "half",
+  } as RequestInit & { duplex: "half" });
+}
+
 describe("POST /api/contact", () => {
   it("sends email only for a valid verified inquiry", async () => {
     configureContactEnv();
@@ -126,6 +148,21 @@ describe("POST /api/contact", () => {
     const response = await POST(contactRequest("{", { origin: "https://edwinspira.com" }));
     assert.equal(response.status, 400);
     assert.equal(emailSent, false);
+  });
+
+  it("rejects an oversized streamed body before verification or email", async () => {
+    configureContactEnv();
+    let fetchCalled = false;
+    globalThis.fetch = async () => {
+      fetchCalled = true;
+      return Response.json({ ok: true });
+    };
+
+    const response = await POST(oversizedStreamRequest());
+    const payload = await response.json();
+    assert.equal(response.status, 413);
+    assert.equal(payload.error, "Your request is too large.");
+    assert.equal(fetchCalled, false);
   });
 
   it("does not send email for a direct cross-origin POST", async () => {
