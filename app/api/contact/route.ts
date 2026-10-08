@@ -13,8 +13,63 @@ const RATE_LIMIT_ERROR =
 const SEND_ERROR =
   "Something went wrong while sending your request. Please try again or email me directly at edwin@edwinspira.com.";
 
+type ReadJsonResult =
+  | { ok: true; body: unknown }
+  | { ok: false; message: string; status: number };
+
 function jsonError(message: string, status: number, extra?: Record<string, unknown>) {
   return Response.json({ ok: false, error: message, ...extra }, { status });
+}
+
+function concatChunks(chunks: Uint8Array[], byteLength: number): Uint8Array {
+  if (chunks.length === 1) return chunks[0];
+
+  const bytes = new Uint8Array(byteLength);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return bytes;
+}
+
+async function readLimitedJson(request: Request): Promise<ReadJsonResult> {
+  const contentLength = Number(request.headers.get("content-length") ?? "0");
+  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
+    return { ok: false, message: "Your request is too large.", status: 413 };
+  }
+
+  const reader = request.body?.getReader();
+  if (!reader) {
+    return { ok: false, message: "Unable to read that request.", status: 400 };
+  }
+
+  const chunks: Uint8Array[] = [];
+  let byteLength = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      if (!value) continue;
+
+      byteLength += value.byteLength;
+      if (byteLength > MAX_BODY_BYTES) {
+        await reader.cancel().catch(() => undefined);
+        return { ok: false, message: "Your request is too large.", status: 413 };
+      }
+
+      chunks.push(value);
+    }
+  } catch {
+    return { ok: false, message: "Unable to read that request.", status: 400 };
+  }
+
+  try {
+    const rawBody = new TextDecoder().decode(concatChunks(chunks, byteLength));
+    return { ok: true, body: JSON.parse(rawBody) as unknown };
+  } catch {
+    return { ok: false, message: "Unable to read that request.", status: 400 };
+  }
 }
 
 export async function POST(request: Request) {
@@ -43,27 +98,13 @@ export async function POST(request: Request) {
     });
   }
 
-  const contentLength = Number(request.headers.get("content-length") ?? "0");
-  if (Number.isFinite(contentLength) && contentLength > MAX_BODY_BYTES) {
-    return jsonError("Your request is too large.", 413);
+  const readResult = await readLimitedJson(request);
+  if (!readResult.ok) {
+    return jsonError(readResult.message, readResult.status);
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return jsonError("Unable to read that request.", 400);
-  }
-
+  const { body } = readResult;
   if (!body || typeof body !== "object") {
-    return jsonError("Unable to read that request.", 400);
-  }
-
-  try {
-    if (JSON.stringify(body).length > MAX_BODY_BYTES) {
-      return jsonError("Your request is too large.", 413);
-    }
-  } catch {
     return jsonError("Unable to read that request.", 400);
   }
 
