@@ -1,4 +1,4 @@
-import { validateContactInquiry } from "@/lib/contact";
+import { validateContactInquiry, type ContactInquiry } from "@/lib/contact";
 import { consumeContactRateLimit } from "@/lib/rate-limit";
 import { CONTACT_VERIFY_ERROR } from "@/lib/recaptcha-shared";
 import { readRecaptchaToken, verifyContactRecaptcha } from "@/lib/recaptcha";
@@ -15,6 +15,24 @@ const SEND_ERROR =
 
 function jsonError(message: string, status: number, extra?: Record<string, unknown>) {
   return Response.json({ ok: false, error: message, ...extra }, { status });
+}
+
+function hasPopulatedHoneypot(body: Record<string, unknown>): boolean {
+  const value = body.website;
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+async function sendValidatedContactInquiry(data: ContactInquiry) {
+  try {
+    const sent = await sendContactEmail(data);
+    if (!sent.ok) {
+      return jsonError(SEND_ERROR, 502);
+    }
+  } catch {
+    return jsonError(SEND_ERROR, 502);
+  }
+
+  return Response.json({ ok: true });
 }
 
 export async function POST(request: Request) {
@@ -58,6 +76,7 @@ export async function POST(request: Request) {
   if (!body || typeof body !== "object") {
     return jsonError("Unable to read that request.", 400);
   }
+  const input = body as Record<string, unknown>;
 
   try {
     if (JSON.stringify(body).length > MAX_BODY_BYTES) {
@@ -67,7 +86,24 @@ export async function POST(request: Request) {
     return jsonError("Unable to read that request.", 400);
   }
 
-  const result = validateContactInquiry(body);
+  if (hasPopulatedHoneypot(input)) {
+    const recaptcha = await verifyContactRecaptcha(readRecaptchaToken(input.recaptchaToken));
+    if (!recaptcha.ok) {
+      return Response.json({ ok: true });
+    }
+
+    const verifiedResult = validateContactInquiry({ ...input, website: "" });
+    if (!verifiedResult.ok) {
+      return Response.json(
+        { ok: false, error: FORM_ERROR, errors: verifiedResult.errors },
+        { status: 422 },
+      );
+    }
+
+    return sendValidatedContactInquiry(verifiedResult.data);
+  }
+
+  const result = validateContactInquiry(input);
   if (!result.ok) {
     return Response.json({ ok: false, error: FORM_ERROR, errors: result.errors }, { status: 422 });
   }
@@ -83,14 +119,5 @@ export async function POST(request: Request) {
     return jsonError(CONTACT_VERIFY_ERROR, 403);
   }
 
-  try {
-    const sent = await sendContactEmail(result.data);
-    if (!sent.ok) {
-      return jsonError(SEND_ERROR, 502);
-    }
-  } catch {
-    return jsonError(SEND_ERROR, 502);
-  }
-
-  return Response.json({ ok: true });
+  return sendValidatedContactInquiry(result.data);
 }
