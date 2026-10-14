@@ -100,6 +100,35 @@ describe("POST /api/contact", () => {
     assert.equal(emailSent, false);
   });
 
+  it("does not silently drop a verified inquiry when browser autofill populates the honeypot", async () => {
+    configureContactEnv();
+    let emailSent = false;
+    globalThis.fetch = async (input, init) => {
+      const url = String(input);
+      if (url.includes("recaptchaenterprise.googleapis.com")) {
+        return Response.json({
+          tokenProperties: { valid: true, action: "contact_submit" },
+          riskAnalysis: { score: 0.9 },
+        });
+      }
+      if (url.includes("api.resend.com")) {
+        emailSent = true;
+        const payload = JSON.parse(String(init?.body));
+        assert.equal(payload.reply_to, "ada@example.com");
+        return Response.json({ id: "email_1" });
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    };
+
+    const response = await POST(
+      contactRequest({ ...validBody, website: "https://ada.example" }),
+    );
+    const payload = await response.json();
+    assert.equal(response.status, 200);
+    assert.equal(payload.ok, true);
+    assert.equal(emailSent, true);
+  });
+
   it("does not send email when reCAPTCHA is missing", async () => {
     configureContactEnv();
     let emailSent = false;
